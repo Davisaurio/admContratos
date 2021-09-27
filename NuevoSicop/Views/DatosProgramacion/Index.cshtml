@@ -1,0 +1,241 @@
+﻿@model NuevoSicop.Models.BaseProgramaciónModelView
+
+<link href="~/assets/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/assets/datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+
+
+@if (@Model.Error.Length > 1)
+{
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="mdi mdi-close" aria-hidden="true"></span></button>
+        <div class="icon"> <span class="mdi mdi-close-circle-o"></span></div>
+        <div class="message"><strong>Problemas!</strong>@Model.Error</div>
+    </div>
+
+}
+@if (@Model.Exito.Length > 1)
+{
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="mdi mdi-close" aria-hidden="true"></span></button>
+        <div class="icon"> <span class="mdi mdi mdi-check"></span></div>
+        <div class="message"><strong>Éxito!</strong>@Model.Exito</div>
+    </div>
+
+}
+
+<style>
+    .header4t {
+        background-color: maroon;
+        color: goldenrod;
+    }
+
+    .prp {
+        width: 115px;
+    }
+</style>
+
+@if (User.IsInRole("Administrador")|| User.IsInRole("P-Datos"))
+{
+
+
+    <div class="row">
+
+        <div class="col-lg-3">
+            @using (Html.BeginForm("Filtros", "DatosProgramacion", FormMethod.Post, new { @id = "FiltroForm" }))
+            {
+                <div class="input-group">
+                    <div class="input-group-prepend">@Html.LabelFor(x => Model.Ejercicio, new { @class = "input-group-text prp" }) </div>
+                    @Html.DropDownListFor(x => Model.Ejercicio, Model.ListaEjercicios, "- Selecciona un ejercicio -", new { @class = "form-control", @onchange = "$('#FiltroForm').submit()" })
+                </div>
+            }
+        </div>
+
+        <div class="col-lg-3">
+
+
+            @using (Html.BeginForm("Excell", "DatosProgramacion", FormMethod.Post, new { @id = "Descargabase" }))
+            {
+                @Html.HiddenFor(x => Model.Ejercicio)
+                <button class="btn btn-4t"> <i class="fm fa-file-movie-o"> </i> Paquetes </button>
+            }
+        </div>
+
+        <div class="col-lg-3">
+            @using (Html.BeginForm("Excell2", "DatosProgramacion", FormMethod.Post, new { @id = "Descargabase2" }))
+            {
+                @Html.HiddenFor(x => Model.Ejercicio)
+                <button class="btn btn-4t"> <i class="fm fa-file-movie-o"> </i> Concursos </button>
+            }
+        </div>
+    </div>
+
+
+    <div class="table-responsive noSwipe " style="padding: 20px">
+        <table id="tablaDatos" class="table table-sm table-striped table-hover no-footer" style="background-color: rgba(200, 200, 200, 0.5); color: black; font-size: 12px">
+            <thead class="text-bold">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Pq.NoPaquete)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Pq.Proyecto)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Pq.Programa)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Pq.IniciaPeriodo)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Pq.TerminaPeriodo)
+                </th>
+
+                <th>
+                    <div class="row">
+                        <div class="col-12">
+                            @Html.DisplayNameFor(model => model.Pq.Importe)
+                        </div>
+                        <div class="col-12">
+                            @Html.DisplayNameFor(model => model.Pq.Anticipo)
+                        </div>
+                    </div>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Pq.Nivel)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Pq.Plazo)
+                </th>
+                @*<th>
+                            @Html.DisplayNameFor(model => model.Estima.Estatus)
+                        </th>*@
+                <th>ACCIONES</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            @foreach (var item in Model.ListaPaquetes)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NoPaquete)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Proyecto)
+                    </td>
+                    <td style="width: 30%">
+                        @Html.DisplayFor(modelItem => item.Programa)
+                    </td>
+
+
+                    <td align="center">
+                        @Html.DisplayFor(modelItem => item.IniciaPeriodo)
+                    </td>
+                    <td align="right">
+                        @Html.DisplayFor(modelItem => item.TerminaPeriodo)
+                    </td>
+
+                    <td align="right">
+                        <div class="row">
+                            <div class="col-12">
+                                @Html.DisplayFor(modelItem => item.Importe)
+                            </div>
+                            <div class="col-12">
+                                @Html.DisplayFor(modelItem => item.Anticipo)
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nivel)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Plazo)
+                    </td>
+                    <td></td>
+                </tr>
+            }
+            </tbody>
+        </table>
+
+    </div>
+}
+    @section Scripts
+{
+        <script src="~/assets/datatables/dataTables.bootstrap4.min.js"></script>
+        <script src="~/assets/datatables/jquery.dataTables.min.js"></script>
+        <script src="~/assets/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+        <script>
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip();
+            })
+            $(".datetimepicker").datetimepicker({
+                autoclose: true,
+                language: 'es',
+                componentIcon: '.fas.fa-calendar',
+                navIcons: {
+                    rightIcon: 'fas fa-chevron-right',
+                    leftIcon: 'fas fa-chevron-left'
+                },
+                format: "dd/mm/yyyy"
+            });
+            $('#tablaDatos').DataTable({
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Ver _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": " |< ",
+                        "sLast": " >| ",
+                        "sNext": " >> ",
+                        "sPrevious": " << "
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    },
+                    "oButtons": {
+                        "sCopy": "Copiar",
+                        "sPrint": "Imprimir"
+                    }
+                },
+                buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+
+                "lengthMenu": [[20, 30, 40, 50, -1], [20, 30, 40, 50, "All"]],
+                dom: "<'row be-datatable-header'<'col-sm-6'l><'col-sm-6 text-right'B>>" +
+                    "<'row be-datatable-body'<'col-sm-12'tr>>" +
+                    "<'row be-datatable-footer'<'col-sm-5'i><'col-sm-7'p>>",
+                extend: 'pdf', className: 'btn green btn-outline', text: 'Export PDF',
+                customize: function (doc) {
+                    doc.defaultStyle =
+                        {
+                            font: 'alef'
+                        }
+                    var docDefinition = {
+                        // a string or { width: number, height: number }
+                        pageSize: 'carta',
+
+                        // by default we use portrait, you can change it to landscape if you wish
+                        pageOrientation: 'landscape',
+
+                        // [left, top, right, bottom] or [horizontal, vertical] or just a number for equal margins
+                        pageMargins: [40, 60, 40, 60],
+                    };
+
+                }
+
+            });
+
+        </script>
+
+
+    }

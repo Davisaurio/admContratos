@@ -1,0 +1,3250 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ControlContratosSevrModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Contratistas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="RFC" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="CURP" Type="varchar" MaxLength="50" />
+          <Property Name="IMSS" Type="varchar" MaxLength="30" />
+          <Property Name="Infonavit" Type="varchar" MaxLength="30" />
+          <Property Name="FolioMercantilElectronico" Type="nchar" MaxLength="50" />
+          <Property Name="CMIC" Type="varchar" MaxLength="20" />
+          <Property Name="SIEM" Type="varchar" MaxLength="30" />
+          <Property Name="Domicilio" Type="varchar" MaxLength="200" />
+          <Property Name="NoExterior" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="NoInterior" Type="varchar" MaxLength="10" />
+          <Property Name="Colonia" Type="varchar" MaxLength="100" />
+          <Property Name="CodigoPostal" Type="varchar" MaxLength="10" />
+          <Property Name="IdEstado" Type="smallint" />
+          <Property Name="IdMunicipio" Type="int" />
+          <Property Name="Telefono" Type="varchar" MaxLength="15" />
+          <Property Name="Fax" Type="varchar" MaxLength="15" />
+          <Property Name="Correo" Type="varchar" MaxLength="100" />
+          <Property Name="CapitalContable" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="CapitalSocial" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ActaNumEscritura" Type="varchar" MaxLength="20" />
+          <Property Name="ActaVolumenEscritura" Type="varchar" MaxLength="10" />
+          <Property Name="ActaFechaConstancia" Type="datetime" />
+          <Property Name="NumNotaria" Type="varchar" MaxLength="20" />
+          <Property Name="CiudadNotaria" Type="varchar" MaxLength="50" />
+          <Property Name="Modalidad" Type="nchar" MaxLength="20" />
+          <Property Name="NombreTitularNotaria" Type="varchar" MaxLength="100" />
+          <Property Name="NombreAdscrito" Type="varchar" MaxLength="100" />
+          <Property Name="DireccionNoraria" Type="varchar" MaxLength="150" />
+          <Property Name="NumRPPC" Type="varchar" MaxLength="20" />
+          <Property Name="VolRPPC" Type="varchar" MaxLength="10" />
+          <Property Name="FechaRPPC" Type="datetime" />
+          <Property Name="CiudadRppc" Type="varchar" MaxLength="50" />
+          <Property Name="Folios" Type="varchar" MaxLength="20" />
+          <Property Name="LibroNum" Type="varchar" MaxLength="20" />
+          <Property Name="NumActaNacimiento" Type="varchar" MaxLength="30" />
+          <Property Name="FechaActaNacimiento" Type="datetime" />
+          <Property Name="LugarExpedicion" Type="varchar" MaxLength="50" />
+          <Property Name="LibroActanacimiento" Type="varchar" MaxLength="10" />
+          <Property Name="IdTamaño" Type="int" Nullable="false" />
+          <Property Name="IdTipoInscripcion" Type="int" Nullable="false" />
+          <Property Name="IdTipoPersona" Type="int" Nullable="false" />
+          <Property Name="IdTipoServicio" Type="int" Nullable="false" />
+          <Property Name="ClaveRegistro" Type="varchar" MaxLength="20" />
+          <Property Name="FechaInicioVigencia" Type="datetime" Nullable="false" />
+          <Property Name="FechaTerminoVigencia" Type="datetime" Nullable="false" />
+          <Property Name="FechaRegistro" Type="datetime" Nullable="false" />
+          <Property Name="Registro" Type="int" />
+          <Property Name="Reviso" Type="int" />
+          <Property Name="VoBo" Type="int" />
+          <Property Name="Autorizo" Type="int" />
+          <Property Name="EstatusCaptura" Type="smallint" />
+          <Property Name="IdExperiencia" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Departamentos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreDepto" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Abreviatura" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DescSostEsc">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Direcciones">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreDireccion" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Abreviatura" Type="nchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ejercicios">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ejercicio" Type="int" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Escuelas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdNivel" Type="int" Nullable="false" />
+          <Property Name="IdModalidad" Type="int" Nullable="false" />
+          <Property Name="Clave" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="150" />
+          <Property Name="Sector" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="Zona" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="Domicilio" Type="varchar(max)" />
+          <Property Name="Localidad" Type="int" Nullable="false" />
+          <Property Name="DescSost" Type="int" Nullable="false" />
+          <Property Name="ClaveLocalidad" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="EstadoBien">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Estado" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="ExperienciaAcreditada">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Clave" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="150" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Fundamentos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TipoFundamento" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Fundamento" Type="varchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LeyendaAnual">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Leyenda" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="IdEjercicio" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Modalidades">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Modalidad" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ModalidadEsc">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Modalidad" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Nivel">
+          <Key>
+            <PropertyRef Name="IdNivel" />
+          </Key>
+          <Property Name="IdNivel" Type="tinyint" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="150" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NivelEsc">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nivel" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Personal">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Trato" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ApellidoPaterno" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ApellidoMaterno" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="IdDireccion" Type="int" Nullable="false" />
+          <Property Name="Cargo" Type="varchar" MaxLength="50" />
+          <Property Name="Domicilio" Type="varchar" MaxLength="150" />
+          <Property Name="RFC" Type="varchar" MaxLength="15" />
+          <Property Name="IdDepartamento" Type="int" Nullable="false" />
+          <Property Name="Sexo" Type="bit" Nullable="false" />
+          <Property Name="Telefono" Type="varchar" MaxLength="20" />
+          <Property Name="Correo" Type="varchar" MaxLength="50" />
+          <Property Name="FechaRegistro" Type="datetime" Nullable="false" />
+          <Property Name="Estatus" Type="bit" Nullable="false" />
+          <Property Name="IdJefeInmediato" Type="int" />
+          <Property Name="Foto" Type="varchar" MaxLength="100" />
+          <Property Name="FechaNacimiento" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Recursos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Recurso" Type="varchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="RepresentanteLegal">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Puesto" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FolioElectoral" Type="varchar" MaxLength="40" />
+          <Property Name="RFC" Type="varchar" MaxLength="15" />
+          <Property Name="FolioMercantilElectronico" Type="varchar" MaxLength="20" />
+          <Property Name="Direccion" Type="varchar" MaxLength="150" />
+          <Property Name="Colonia" Type="varchar" MaxLength="100" />
+          <Property Name="CP" Type="varchar" MaxLength="10" />
+          <Property Name="Ciudad" Type="varchar" MaxLength="50" />
+          <Property Name="Telefono" Type="varchar" MaxLength="25" />
+          <Property Name="Correo" Type="varchar" MaxLength="100" />
+          <Property Name="NumEscritura" Type="varchar" MaxLength="10" />
+          <Property Name="VolEscritura" Type="varchar" MaxLength="20" />
+          <Property Name="FechaEscritura" Type="datetime" />
+          <Property Name="NumNotario" Type="varchar" MaxLength="10" />
+          <Property Name="NombreNotario" Type="varchar" MaxLength="100" />
+          <Property Name="LugarNotario" Type="varchar" MaxLength="150" />
+          <Property Name="NumRPPC" Type="varchar" MaxLength="20" />
+          <Property Name="VolRPPC" Type="varchar" MaxLength="20" />
+          <Property Name="FechaRPPC" Type="datetime" />
+          <Property Name="LugarRPPC" Type="varchar" MaxLength="150" />
+          <Property Name="FechaNac" Type="datetime" />
+          <Property Name="LugarExpedicionActa" Type="varchar" MaxLength="50" />
+          <Property Name="NombreAdscrito" Type="varchar" MaxLength="150" />
+          <Property Name="NombreSustituto" Type="varchar" MaxLength="150" />
+          <Property Name="IdEmpresa" Type="int" />
+        </EntityType>
+        <EntityType Name="RolesSupervisores">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RollSupervis" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Supervisores">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="IdRollSpervisores" Type="int" Nullable="false" />
+          <Property Name="Cedula" Type="varchar" MaxLength="30" />
+          <Property Name="Direccion" Type="varchar" MaxLength="250" />
+          <Property Name="Telefono" Type="varchar" MaxLength="50" />
+          <Property Name="Estatus" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tamanio">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Tamaño" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TipoInscripcion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TipoIncripcion" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TipoPersona">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TipoPersona" Type="varchar" MaxLength="15" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TiposEnagenacion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TipoEnegenacion" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TipoServicio">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TipoServicio" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Ubicaciones">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ubicacion" Type="varchar" MaxLength="60" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ContratistasInvitadosPaquete">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdEmpresa" Type="int" Nullable="false" />
+          <Property Name="Oficio" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaOficio" Type="datetime" />
+          <Property Name="IdPequete" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DetallePaquetesProyecto">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdPaquete" Type="int" Nullable="false" />
+          <Property Name="IdProyecto" Type="int" Nullable="false" />
+          <Property Name="PlazoEjecucion" Type="int" />
+          <Property Name="Anticipo" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ImporteAutoruizado" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="CapitalContable" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="IdResidente" Type="int" />
+          <Property Name="ImportePresupuestoBase" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="Inventario">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Clave" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="NombreBien" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="Marca" Type="varchar" MaxLength="80" />
+          <Property Name="Tipo" Type="varchar" MaxLength="70" />
+          <Property Name="Serie" Type="varchar" MaxLength="80" />
+          <Property Name="Modelo" Type="varchar" MaxLength="100" />
+          <Property Name="IdEstadoBien" Type="int" Nullable="false" />
+          <Property Name="IdUbicacion" Type="int" Nullable="false" />
+          <Property Name="IdDireccion" Type="int" Nullable="false" />
+          <Property Name="Observacion" Type="varchar(max)" />
+          <Property Name="FechaFactura" Type="datetime" />
+          <Property Name="ValorFacturado" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="ValorActual" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="IdPersonal" Type="int" Nullable="false" />
+          <Property Name="IdTipoEnagenacion" Type="int" Nullable="false" />
+          <Property Name="Caracteristicas" Type="varchar" MaxLength="300" />
+          <Property Name="FechaRegistro" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InvitacionCCP">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="Puesto" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="IdPaquete" Type="int" Nullable="false" />
+          <Property Name="Orden" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OficiosRecursos">
+          <Key>
+            <PropertyRef Name="IdOficio" />
+          </Key>
+          <Property Name="IdOficio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Oficio" Type="varchar" MaxLength="300" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="IdRecurso" Type="int" />
+          <Property Name="ImporteAutorizado" Type="decimal" Precision="14" Scale="4" Nullable="false" />
+          <Property Name="Ubicacion" Type="varchar" MaxLength="300" />
+          <Property Name="Archivo" Type="varchar" MaxLength="150" />
+          <Property Name="IdUsusario" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="FechaRegistro" Type="datetime" Nullable="false" />
+          <Property Name="Emisora" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="PaqProcedimiento">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NoPaquete" Type="int" />
+          <Property Name="IdProyecto" Type="int" />
+          <Property Name="NoProcedimiento" Type="varchar" MaxLength="50" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="50" />
+          <Property Name="Convocatoria" Type="datetime" />
+          <Property Name="LimiteInscripcion" Type="datetime" />
+          <Property Name="VisitaSitio" Type="datetime" />
+          <Property Name="JuntaAclaraciones" Type="datetime" />
+          <Property Name="AperturaTecnica" Type="datetime" />
+          <Property Name="Fallo" Type="datetime" />
+          <Property Name="Contrato" Type="datetime" />
+          <Property Name="InicioEstimada" Type="datetime" />
+          <Property Name="IdResidente" Type="int" />
+          <Property Name="Recuperacion" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ImportePresupuestoBase" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="IdEjercicio" Type="int" />
+        </EntityType>
+        <EntityType Name="ProgramasContratacion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdDirector" Type="int" />
+          <Property Name="ClaveArticulo" Type="smallint" />
+          <Property Name="Articulo" Type="varchar" MaxLength="500" />
+          <Property Name="IdDirectorFirma" Type="int" />
+          <Property Name="TIpoInversion" Type="varchar" MaxLength="50" />
+          <Property Name="IdModalidad" Type="int" />
+          <Property Name="IdVoBo" Type="int" />
+          <Property Name="IdReviso" Type="int" />
+          <Property Name="IdAutorizo" Type="int" />
+          <Property Name="FechaOficio" Type="datetime" />
+          <Property Name="TxtVoBo" Type="varchar" MaxLength="50" />
+          <Property Name="IdPaquete" Type="int" />
+          <Property Name="IdExperienciaAcreditada" Type="int" />
+        </EntityType>
+        <EntityType Name="ProgramasRecursos">
+          <Key>
+            <PropertyRef Name="IdProgramasRecursos" />
+          </Key>
+          <Property Name="IdProgramasRecursos" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ejercicio" Type="int" Nullable="false" />
+          <Property Name="Inversion_Est" Type="real" />
+          <Property Name="Inversion_Fed" Type="real" />
+          <Property Name="Inversion_Mun" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="MontoAutorizado" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="ClaveFuenteFin" Type="varchar" MaxLength="50" />
+          <Property Name="Descripcion" Type="varchar(max)" />
+          <Property Name="Procedencia" Type="varchar" MaxLength="50" />
+          <Property Name="Estatus" Type="bit" />
+          <Property Name="IDUsuario" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="FechaRegistro" Type="datetime" Nullable="false" />
+          <Property Name="IdNivel" Type="tinyint" Nullable="false" />
+          <Property Name="IdRecurso" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Proyectos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClaveProyecto" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ImporteEutorizado" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Anticipo" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="IdProgramadeRecursos" Type="int" Nullable="false" />
+          <Property Name="IdEscuela" Type="int" Nullable="false" />
+          <Property Name="EmpleosGenerador" Type="int" />
+          <Property Name="AlumnosBeneficiados" Type="int" />
+          <Property Name="FechaAviso" Type="datetime" />
+          <Property Name="FechaInicio" Type="datetime" />
+          <Property Name="FechaFinal" Type="datetime" />
+          <Property Name="IdRecidente" Type="int" />
+          <Property Name="IdSupervisor" Type="int" />
+          <Property Name="Descripcion" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Entidades">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="smallint" Nullable="false" />
+          <Property Name="idPais" Type="smallint" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="x" Type="numeric" Precision="13" Scale="10" Nullable="false" />
+          <Property Name="y" Type="numeric" Precision="13" Scale="10" Nullable="false" />
+          <Property Name="exacto" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Localidades">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idEntidad" Type="smallint" Nullable="false" />
+          <Property Name="idPais" Type="smallint" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="x" Type="numeric" Precision="13" Scale="10" Nullable="false" />
+          <Property Name="y" Type="numeric" Precision="13" Scale="10" Nullable="false" />
+          <Property Name="exacto" Type="tinyint" Nullable="false" />
+          <Property Name="IdMunicipio" Type="int" />
+          <Property Name="CP" Type="varchar" MaxLength="10" />
+          <Property Name="Clave1Localidad" Type="varchar" MaxLength="15" />
+          <Property Name="Clave2Localidad" Type="varchar" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="Municipios">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="idEntidad" Type="smallint" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="x" Type="numeric" Precision="13" Scale="10" />
+          <Property Name="y" Type="numeric" Precision="13" Scale="10" />
+          <Property Name="exacto" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Paises">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="smallint" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="x" Type="numeric" Precision="13" Scale="10" Nullable="false" />
+          <Property Name="y" Type="numeric" Precision="13" Scale="10" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ContratistasInvitadosPaquete_Empresas">
+          <End Role="Contratistas" Type="Self.Contratistas" Multiplicity="1" />
+          <End Role="ContratistasInvitadosPaquete" Type="Self.ContratistasInvitadosPaquete" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contratistas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ContratistasInvitadosPaquete">
+              <PropertyRef Name="IdEmpresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContratistasInvitadosPaquete_PaquetesProcedimiento">
+          <End Role="PaqProcedimiento" Type="Self.PaqProcedimiento" Multiplicity="1" />
+          <End Role="ContratistasInvitadosPaquete" Type="Self.ContratistasInvitadosPaquete" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaqProcedimiento">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ContratistasInvitadosPaquete">
+              <PropertyRef Name="IdPequete" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetallePaqueteProyecto_PaquetesProcedimiento">
+          <End Role="PaqProcedimiento" Type="Self.PaqProcedimiento" Multiplicity="1" />
+          <End Role="DetallePaquetesProyecto" Type="Self.DetallePaquetesProyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaqProcedimiento">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetallePaquetesProyecto">
+              <PropertyRef Name="IdPaquete" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetallePaqueteProyecto_Proyectos">
+          <End Role="Proyectos" Type="Self.Proyectos" Multiplicity="1" />
+          <End Role="DetallePaquetesProyecto" Type="Self.DetallePaquetesProyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proyectos">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetallePaquetesProyecto">
+              <PropertyRef Name="IdProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetallePaqueteProyecto_Supervisores">
+          <End Role="Supervisores" Type="Self.Supervisores" Multiplicity="0..1" />
+          <End Role="DetallePaquetesProyecto" Type="Self.DetallePaquetesProyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supervisores">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetallePaquetesProyecto">
+              <PropertyRef Name="IdResidente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Empresas_ExperienciaAcreditada">
+          <End Role="ExperienciaAcreditada" Type="Self.ExperienciaAcreditada" Multiplicity="1" />
+          <End Role="Contratistas" Type="Self.Contratistas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExperienciaAcreditada">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contratistas">
+              <PropertyRef Name="IdExperiencia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Entidad_Pais">
+          <End Role="Entidades" Type="Self.Entidades" Multiplicity="1" />
+          <End Role="Municipios" Type="Self.Municipios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entidades">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Municipios">
+              <PropertyRef Name="idEntidad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Entidades_Paises">
+          <End Role="Paises" Type="Self.Paises" Multiplicity="1" />
+          <End Role="Entidades" Type="Self.Entidades" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paises">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Entidades">
+              <PropertyRef Name="idPais" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Escuelas_DescSostEsc">
+          <End Role="DescSostEsc" Type="Self.DescSostEsc" Multiplicity="1" />
+          <End Role="Escuelas" Type="Self.Escuelas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DescSostEsc">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Escuelas">
+              <PropertyRef Name="DescSost" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Escuelas_Localidades">
+          <End Role="Localidades" Type="Self.Localidades" Multiplicity="1" />
+          <End Role="Escuelas" Type="Self.Escuelas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Localidades">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Escuelas">
+              <PropertyRef Name="Localidad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Escuelas_ModalidadEsc">
+          <End Role="ModalidadEsc" Type="Self.ModalidadEsc" Multiplicity="1" />
+          <End Role="Escuelas" Type="Self.Escuelas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ModalidadEsc">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Escuelas">
+              <PropertyRef Name="IdModalidad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Escuelas_NivelEsc">
+          <End Role="NivelEsc" Type="Self.NivelEsc" Multiplicity="1" />
+          <End Role="Escuelas" Type="Self.Escuelas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NivelEsc">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Escuelas">
+              <PropertyRef Name="IdNivel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_estado_1_empresa_1">
+          <End Role="Entidades" Type="Self.Entidades" Multiplicity="0..1" />
+          <End Role="Contratistas" Type="Self.Contratistas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entidades">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Contratistas">
+              <PropertyRef Name="IdEstado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IdEmpresa">
+          <End Role="Contratistas" Type="Self.Contratistas" Multiplicity="0..1" />
+          <End Role="RepresentanteLegal" Type="Self.RepresentanteLegal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contratistas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RepresentanteLegal">
+              <PropertyRef Name="IdEmpresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inventario_Direcciones">
+          <End Role="Direcciones" Type="Self.Direcciones" Multiplicity="1" />
+          <End Role="Inventario" Type="Self.Inventario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Direcciones">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inventario">
+              <PropertyRef Name="IdDireccion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inventario_EstadoBien">
+          <End Role="EstadoBien" Type="Self.EstadoBien" Multiplicity="1" />
+          <End Role="Inventario" Type="Self.Inventario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstadoBien">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inventario">
+              <PropertyRef Name="IdEstadoBien" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inventario_Personal">
+          <End Role="Personal" Type="Self.Personal" Multiplicity="1" />
+          <End Role="Inventario" Type="Self.Inventario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personal">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inventario">
+              <PropertyRef Name="IdPersonal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inventario_TiposEnagenacion">
+          <End Role="TiposEnagenacion" Type="Self.TiposEnagenacion" Multiplicity="1" />
+          <End Role="Inventario" Type="Self.Inventario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TiposEnagenacion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inventario">
+              <PropertyRef Name="IdTipoEnagenacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inventario_Ubicaciones">
+          <End Role="Ubicaciones" Type="Self.Ubicaciones" Multiplicity="1" />
+          <End Role="Inventario" Type="Self.Inventario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ubicaciones">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inventario">
+              <PropertyRef Name="IdUbicacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvitacionCCP_PaquetesProcedimiento">
+          <End Role="PaqProcedimiento" Type="Self.PaqProcedimiento" Multiplicity="1" />
+          <End Role="InvitacionCCP" Type="Self.InvitacionCCP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaqProcedimiento">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvitacionCCP">
+              <PropertyRef Name="IdPaquete" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Leyendas1_Ejercicios">
+          <End Role="Ejercicios" Type="Self.Ejercicios" Multiplicity="1" />
+          <End Role="LeyendaAnual" Type="Self.LeyendaAnual" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ejercicios">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LeyendaAnual">
+              <PropertyRef Name="IdEjercicio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Localidades_Municipios">
+          <End Role="Municipios" Type="Self.Municipios" Multiplicity="0..1" />
+          <End Role="Localidades" Type="Self.Localidades" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Municipios">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Localidades">
+              <PropertyRef Name="IdMunicipio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_municipio_1_empresa_1">
+          <End Role="Municipios" Type="Self.Municipios" Multiplicity="0..1" />
+          <End Role="Contratistas" Type="Self.Contratistas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Municipios">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Contratistas">
+              <PropertyRef Name="IdMunicipio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Nivel">
+          <End Role="Nivel" Type="Self.Nivel" Multiplicity="1" />
+          <End Role="ProgramasRecursos" Type="Self.ProgramasRecursos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nivel">
+              <PropertyRef Name="IdNivel" />
+            </Principal>
+            <Dependent Role="ProgramasRecursos">
+              <PropertyRef Name="IdNivel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OficiosRecursos_ProgramasRecursos">
+          <End Role="ProgramasRecursos" Type="Self.ProgramasRecursos" Multiplicity="0..1" />
+          <End Role="OficiosRecursos" Type="Self.OficiosRecursos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProgramasRecursos">
+              <PropertyRef Name="IdProgramasRecursos" />
+            </Principal>
+            <Dependent Role="OficiosRecursos">
+              <PropertyRef Name="IdRecurso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaquetesProcedimiento_Ejercicios">
+          <End Role="Ejercicios" Type="Self.Ejercicios" Multiplicity="0..1" />
+          <End Role="PaqProcedimiento" Type="Self.PaqProcedimiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ejercicios">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PaqProcedimiento">
+              <PropertyRef Name="IdEjercicio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaquetesProcedimiento_Proyectos">
+          <End Role="Proyectos" Type="Self.Proyectos" Multiplicity="0..1" />
+          <End Role="PaqProcedimiento" Type="Self.PaqProcedimiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proyectos">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PaqProcedimiento">
+              <PropertyRef Name="IdProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaquetesProcedimiento_Supervisores">
+          <End Role="Supervisores" Type="Self.Supervisores" Multiplicity="0..1" />
+          <End Role="PaqProcedimiento" Type="Self.PaqProcedimiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supervisores">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PaqProcedimiento">
+              <PropertyRef Name="IdResidente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Personal_Departamentos">
+          <End Role="Departamentos" Type="Self.Departamentos" Multiplicity="1" />
+          <End Role="Personal" Type="Self.Personal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departamentos">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Personal">
+              <PropertyRef Name="IdDepartamento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Personal_Direcciones">
+          <End Role="Direcciones" Type="Self.Direcciones" Multiplicity="1" />
+          <End Role="Personal" Type="Self.Personal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Direcciones">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Personal">
+              <PropertyRef Name="IdDireccion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Prog_Recursos">
+          <End Role="Recursos" Type="Self.Recursos" Multiplicity="1" />
+          <End Role="ProgramasRecursos" Type="Self.ProgramasRecursos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recursos">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProgramasRecursos">
+              <PropertyRef Name="IdRecurso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProgramasContratacion_ExperienciaAcreditada">
+          <End Role="ExperienciaAcreditada" Type="Self.ExperienciaAcreditada" Multiplicity="0..1" />
+          <End Role="ProgramasContratacion" Type="Self.ProgramasContratacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExperienciaAcreditada">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProgramasContratacion">
+              <PropertyRef Name="IdExperienciaAcreditada" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProgramasContratacion_Modalidad">
+          <End Role="Modalidades" Type="Self.Modalidades" Multiplicity="0..1" />
+          <End Role="ProgramasContratacion" Type="Self.ProgramasContratacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Modalidades">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProgramasContratacion">
+              <PropertyRef Name="IdModalidad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProgramasContratacion_PaquetesProcedimiento">
+          <End Role="PaqProcedimiento" Type="Self.PaqProcedimiento" Multiplicity="0..1" />
+          <End Role="ProgramasContratacion" Type="Self.ProgramasContratacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaqProcedimiento">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProgramasContratacion">
+              <PropertyRef Name="IdPaquete" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProgramasContratacion_Personal">
+          <End Role="Personal" Type="Self.Personal" Multiplicity="0..1" />
+          <End Role="ProgramasContratacion" Type="Self.ProgramasContratacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personal">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProgramasContratacion">
+              <PropertyRef Name="IdDirector" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProgramasContratacion_Personal1">
+          <End Role="Personal" Type="Self.Personal" Multiplicity="0..1" />
+          <End Role="ProgramasContratacion" Type="Self.ProgramasContratacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personal">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProgramasContratacion">
+              <PropertyRef Name="IdDirectorFirma" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProgramasContratacion_Personal2">
+          <End Role="Personal" Type="Self.Personal" Multiplicity="0..1" />
+          <End Role="ProgramasContratacion" Type="Self.ProgramasContratacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personal">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProgramasContratacion">
+              <PropertyRef Name="IdReviso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProgramasContratacion_Personal3">
+          <End Role="Personal" Type="Self.Personal" Multiplicity="0..1" />
+          <End Role="ProgramasContratacion" Type="Self.ProgramasContratacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personal">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProgramasContratacion">
+              <PropertyRef Name="IdAutorizo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProgramasContratacion_Personal4">
+          <End Role="Personal" Type="Self.Personal" Multiplicity="0..1" />
+          <End Role="ProgramasContratacion" Type="Self.ProgramasContratacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personal">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProgramasContratacion">
+              <PropertyRef Name="IdVoBo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProgramasRecursos_Ejercicios">
+          <End Role="Ejercicios" Type="Self.Ejercicios" Multiplicity="1" />
+          <End Role="ProgramasRecursos" Type="Self.ProgramasRecursos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ejercicios">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProgramasRecursos">
+              <PropertyRef Name="Ejercicio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proyectos_Escuelas">
+          <End Role="Escuelas" Type="Self.Escuelas" Multiplicity="1" />
+          <End Role="Proyectos" Type="Self.Proyectos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Escuelas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Proyectos">
+              <PropertyRef Name="IdEscuela" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proyectos_RolesSupervisores">
+          <End Role="RolesSupervisores" Type="Self.RolesSupervisores" Multiplicity="0..1" />
+          <End Role="Proyectos" Type="Self.Proyectos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RolesSupervisores">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Proyectos">
+              <PropertyRef Name="IdRecidente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proyectos_Supervisores">
+          <End Role="Supervisores" Type="Self.Supervisores" Multiplicity="0..1" />
+          <End Role="Proyectos" Type="Self.Proyectos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supervisores">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Proyectos">
+              <PropertyRef Name="IdSupervisor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Supervisores_RolesSupervisores">
+          <End Role="RolesSupervisores" Type="Self.RolesSupervisores" Multiplicity="1" />
+          <End Role="Supervisores" Type="Self.Supervisores" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RolesSupervisores">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Supervisores">
+              <PropertyRef Name="IdRollSpervisores" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tamaño_1_Empresa_1">
+          <End Role="Tamanio" Type="Self.Tamanio" Multiplicity="1" />
+          <End Role="Contratistas" Type="Self.Contratistas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tamanio">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contratistas">
+              <PropertyRef Name="IdTamaño" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tipoInscripcion_1_Empresa_1">
+          <End Role="TipoInscripcion" Type="Self.TipoInscripcion" Multiplicity="1" />
+          <End Role="Contratistas" Type="Self.Contratistas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoInscripcion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contratistas">
+              <PropertyRef Name="IdTipoInscripcion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tipoPersona_1_TipoPersona_1">
+          <End Role="TipoPersona" Type="Self.TipoPersona" Multiplicity="1" />
+          <End Role="Contratistas" Type="Self.Contratistas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoPersona">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contratistas">
+              <PropertyRef Name="IdTipoPersona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tipoServicio_1_Empresa_1">
+          <End Role="TipoServicio" Type="Self.TipoServicio" Multiplicity="1" />
+          <End Role="Contratistas" Type="Self.Contratistas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoServicio">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contratistas">
+              <PropertyRef Name="IdTipoServicio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ControlContratosSevrModelStoreContainer">
+          <EntitySet Name="Contratistas" EntityType="Self.Contratistas" Schema="Catalogos" store:Type="Tables" />
+          <EntitySet Name="Departamentos" EntityType="Self.Departamentos" Schema="Catalogos" store:Type="Tables" />
+          <EntitySet Name="DescSostEsc" EntityType="Self.DescSostEsc" Schema="Catalogos" store:Type="Tables" />
+          <EntitySet Name="Direcciones" EntityType="Self.Direcciones" Schema="Catalogos" store:Type="Tables" />
+          <EntitySet Name="Ejercicios" EntityType="Self.Ejercicios" Schema="Catalogos" store:Type="Tables" />
+          <EntitySet Name="Escuelas" EntityType="Self.Escuelas" Schema="Catalogos" store:Type="Tables" />
+          <EntitySet Name="EstadoBien" EntityType="Self.EstadoBien" Schema="Catalogos" store:Type="Tables" />
+          <EntitySet Name="ExperienciaAcreditada" EntityType="Self.ExperienciaAcreditada" Schema="Catalogos" store:Type="Tables" />
+          <EntitySet Name="Fundamentos" EntityType="Self.Fundamentos" Schema="Catalogos" store:Type="Tables" />
+          <EntitySet Name="LeyendaAnual" EntityType="Self.LeyendaAnual" Schema="Catalogos" store:Type="Tables" />
+          <EntitySet Name="Modalidades" EntityType="Self.Modalidades" Schema="Catalogos" store:Type="Tables" />
+          <EntitySet Name="ModalidadEsc" EntityType="Self.ModalidadEsc" Schema="Catalogos" store:Type="Tables" />
+          <EntitySet Name="Nivel" EntityType="Self.Nivel" Schema="Catalogos" store:Type="Tables" />
+          <EntitySet Name="NivelEsc" EntityType="Self.NivelEsc" Schema="Catalogos" store:Type="Tables" />
+          <EntitySet Name="Personal" EntityType="Self.Personal" Schema="Catalogos" store:Type="Tables" />
+          <EntitySet Name="Recursos" EntityType="Self.Recursos" Schema="Catalogos" store:Type="Tables" />
+          <EntitySet Name="RepresentanteLegal" EntityType="Self.RepresentanteLegal" Schema="Catalogos" store:Type="Tables" />
+          <EntitySet Name="RolesSupervisores" EntityType="Self.RolesSupervisores" Schema="Catalogos" store:Type="Tables" />
+          <EntitySet Name="Supervisores" EntityType="Self.Supervisores" Schema="Catalogos" store:Type="Tables" />
+          <EntitySet Name="Tamanio" EntityType="Self.Tamanio" Schema="Catalogos" store:Type="Tables" />
+          <EntitySet Name="TipoInscripcion" EntityType="Self.TipoInscripcion" Schema="Catalogos" store:Type="Tables" />
+          <EntitySet Name="TipoPersona" EntityType="Self.TipoPersona" Schema="Catalogos" store:Type="Tables" />
+          <EntitySet Name="TiposEnagenacion" EntityType="Self.TiposEnagenacion" Schema="Catalogos" store:Type="Tables" />
+          <EntitySet Name="TipoServicio" EntityType="Self.TipoServicio" Schema="Catalogos" store:Type="Tables" />
+          <EntitySet Name="Ubicaciones" EntityType="Self.Ubicaciones" Schema="Catalogos" store:Type="Tables" />
+          <EntitySet Name="ContratistasInvitadosPaquete" EntityType="Self.ContratistasInvitadosPaquete" Schema="Operacion" store:Type="Tables" />
+          <EntitySet Name="DetallePaquetesProyecto" EntityType="Self.DetallePaquetesProyecto" Schema="Operacion" store:Type="Tables" />
+          <EntitySet Name="Inventario" EntityType="Self.Inventario" Schema="Operacion" store:Type="Tables" />
+          <EntitySet Name="InvitacionCCP" EntityType="Self.InvitacionCCP" Schema="Operacion" store:Type="Tables" />
+          <EntitySet Name="OficiosRecursos" EntityType="Self.OficiosRecursos" Schema="Operacion" store:Type="Tables" />
+          <EntitySet Name="PaqProcedimiento" EntityType="Self.PaqProcedimiento" Schema="Operacion" store:Type="Tables" />
+          <EntitySet Name="ProgramasContratacion" EntityType="Self.ProgramasContratacion" Schema="Operacion" store:Type="Tables" />
+          <EntitySet Name="ProgramasRecursos" EntityType="Self.ProgramasRecursos" Schema="Operacion" store:Type="Tables" />
+          <EntitySet Name="Proyectos" EntityType="Self.Proyectos" Schema="Operacion" store:Type="Tables" />
+          <EntitySet Name="Entidades" EntityType="Self.Entidades" Schema="Ubicacion" store:Type="Tables" />
+          <EntitySet Name="Localidades" EntityType="Self.Localidades" Schema="Ubicacion" store:Type="Tables" />
+          <EntitySet Name="Municipios" EntityType="Self.Municipios" Schema="Ubicacion" store:Type="Tables" />
+          <EntitySet Name="Paises" EntityType="Self.Paises" Schema="Ubicacion" store:Type="Tables" />
+          <AssociationSet Name="FK_ContratistasInvitadosPaquete_Empresas" Association="Self.FK_ContratistasInvitadosPaquete_Empresas">
+            <End Role="Contratistas" EntitySet="Contratistas" />
+            <End Role="ContratistasInvitadosPaquete" EntitySet="ContratistasInvitadosPaquete" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContratistasInvitadosPaquete_PaquetesProcedimiento" Association="Self.FK_ContratistasInvitadosPaquete_PaquetesProcedimiento">
+            <End Role="PaqProcedimiento" EntitySet="PaqProcedimiento" />
+            <End Role="ContratistasInvitadosPaquete" EntitySet="ContratistasInvitadosPaquete" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetallePaqueteProyecto_PaquetesProcedimiento" Association="Self.FK_DetallePaqueteProyecto_PaquetesProcedimiento">
+            <End Role="PaqProcedimiento" EntitySet="PaqProcedimiento" />
+            <End Role="DetallePaquetesProyecto" EntitySet="DetallePaquetesProyecto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetallePaqueteProyecto_Proyectos" Association="Self.FK_DetallePaqueteProyecto_Proyectos">
+            <End Role="Proyectos" EntitySet="Proyectos" />
+            <End Role="DetallePaquetesProyecto" EntitySet="DetallePaquetesProyecto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetallePaqueteProyecto_Supervisores" Association="Self.FK_DetallePaqueteProyecto_Supervisores">
+            <End Role="Supervisores" EntitySet="Supervisores" />
+            <End Role="DetallePaquetesProyecto" EntitySet="DetallePaquetesProyecto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Empresas_ExperienciaAcreditada" Association="Self.FK_Empresas_ExperienciaAcreditada">
+            <End Role="ExperienciaAcreditada" EntitySet="ExperienciaAcreditada" />
+            <End Role="Contratistas" EntitySet="Contratistas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Entidad_Pais" Association="Self.FK_Entidad_Pais">
+            <End Role="Entidades" EntitySet="Entidades" />
+            <End Role="Municipios" EntitySet="Municipios" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Entidades_Paises" Association="Self.FK_Entidades_Paises">
+            <End Role="Paises" EntitySet="Paises" />
+            <End Role="Entidades" EntitySet="Entidades" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Escuelas_DescSostEsc" Association="Self.FK_Escuelas_DescSostEsc">
+            <End Role="DescSostEsc" EntitySet="DescSostEsc" />
+            <End Role="Escuelas" EntitySet="Escuelas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Escuelas_Localidades" Association="Self.FK_Escuelas_Localidades">
+            <End Role="Localidades" EntitySet="Localidades" />
+            <End Role="Escuelas" EntitySet="Escuelas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Escuelas_ModalidadEsc" Association="Self.FK_Escuelas_ModalidadEsc">
+            <End Role="ModalidadEsc" EntitySet="ModalidadEsc" />
+            <End Role="Escuelas" EntitySet="Escuelas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Escuelas_NivelEsc" Association="Self.FK_Escuelas_NivelEsc">
+            <End Role="NivelEsc" EntitySet="NivelEsc" />
+            <End Role="Escuelas" EntitySet="Escuelas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_estado_1_empresa_1" Association="Self.FK_estado_1_empresa_1">
+            <End Role="Entidades" EntitySet="Entidades" />
+            <End Role="Contratistas" EntitySet="Contratistas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IdEmpresa" Association="Self.FK_IdEmpresa">
+            <End Role="Contratistas" EntitySet="Contratistas" />
+            <End Role="RepresentanteLegal" EntitySet="RepresentanteLegal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inventario_Direcciones" Association="Self.FK_Inventario_Direcciones">
+            <End Role="Direcciones" EntitySet="Direcciones" />
+            <End Role="Inventario" EntitySet="Inventario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inventario_EstadoBien" Association="Self.FK_Inventario_EstadoBien">
+            <End Role="EstadoBien" EntitySet="EstadoBien" />
+            <End Role="Inventario" EntitySet="Inventario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inventario_Personal" Association="Self.FK_Inventario_Personal">
+            <End Role="Personal" EntitySet="Personal" />
+            <End Role="Inventario" EntitySet="Inventario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inventario_TiposEnagenacion" Association="Self.FK_Inventario_TiposEnagenacion">
+            <End Role="TiposEnagenacion" EntitySet="TiposEnagenacion" />
+            <End Role="Inventario" EntitySet="Inventario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inventario_Ubicaciones" Association="Self.FK_Inventario_Ubicaciones">
+            <End Role="Ubicaciones" EntitySet="Ubicaciones" />
+            <End Role="Inventario" EntitySet="Inventario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvitacionCCP_PaquetesProcedimiento" Association="Self.FK_InvitacionCCP_PaquetesProcedimiento">
+            <End Role="PaqProcedimiento" EntitySet="PaqProcedimiento" />
+            <End Role="InvitacionCCP" EntitySet="InvitacionCCP" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Leyendas1_Ejercicios" Association="Self.FK_Leyendas1_Ejercicios">
+            <End Role="Ejercicios" EntitySet="Ejercicios" />
+            <End Role="LeyendaAnual" EntitySet="LeyendaAnual" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Localidades_Municipios" Association="Self.FK_Localidades_Municipios">
+            <End Role="Municipios" EntitySet="Municipios" />
+            <End Role="Localidades" EntitySet="Localidades" />
+          </AssociationSet>
+          <AssociationSet Name="FK_municipio_1_empresa_1" Association="Self.FK_municipio_1_empresa_1">
+            <End Role="Municipios" EntitySet="Municipios" />
+            <End Role="Contratistas" EntitySet="Contratistas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Nivel" Association="Self.FK_Nivel">
+            <End Role="Nivel" EntitySet="Nivel" />
+            <End Role="ProgramasRecursos" EntitySet="ProgramasRecursos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OficiosRecursos_ProgramasRecursos" Association="Self.FK_OficiosRecursos_ProgramasRecursos">
+            <End Role="ProgramasRecursos" EntitySet="ProgramasRecursos" />
+            <End Role="OficiosRecursos" EntitySet="OficiosRecursos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaquetesProcedimiento_Ejercicios" Association="Self.FK_PaquetesProcedimiento_Ejercicios">
+            <End Role="Ejercicios" EntitySet="Ejercicios" />
+            <End Role="PaqProcedimiento" EntitySet="PaqProcedimiento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaquetesProcedimiento_Proyectos" Association="Self.FK_PaquetesProcedimiento_Proyectos">
+            <End Role="Proyectos" EntitySet="Proyectos" />
+            <End Role="PaqProcedimiento" EntitySet="PaqProcedimiento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaquetesProcedimiento_Supervisores" Association="Self.FK_PaquetesProcedimiento_Supervisores">
+            <End Role="Supervisores" EntitySet="Supervisores" />
+            <End Role="PaqProcedimiento" EntitySet="PaqProcedimiento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Personal_Departamentos" Association="Self.FK_Personal_Departamentos">
+            <End Role="Departamentos" EntitySet="Departamentos" />
+            <End Role="Personal" EntitySet="Personal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Personal_Direcciones" Association="Self.FK_Personal_Direcciones">
+            <End Role="Direcciones" EntitySet="Direcciones" />
+            <End Role="Personal" EntitySet="Personal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Prog_Recursos" Association="Self.FK_Prog_Recursos">
+            <End Role="Recursos" EntitySet="Recursos" />
+            <End Role="ProgramasRecursos" EntitySet="ProgramasRecursos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProgramasContratacion_ExperienciaAcreditada" Association="Self.FK_ProgramasContratacion_ExperienciaAcreditada">
+            <End Role="ExperienciaAcreditada" EntitySet="ExperienciaAcreditada" />
+            <End Role="ProgramasContratacion" EntitySet="ProgramasContratacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProgramasContratacion_Modalidad" Association="Self.FK_ProgramasContratacion_Modalidad">
+            <End Role="Modalidades" EntitySet="Modalidades" />
+            <End Role="ProgramasContratacion" EntitySet="ProgramasContratacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProgramasContratacion_PaquetesProcedimiento" Association="Self.FK_ProgramasContratacion_PaquetesProcedimiento">
+            <End Role="PaqProcedimiento" EntitySet="PaqProcedimiento" />
+            <End Role="ProgramasContratacion" EntitySet="ProgramasContratacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProgramasContratacion_Personal" Association="Self.FK_ProgramasContratacion_Personal">
+            <End Role="Personal" EntitySet="Personal" />
+            <End Role="ProgramasContratacion" EntitySet="ProgramasContratacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProgramasContratacion_Personal1" Association="Self.FK_ProgramasContratacion_Personal1">
+            <End Role="Personal" EntitySet="Personal" />
+            <End Role="ProgramasContratacion" EntitySet="ProgramasContratacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProgramasContratacion_Personal2" Association="Self.FK_ProgramasContratacion_Personal2">
+            <End Role="Personal" EntitySet="Personal" />
+            <End Role="ProgramasContratacion" EntitySet="ProgramasContratacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProgramasContratacion_Personal3" Association="Self.FK_ProgramasContratacion_Personal3">
+            <End Role="Personal" EntitySet="Personal" />
+            <End Role="ProgramasContratacion" EntitySet="ProgramasContratacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProgramasContratacion_Personal4" Association="Self.FK_ProgramasContratacion_Personal4">
+            <End Role="Personal" EntitySet="Personal" />
+            <End Role="ProgramasContratacion" EntitySet="ProgramasContratacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProgramasRecursos_Ejercicios" Association="Self.FK_ProgramasRecursos_Ejercicios">
+            <End Role="Ejercicios" EntitySet="Ejercicios" />
+            <End Role="ProgramasRecursos" EntitySet="ProgramasRecursos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proyectos_Escuelas" Association="Self.FK_Proyectos_Escuelas">
+            <End Role="Escuelas" EntitySet="Escuelas" />
+            <End Role="Proyectos" EntitySet="Proyectos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proyectos_RolesSupervisores" Association="Self.FK_Proyectos_RolesSupervisores">
+            <End Role="RolesSupervisores" EntitySet="RolesSupervisores" />
+            <End Role="Proyectos" EntitySet="Proyectos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proyectos_Supervisores" Association="Self.FK_Proyectos_Supervisores">
+            <End Role="Supervisores" EntitySet="Supervisores" />
+            <End Role="Proyectos" EntitySet="Proyectos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Supervisores_RolesSupervisores" Association="Self.FK_Supervisores_RolesSupervisores">
+            <End Role="RolesSupervisores" EntitySet="RolesSupervisores" />
+            <End Role="Supervisores" EntitySet="Supervisores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tamaño_1_Empresa_1" Association="Self.FK_tamaño_1_Empresa_1">
+            <End Role="Tamanio" EntitySet="Tamanio" />
+            <End Role="Contratistas" EntitySet="Contratistas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tipoInscripcion_1_Empresa_1" Association="Self.FK_tipoInscripcion_1_Empresa_1">
+            <End Role="TipoInscripcion" EntitySet="TipoInscripcion" />
+            <End Role="Contratistas" EntitySet="Contratistas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tipoPersona_1_TipoPersona_1" Association="Self.FK_tipoPersona_1_TipoPersona_1">
+            <End Role="TipoPersona" EntitySet="TipoPersona" />
+            <End Role="Contratistas" EntitySet="Contratistas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tipoServicio_1_Empresa_1" Association="Self.FK_tipoServicio_1_Empresa_1">
+            <End Role="TipoServicio" EntitySet="TipoServicio" />
+            <End Role="Contratistas" EntitySet="Contratistas" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ControlContratosSevrModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Contratistas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RFC" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CURP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IMSS" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Infonavit" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="FolioMercantilElectronico" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="CMIC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SIEM" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Domicilio" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="NoExterior" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NoInterior" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Colonia" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CodigoPostal" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="IdEstado" Type="Int16" />
+          <Property Name="IdMunicipio" Type="Int32" />
+          <Property Name="Telefono" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Fax" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Correo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CapitalContable" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CapitalSocial" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ActaNumEscritura" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ActaVolumenEscritura" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ActaFechaConstancia" Type="DateTime" Precision="3" />
+          <Property Name="NumNotaria" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CiudadNotaria" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Modalidad" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="NombreTitularNotaria" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NombreAdscrito" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DireccionNoraria" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="NumRPPC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="VolRPPC" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="FechaRPPC" Type="DateTime" Precision="3" />
+          <Property Name="CiudadRppc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Folios" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="LibroNum" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="NumActaNacimiento" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="FechaActaNacimiento" Type="DateTime" Precision="3" />
+          <Property Name="LugarExpedicion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LibroActanacimiento" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="IdTamaño" Type="Int32" Nullable="false" />
+          <Property Name="IdTipoInscripcion" Type="Int32" Nullable="false" />
+          <Property Name="IdTipoPersona" Type="Int32" Nullable="false" />
+          <Property Name="IdTipoServicio" Type="Int32" Nullable="false" />
+          <Property Name="ClaveRegistro" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="FechaInicioVigencia" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FechaTerminoVigencia" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Registro" Type="Int32" />
+          <Property Name="Reviso" Type="Int32" />
+          <Property Name="VoBo" Type="Int32" />
+          <Property Name="Autorizo" Type="Int32" />
+          <Property Name="EstatusCaptura" Type="Int16" />
+          <Property Name="IdExperiencia" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ContratistasInvitadosPaquete" Relationship="Self.FK_ContratistasInvitadosPaquete_Empresas" FromRole="Contratistas" ToRole="ContratistasInvitadosPaquete" />
+          <NavigationProperty Name="ExperienciaAcreditada" Relationship="Self.FK_Empresas_ExperienciaAcreditada" FromRole="Contratistas" ToRole="ExperienciaAcreditada" />
+          <NavigationProperty Name="Entidades" Relationship="Self.FK_estado_1_empresa_1" FromRole="Contratistas" ToRole="Entidades" />
+          <NavigationProperty Name="RepresentanteLegal" Relationship="Self.FK_IdEmpresa" FromRole="Contratistas" ToRole="RepresentanteLegal" />
+          <NavigationProperty Name="Municipios" Relationship="Self.FK_municipio_1_empresa_1" FromRole="Contratistas" ToRole="Municipios" />
+          <NavigationProperty Name="Tamanio" Relationship="Self.FK_tamaño_1_Empresa_1" FromRole="Contratistas" ToRole="Tamanio" />
+          <NavigationProperty Name="TipoInscripcion" Relationship="Self.FK_tipoInscripcion_1_Empresa_1" FromRole="Contratistas" ToRole="TipoInscripcion" />
+          <NavigationProperty Name="TipoPersona" Relationship="Self.FK_tipoPersona_1_TipoPersona_1" FromRole="Contratistas" ToRole="TipoPersona" />
+          <NavigationProperty Name="TipoServicio" Relationship="Self.FK_tipoServicio_1_Empresa_1" FromRole="Contratistas" ToRole="TipoServicio" />
+        </EntityType>
+        <EntityType Name="Departamentos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreDepto" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Abreviatura" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Personal" Relationship="Self.FK_Personal_Departamentos" FromRole="Departamentos" ToRole="Personal" />
+        </EntityType>
+        <EntityType Name="DescSostEsc">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Escuelas" Relationship="Self.FK_Escuelas_DescSostEsc" FromRole="DescSostEsc" ToRole="Escuelas" />
+        </EntityType>
+        <EntityType Name="Direcciones">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreDireccion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Abreviatura" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Inventario" Relationship="Self.FK_Inventario_Direcciones" FromRole="Direcciones" ToRole="Inventario" />
+          <NavigationProperty Name="Personal" Relationship="Self.FK_Personal_Direcciones" FromRole="Direcciones" ToRole="Personal" />
+        </EntityType>
+        <EntityType Name="Ejercicios">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ejercicio" Type="Int32" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="LeyendaAnual" Relationship="Self.FK_Leyendas1_Ejercicios" FromRole="Ejercicios" ToRole="LeyendaAnual" />
+          <NavigationProperty Name="PaqProcedimiento" Relationship="Self.FK_PaquetesProcedimiento_Ejercicios" FromRole="Ejercicios" ToRole="PaqProcedimiento" />
+          <NavigationProperty Name="ProgramasRecursos" Relationship="Self.FK_ProgramasRecursos_Ejercicios" FromRole="Ejercicios" ToRole="ProgramasRecursos" />
+        </EntityType>
+        <EntityType Name="Escuelas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdNivel" Type="Int32" Nullable="false" />
+          <Property Name="IdModalidad" Type="Int32" Nullable="false" />
+          <Property Name="Clave" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Sector" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Zona" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Domicilio" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Localidad" Type="Int32" Nullable="false" />
+          <Property Name="DescSost" Type="Int32" Nullable="false" />
+          <Property Name="ClaveLocalidad" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DescSostEsc" Relationship="Self.FK_Escuelas_DescSostEsc" FromRole="Escuelas" ToRole="DescSostEsc" />
+          <NavigationProperty Name="Localidades" Relationship="Self.FK_Escuelas_Localidades" FromRole="Escuelas" ToRole="Localidades" />
+          <NavigationProperty Name="ModalidadEsc" Relationship="Self.FK_Escuelas_ModalidadEsc" FromRole="Escuelas" ToRole="ModalidadEsc" />
+          <NavigationProperty Name="NivelEsc" Relationship="Self.FK_Escuelas_NivelEsc" FromRole="Escuelas" ToRole="NivelEsc" />
+          <NavigationProperty Name="Proyectos" Relationship="Self.FK_Proyectos_Escuelas" FromRole="Escuelas" ToRole="Proyectos" />
+        </EntityType>
+        <EntityType Name="EstadoBien">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Estado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Inventario" Relationship="Self.FK_Inventario_EstadoBien" FromRole="EstadoBien" ToRole="Inventario" />
+        </EntityType>
+        <EntityType Name="ExperienciaAcreditada">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Clave" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Contratistas" Relationship="Self.FK_Empresas_ExperienciaAcreditada" FromRole="ExperienciaAcreditada" ToRole="Contratistas" />
+          <NavigationProperty Name="ProgramasContratacion" Relationship="Self.FK_ProgramasContratacion_ExperienciaAcreditada" FromRole="ExperienciaAcreditada" ToRole="ProgramasContratacion" />
+        </EntityType>
+        <EntityType Name="Fundamentos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TipoFundamento" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Fundamento" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LeyendaAnual">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Leyenda" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IdEjercicio" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Ejercicios" Relationship="Self.FK_Leyendas1_Ejercicios" FromRole="LeyendaAnual" ToRole="Ejercicios" />
+        </EntityType>
+        <EntityType Name="Modalidades">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Modalidad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="ProgramasContratacion" Relationship="Self.FK_ProgramasContratacion_Modalidad" FromRole="Modalidades" ToRole="ProgramasContratacion" />
+        </EntityType>
+        <EntityType Name="ModalidadEsc">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Modalidad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Escuelas" Relationship="Self.FK_Escuelas_ModalidadEsc" FromRole="ModalidadEsc" ToRole="Escuelas" />
+        </EntityType>
+        <EntityType Name="Nivel">
+          <Key>
+            <PropertyRef Name="IdNivel" />
+          </Key>
+          <Property Name="IdNivel" Type="Byte" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="ProgramasRecursos" Relationship="Self.FK_Nivel" FromRole="Nivel" ToRole="ProgramasRecursos" />
+        </EntityType>
+        <EntityType Name="NivelEsc">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nivel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Escuelas" Relationship="Self.FK_Escuelas_NivelEsc" FromRole="NivelEsc" ToRole="Escuelas" />
+        </EntityType>
+        <EntityType Name="Personal">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Trato" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ApellidoPaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ApellidoMaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IdDireccion" Type="Int32" Nullable="false" />
+          <Property Name="Cargo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Domicilio" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="RFC" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="IdDepartamento" Type="Int32" Nullable="false" />
+          <Property Name="Sexo" Type="Boolean" Nullable="false" />
+          <Property Name="Telefono" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Estatus" Type="Boolean" Nullable="false" />
+          <Property Name="IdJefeInmediato" Type="Int32" />
+          <Property Name="Foto" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FechaNacimiento" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Departamentos" Relationship="Self.FK_Personal_Departamentos" FromRole="Personal" ToRole="Departamentos" />
+          <NavigationProperty Name="Direcciones" Relationship="Self.FK_Personal_Direcciones" FromRole="Personal" ToRole="Direcciones" />
+          <NavigationProperty Name="Inventario" Relationship="Self.FK_Inventario_Personal" FromRole="Personal" ToRole="Inventario" />
+          <NavigationProperty Name="ProgramasContratacion" Relationship="Self.FK_ProgramasContratacion_Personal" FromRole="Personal" ToRole="ProgramasContratacion" />
+          <NavigationProperty Name="ProgramasContratacion1" Relationship="Self.FK_ProgramasContratacion_Personal1" FromRole="Personal" ToRole="ProgramasContratacion" />
+          <NavigationProperty Name="ProgramasContratacion2" Relationship="Self.FK_ProgramasContratacion_Personal2" FromRole="Personal" ToRole="ProgramasContratacion" />
+          <NavigationProperty Name="ProgramasContratacion3" Relationship="Self.FK_ProgramasContratacion_Personal3" FromRole="Personal" ToRole="ProgramasContratacion" />
+          <NavigationProperty Name="ProgramasContratacion4" Relationship="Self.FK_ProgramasContratacion_Personal4" FromRole="Personal" ToRole="ProgramasContratacion" />
+        </EntityType>
+        <EntityType Name="Recursos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Recurso" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ProgramasRecursos" Relationship="Self.FK_Prog_Recursos" FromRole="Recursos" ToRole="ProgramasRecursos" />
+        </EntityType>
+        <EntityType Name="RepresentanteLegal">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Puesto" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FolioElectoral" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="RFC" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="FolioMercantilElectronico" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Direccion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Colonia" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CP" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Ciudad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Telefono" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Correo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NumEscritura" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="VolEscritura" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="FechaEscritura" Type="DateTime" Precision="3" />
+          <Property Name="NumNotario" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="NombreNotario" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LugarNotario" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="NumRPPC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="VolRPPC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="FechaRPPC" Type="DateTime" Precision="3" />
+          <Property Name="LugarRPPC" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="FechaNac" Type="DateTime" Precision="3" />
+          <Property Name="LugarExpedicionActa" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NombreAdscrito" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="NombreSustituto" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="IdEmpresa" Type="Int32" />
+          <NavigationProperty Name="Contratistas" Relationship="Self.FK_IdEmpresa" FromRole="RepresentanteLegal" ToRole="Contratistas" />
+        </EntityType>
+        <EntityType Name="RolesSupervisores">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RollSupervis" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Proyectos" Relationship="Self.FK_Proyectos_RolesSupervisores" FromRole="RolesSupervisores" ToRole="Proyectos" />
+          <NavigationProperty Name="Supervisores" Relationship="Self.FK_Supervisores_RolesSupervisores" FromRole="RolesSupervisores" ToRole="Supervisores" />
+        </EntityType>
+        <EntityType Name="Supervisores">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IdRollSpervisores" Type="Int32" Nullable="false" />
+          <Property Name="Cedula" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Direccion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Estatus" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="RolesSupervisores" Relationship="Self.FK_Supervisores_RolesSupervisores" FromRole="Supervisores" ToRole="RolesSupervisores" />
+          <NavigationProperty Name="DetallePaquetesProyecto" Relationship="Self.FK_DetallePaqueteProyecto_Supervisores" FromRole="Supervisores" ToRole="DetallePaquetesProyecto" />
+          <NavigationProperty Name="PaqProcedimiento" Relationship="Self.FK_PaquetesProcedimiento_Supervisores" FromRole="Supervisores" ToRole="PaqProcedimiento" />
+          <NavigationProperty Name="Proyectos" Relationship="Self.FK_Proyectos_Supervisores" FromRole="Supervisores" ToRole="Proyectos" />
+        </EntityType>
+        <EntityType Name="Tamanio">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Tamaño" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Contratistas" Relationship="Self.FK_tamaño_1_Empresa_1" FromRole="Tamanio" ToRole="Contratistas" />
+        </EntityType>
+        <EntityType Name="TipoInscripcion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TipoIncripcion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Contratistas" Relationship="Self.FK_tipoInscripcion_1_Empresa_1" FromRole="TipoInscripcion" ToRole="Contratistas" />
+        </EntityType>
+        <EntityType Name="TipoPersona">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TipoPersona1" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Contratistas" Relationship="Self.FK_tipoPersona_1_TipoPersona_1" FromRole="TipoPersona" ToRole="Contratistas" />
+        </EntityType>
+        <EntityType Name="TiposEnagenacion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TipoEnegenacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Inventario" Relationship="Self.FK_Inventario_TiposEnagenacion" FromRole="TiposEnagenacion" ToRole="Inventario" />
+        </EntityType>
+        <EntityType Name="TipoServicio">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TipoServicio1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Contratistas" Relationship="Self.FK_tipoServicio_1_Empresa_1" FromRole="TipoServicio" ToRole="Contratistas" />
+        </EntityType>
+        <EntityType Name="Ubicaciones">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ubicacion" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Inventario" Relationship="Self.FK_Inventario_Ubicaciones" FromRole="Ubicaciones" ToRole="Inventario" />
+        </EntityType>
+        <EntityType Name="ContratistasInvitadosPaquete">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdEmpresa" Type="Int32" Nullable="false" />
+          <Property Name="Oficio" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FechaOficio" Type="DateTime" Precision="3" />
+          <Property Name="IdPequete" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Contratistas" Relationship="Self.FK_ContratistasInvitadosPaquete_Empresas" FromRole="ContratistasInvitadosPaquete" ToRole="Contratistas" />
+          <NavigationProperty Name="PaqProcedimiento" Relationship="Self.FK_ContratistasInvitadosPaquete_PaquetesProcedimiento" FromRole="ContratistasInvitadosPaquete" ToRole="PaqProcedimiento" />
+        </EntityType>
+        <EntityType Name="DetallePaquetesProyecto">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdPaquete" Type="Int32" Nullable="false" />
+          <Property Name="IdProyecto" Type="Int32" Nullable="false" />
+          <Property Name="PlazoEjecucion" Type="Int32" />
+          <Property Name="Anticipo" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ImporteAutoruizado" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CapitalContable" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IdResidente" Type="Int32" />
+          <Property Name="ImportePresupuestoBase" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="Supervisores" Relationship="Self.FK_DetallePaqueteProyecto_Supervisores" FromRole="DetallePaquetesProyecto" ToRole="Supervisores" />
+          <NavigationProperty Name="PaqProcedimiento" Relationship="Self.FK_DetallePaqueteProyecto_PaquetesProcedimiento" FromRole="DetallePaquetesProyecto" ToRole="PaqProcedimiento" />
+          <NavigationProperty Name="Proyectos" Relationship="Self.FK_DetallePaqueteProyecto_Proyectos" FromRole="DetallePaquetesProyecto" ToRole="Proyectos" />
+        </EntityType>
+        <EntityType Name="Inventario">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Clave" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NombreBien" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Marca" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="Tipo" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
+          <Property Name="Serie" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="Modelo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IdEstadoBien" Type="Int32" Nullable="false" />
+          <Property Name="IdUbicacion" Type="Int32" Nullable="false" />
+          <Property Name="IdDireccion" Type="Int32" Nullable="false" />
+          <Property Name="Observacion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="FechaFactura" Type="DateTime" Precision="3" />
+          <Property Name="ValorFacturado" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="ValorActual" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="IdPersonal" Type="Int32" Nullable="false" />
+          <Property Name="IdTipoEnagenacion" Type="Int32" Nullable="false" />
+          <Property Name="Caracteristicas" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Direcciones" Relationship="Self.FK_Inventario_Direcciones" FromRole="Inventario" ToRole="Direcciones" />
+          <NavigationProperty Name="EstadoBien" Relationship="Self.FK_Inventario_EstadoBien" FromRole="Inventario" ToRole="EstadoBien" />
+          <NavigationProperty Name="Personal" Relationship="Self.FK_Inventario_Personal" FromRole="Inventario" ToRole="Personal" />
+          <NavigationProperty Name="TiposEnagenacion" Relationship="Self.FK_Inventario_TiposEnagenacion" FromRole="Inventario" ToRole="TiposEnagenacion" />
+          <NavigationProperty Name="Ubicaciones" Relationship="Self.FK_Inventario_Ubicaciones" FromRole="Inventario" ToRole="Ubicaciones" />
+        </EntityType>
+        <EntityType Name="InvitacionCCP">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Puesto" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IdPaquete" Type="Int32" Nullable="false" />
+          <Property Name="Orden" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="PaqProcedimiento" Relationship="Self.FK_InvitacionCCP_PaquetesProcedimiento" FromRole="InvitacionCCP" ToRole="PaqProcedimiento" />
+        </EntityType>
+        <EntityType Name="OficiosRecursos">
+          <Key>
+            <PropertyRef Name="IdOficio" />
+          </Key>
+          <Property Name="IdOficio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Oficio" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IdRecurso" Type="Int32" />
+          <Property Name="ImporteAutorizado" Type="Decimal" Precision="14" Scale="4" Nullable="false" />
+          <Property Name="Ubicacion" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Archivo" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="IdUsusario" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Emisora" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ProgramasRecursos" Relationship="Self.FK_OficiosRecursos_ProgramasRecursos" FromRole="OficiosRecursos" ToRole="ProgramasRecursos" />
+        </EntityType>
+        <EntityType Name="PaqProcedimiento">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NoPaquete" Type="Int32" />
+          <Property Name="IdProyecto" Type="Int32" />
+          <Property Name="NoProcedimiento" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Convocatoria" Type="DateTime" Precision="3" />
+          <Property Name="LimiteInscripcion" Type="DateTime" Precision="3" />
+          <Property Name="VisitaSitio" Type="DateTime" Precision="3" />
+          <Property Name="JuntaAclaraciones" Type="DateTime" Precision="3" />
+          <Property Name="AperturaTecnica" Type="DateTime" Precision="3" />
+          <Property Name="Fallo" Type="DateTime" Precision="3" />
+          <Property Name="Contrato" Type="DateTime" Precision="3" />
+          <Property Name="InicioEstimada" Type="DateTime" Precision="3" />
+          <Property Name="IdResidente" Type="Int32" />
+          <Property Name="Recuperacion" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ImportePresupuestoBase" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IdEjercicio" Type="Int32" />
+          <NavigationProperty Name="Ejercicios" Relationship="Self.FK_PaquetesProcedimiento_Ejercicios" FromRole="PaqProcedimiento" ToRole="Ejercicios" />
+          <NavigationProperty Name="Supervisores" Relationship="Self.FK_PaquetesProcedimiento_Supervisores" FromRole="PaqProcedimiento" ToRole="Supervisores" />
+          <NavigationProperty Name="ContratistasInvitadosPaquete" Relationship="Self.FK_ContratistasInvitadosPaquete_PaquetesProcedimiento" FromRole="PaqProcedimiento" ToRole="ContratistasInvitadosPaquete" />
+          <NavigationProperty Name="DetallePaquetesProyecto" Relationship="Self.FK_DetallePaqueteProyecto_PaquetesProcedimiento" FromRole="PaqProcedimiento" ToRole="DetallePaquetesProyecto" />
+          <NavigationProperty Name="InvitacionCCP" Relationship="Self.FK_InvitacionCCP_PaquetesProcedimiento" FromRole="PaqProcedimiento" ToRole="InvitacionCCP" />
+          <NavigationProperty Name="Proyectos" Relationship="Self.FK_PaquetesProcedimiento_Proyectos" FromRole="PaqProcedimiento" ToRole="Proyectos" />
+          <NavigationProperty Name="ProgramasContratacion" Relationship="Self.FK_ProgramasContratacion_PaquetesProcedimiento" FromRole="PaqProcedimiento" ToRole="ProgramasContratacion" />
+        </EntityType>
+        <EntityType Name="ProgramasContratacion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdDirector" Type="Int32" />
+          <Property Name="ClaveArticulo" Type="Int16" />
+          <Property Name="Articulo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="IdDirectorFirma" Type="Int32" />
+          <Property Name="TIpoInversion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IdModalidad" Type="Int32" />
+          <Property Name="IdVoBo" Type="Int32" />
+          <Property Name="IdReviso" Type="Int32" />
+          <Property Name="IdAutorizo" Type="Int32" />
+          <Property Name="FechaOficio" Type="DateTime" Precision="3" />
+          <Property Name="TxtVoBo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IdPaquete" Type="Int32" />
+          <Property Name="IdExperienciaAcreditada" Type="Int32" />
+          <NavigationProperty Name="ExperienciaAcreditada" Relationship="Self.FK_ProgramasContratacion_ExperienciaAcreditada" FromRole="ProgramasContratacion" ToRole="ExperienciaAcreditada" />
+          <NavigationProperty Name="Modalidades" Relationship="Self.FK_ProgramasContratacion_Modalidad" FromRole="ProgramasContratacion" ToRole="Modalidades" />
+          <NavigationProperty Name="Personal" Relationship="Self.FK_ProgramasContratacion_Personal" FromRole="ProgramasContratacion" ToRole="Personal" />
+          <NavigationProperty Name="Personal1" Relationship="Self.FK_ProgramasContratacion_Personal1" FromRole="ProgramasContratacion" ToRole="Personal" />
+          <NavigationProperty Name="Personal2" Relationship="Self.FK_ProgramasContratacion_Personal2" FromRole="ProgramasContratacion" ToRole="Personal" />
+          <NavigationProperty Name="Personal3" Relationship="Self.FK_ProgramasContratacion_Personal3" FromRole="ProgramasContratacion" ToRole="Personal" />
+          <NavigationProperty Name="Personal4" Relationship="Self.FK_ProgramasContratacion_Personal4" FromRole="ProgramasContratacion" ToRole="Personal" />
+          <NavigationProperty Name="PaqProcedimiento" Relationship="Self.FK_ProgramasContratacion_PaquetesProcedimiento" FromRole="ProgramasContratacion" ToRole="PaqProcedimiento" />
+        </EntityType>
+        <EntityType Name="ProgramasRecursos">
+          <Key>
+            <PropertyRef Name="IdProgramasRecursos" />
+          </Key>
+          <Property Name="IdProgramasRecursos" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ejercicio" Type="Int32" Nullable="false" />
+          <Property Name="Inversion_Est" Type="Single" />
+          <Property Name="Inversion_Fed" Type="Single" />
+          <Property Name="Inversion_Mun" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="MontoAutorizado" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="ClaveFuenteFin" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Procedencia" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Estatus" Type="Boolean" />
+          <Property Name="IDUsuario" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IdNivel" Type="Byte" Nullable="false" />
+          <Property Name="IdRecurso" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Ejercicios" Relationship="Self.FK_ProgramasRecursos_Ejercicios" FromRole="ProgramasRecursos" ToRole="Ejercicios" />
+          <NavigationProperty Name="Nivel" Relationship="Self.FK_Nivel" FromRole="ProgramasRecursos" ToRole="Nivel" />
+          <NavigationProperty Name="Recursos" Relationship="Self.FK_Prog_Recursos" FromRole="ProgramasRecursos" ToRole="Recursos" />
+          <NavigationProperty Name="OficiosRecursos" Relationship="Self.FK_OficiosRecursos_ProgramasRecursos" FromRole="ProgramasRecursos" ToRole="OficiosRecursos" />
+        </EntityType>
+        <EntityType Name="Proyectos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClaveProyecto" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ImporteEutorizado" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Anticipo" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="IdProgramadeRecursos" Type="Int32" Nullable="false" />
+          <Property Name="IdEscuela" Type="Int32" Nullable="false" />
+          <Property Name="EmpleosGenerador" Type="Int32" />
+          <Property Name="AlumnosBeneficiados" Type="Int32" />
+          <Property Name="FechaAviso" Type="DateTime" Precision="3" />
+          <Property Name="FechaInicio" Type="DateTime" Precision="3" />
+          <Property Name="FechaFinal" Type="DateTime" Precision="3" />
+          <Property Name="IdRecidente" Type="Int32" />
+          <Property Name="IdSupervisor" Type="Int32" />
+          <Property Name="Descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Escuelas" Relationship="Self.FK_Proyectos_Escuelas" FromRole="Proyectos" ToRole="Escuelas" />
+          <NavigationProperty Name="RolesSupervisores" Relationship="Self.FK_Proyectos_RolesSupervisores" FromRole="Proyectos" ToRole="RolesSupervisores" />
+          <NavigationProperty Name="Supervisores" Relationship="Self.FK_Proyectos_Supervisores" FromRole="Proyectos" ToRole="Supervisores" />
+          <NavigationProperty Name="DetallePaquetesProyecto" Relationship="Self.FK_DetallePaqueteProyecto_Proyectos" FromRole="Proyectos" ToRole="DetallePaquetesProyecto" />
+          <NavigationProperty Name="PaqProcedimiento" Relationship="Self.FK_PaquetesProcedimiento_Proyectos" FromRole="Proyectos" ToRole="PaqProcedimiento" />
+        </EntityType>
+        <EntityType Name="Entidades">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int16" Nullable="false" />
+          <Property Name="idPais" Type="Int16" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="x" Type="Decimal" Precision="13" Scale="10" Nullable="false" />
+          <Property Name="y" Type="Decimal" Precision="13" Scale="10" Nullable="false" />
+          <Property Name="exacto" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="Contratistas" Relationship="Self.FK_estado_1_empresa_1" FromRole="Entidades" ToRole="Contratistas" />
+          <NavigationProperty Name="Municipios" Relationship="Self.FK_Entidad_Pais" FromRole="Entidades" ToRole="Municipios" />
+          <NavigationProperty Name="Paises" Relationship="Self.FK_Entidades_Paises" FromRole="Entidades" ToRole="Paises" />
+        </EntityType>
+        <EntityType Name="Localidades">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idEntidad" Type="Int16" Nullable="false" />
+          <Property Name="idPais" Type="Int16" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="x" Type="Decimal" Precision="13" Scale="10" Nullable="false" />
+          <Property Name="y" Type="Decimal" Precision="13" Scale="10" Nullable="false" />
+          <Property Name="exacto" Type="Byte" Nullable="false" />
+          <Property Name="IdMunicipio" Type="Int32" />
+          <Property Name="CP" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Clave1Localidad" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Clave2Localidad" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Escuelas" Relationship="Self.FK_Escuelas_Localidades" FromRole="Localidades" ToRole="Escuelas" />
+          <NavigationProperty Name="Municipios" Relationship="Self.FK_Localidades_Municipios" FromRole="Localidades" ToRole="Municipios" />
+        </EntityType>
+        <EntityType Name="Municipios">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="idEntidad" Type="Int16" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="x" Type="Decimal" Precision="13" Scale="10" />
+          <Property Name="y" Type="Decimal" Precision="13" Scale="10" />
+          <Property Name="exacto" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="Contratistas" Relationship="Self.FK_municipio_1_empresa_1" FromRole="Municipios" ToRole="Contratistas" />
+          <NavigationProperty Name="Entidades" Relationship="Self.FK_Entidad_Pais" FromRole="Municipios" ToRole="Entidades" />
+          <NavigationProperty Name="Localidades" Relationship="Self.FK_Localidades_Municipios" FromRole="Municipios" ToRole="Localidades" />
+        </EntityType>
+        <EntityType Name="Paises">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int16" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="x" Type="Decimal" Precision="13" Scale="10" Nullable="false" />
+          <Property Name="y" Type="Decimal" Precision="13" Scale="10" Nullable="false" />
+          <NavigationProperty Name="Entidades" Relationship="Self.FK_Entidades_Paises" FromRole="Paises" ToRole="Entidades" />
+        </EntityType>
+        <Association Name="FK_ContratistasInvitadosPaquete_Empresas">
+          <End Role="Contratistas" Type="Self.Contratistas" Multiplicity="1" />
+          <End Role="ContratistasInvitadosPaquete" Type="Self.ContratistasInvitadosPaquete" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contratistas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ContratistasInvitadosPaquete">
+              <PropertyRef Name="IdEmpresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Empresas_ExperienciaAcreditada">
+          <End Role="ExperienciaAcreditada" Type="Self.ExperienciaAcreditada" Multiplicity="1" />
+          <End Role="Contratistas" Type="Self.Contratistas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExperienciaAcreditada">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contratistas">
+              <PropertyRef Name="IdExperiencia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_estado_1_empresa_1">
+          <End Role="Entidades" Type="Self.Entidades" Multiplicity="0..1" />
+          <End Role="Contratistas" Type="Self.Contratistas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entidades">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Contratistas">
+              <PropertyRef Name="IdEstado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IdEmpresa">
+          <End Role="Contratistas" Type="Self.Contratistas" Multiplicity="0..1" />
+          <End Role="RepresentanteLegal" Type="Self.RepresentanteLegal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contratistas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RepresentanteLegal">
+              <PropertyRef Name="IdEmpresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_municipio_1_empresa_1">
+          <End Role="Municipios" Type="Self.Municipios" Multiplicity="0..1" />
+          <End Role="Contratistas" Type="Self.Contratistas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Municipios">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Contratistas">
+              <PropertyRef Name="IdMunicipio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tamaño_1_Empresa_1">
+          <End Role="Tamanio" Type="Self.Tamanio" Multiplicity="1" />
+          <End Role="Contratistas" Type="Self.Contratistas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tamanio">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contratistas">
+              <PropertyRef Name="IdTamaño" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tipoInscripcion_1_Empresa_1">
+          <End Role="TipoInscripcion" Type="Self.TipoInscripcion" Multiplicity="1" />
+          <End Role="Contratistas" Type="Self.Contratistas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoInscripcion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contratistas">
+              <PropertyRef Name="IdTipoInscripcion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tipoPersona_1_TipoPersona_1">
+          <End Role="TipoPersona" Type="Self.TipoPersona" Multiplicity="1" />
+          <End Role="Contratistas" Type="Self.Contratistas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoPersona">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contratistas">
+              <PropertyRef Name="IdTipoPersona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tipoServicio_1_Empresa_1">
+          <End Role="TipoServicio" Type="Self.TipoServicio" Multiplicity="1" />
+          <End Role="Contratistas" Type="Self.Contratistas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoServicio">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contratistas">
+              <PropertyRef Name="IdTipoServicio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Personal_Departamentos">
+          <End Role="Departamentos" Type="Self.Departamentos" Multiplicity="1" />
+          <End Role="Personal" Type="Self.Personal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departamentos">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Personal">
+              <PropertyRef Name="IdDepartamento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Escuelas_DescSostEsc">
+          <End Role="DescSostEsc" Type="Self.DescSostEsc" Multiplicity="1" />
+          <End Role="Escuelas" Type="Self.Escuelas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DescSostEsc">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Escuelas">
+              <PropertyRef Name="DescSost" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inventario_Direcciones">
+          <End Role="Direcciones" Type="Self.Direcciones" Multiplicity="1" />
+          <End Role="Inventario" Type="Self.Inventario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Direcciones">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inventario">
+              <PropertyRef Name="IdDireccion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Personal_Direcciones">
+          <End Role="Direcciones" Type="Self.Direcciones" Multiplicity="1" />
+          <End Role="Personal" Type="Self.Personal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Direcciones">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Personal">
+              <PropertyRef Name="IdDireccion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Leyendas1_Ejercicios">
+          <End Role="Ejercicios" Type="Self.Ejercicios" Multiplicity="1" />
+          <End Role="LeyendaAnual" Type="Self.LeyendaAnual" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ejercicios">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LeyendaAnual">
+              <PropertyRef Name="IdEjercicio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaquetesProcedimiento_Ejercicios">
+          <End Role="Ejercicios" Type="Self.Ejercicios" Multiplicity="0..1" />
+          <End Role="PaqProcedimiento" Type="Self.PaqProcedimiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ejercicios">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PaqProcedimiento">
+              <PropertyRef Name="IdEjercicio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProgramasRecursos_Ejercicios">
+          <End Role="Ejercicios" Type="Self.Ejercicios" Multiplicity="1" />
+          <End Role="ProgramasRecursos" Type="Self.ProgramasRecursos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ejercicios">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProgramasRecursos">
+              <PropertyRef Name="Ejercicio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Escuelas_Localidades">
+          <End Role="Localidades" Type="Self.Localidades" Multiplicity="1" />
+          <End Role="Escuelas" Type="Self.Escuelas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Localidades">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Escuelas">
+              <PropertyRef Name="Localidad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Escuelas_ModalidadEsc">
+          <End Role="ModalidadEsc" Type="Self.ModalidadEsc" Multiplicity="1" />
+          <End Role="Escuelas" Type="Self.Escuelas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ModalidadEsc">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Escuelas">
+              <PropertyRef Name="IdModalidad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Escuelas_NivelEsc">
+          <End Role="NivelEsc" Type="Self.NivelEsc" Multiplicity="1" />
+          <End Role="Escuelas" Type="Self.Escuelas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NivelEsc">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Escuelas">
+              <PropertyRef Name="IdNivel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proyectos_Escuelas">
+          <End Role="Escuelas" Type="Self.Escuelas" Multiplicity="1" />
+          <End Role="Proyectos" Type="Self.Proyectos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Escuelas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Proyectos">
+              <PropertyRef Name="IdEscuela" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inventario_EstadoBien">
+          <End Role="EstadoBien" Type="Self.EstadoBien" Multiplicity="1" />
+          <End Role="Inventario" Type="Self.Inventario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstadoBien">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inventario">
+              <PropertyRef Name="IdEstadoBien" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProgramasContratacion_ExperienciaAcreditada">
+          <End Role="ExperienciaAcreditada" Type="Self.ExperienciaAcreditada" Multiplicity="0..1" />
+          <End Role="ProgramasContratacion" Type="Self.ProgramasContratacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExperienciaAcreditada">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProgramasContratacion">
+              <PropertyRef Name="IdExperienciaAcreditada" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProgramasContratacion_Modalidad">
+          <End Role="Modalidades" Type="Self.Modalidades" Multiplicity="0..1" />
+          <End Role="ProgramasContratacion" Type="Self.ProgramasContratacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Modalidades">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProgramasContratacion">
+              <PropertyRef Name="IdModalidad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Nivel">
+          <End Role="Nivel" Type="Self.Nivel" Multiplicity="1" />
+          <End Role="ProgramasRecursos" Type="Self.ProgramasRecursos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nivel">
+              <PropertyRef Name="IdNivel" />
+            </Principal>
+            <Dependent Role="ProgramasRecursos">
+              <PropertyRef Name="IdNivel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inventario_Personal">
+          <End Role="Personal" Type="Self.Personal" Multiplicity="1" />
+          <End Role="Inventario" Type="Self.Inventario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personal">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inventario">
+              <PropertyRef Name="IdPersonal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProgramasContratacion_Personal">
+          <End Role="Personal" Type="Self.Personal" Multiplicity="0..1" />
+          <End Role="ProgramasContratacion" Type="Self.ProgramasContratacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personal">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProgramasContratacion">
+              <PropertyRef Name="IdDirector" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProgramasContratacion_Personal1">
+          <End Role="Personal" Type="Self.Personal" Multiplicity="0..1" />
+          <End Role="ProgramasContratacion" Type="Self.ProgramasContratacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personal">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProgramasContratacion">
+              <PropertyRef Name="IdDirectorFirma" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProgramasContratacion_Personal2">
+          <End Role="Personal" Type="Self.Personal" Multiplicity="0..1" />
+          <End Role="ProgramasContratacion" Type="Self.ProgramasContratacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personal">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProgramasContratacion">
+              <PropertyRef Name="IdReviso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProgramasContratacion_Personal3">
+          <End Role="Personal" Type="Self.Personal" Multiplicity="0..1" />
+          <End Role="ProgramasContratacion" Type="Self.ProgramasContratacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personal">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProgramasContratacion">
+              <PropertyRef Name="IdAutorizo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProgramasContratacion_Personal4">
+          <End Role="Personal" Type="Self.Personal" Multiplicity="0..1" />
+          <End Role="ProgramasContratacion" Type="Self.ProgramasContratacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personal">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProgramasContratacion">
+              <PropertyRef Name="IdVoBo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Prog_Recursos">
+          <End Role="Recursos" Type="Self.Recursos" Multiplicity="1" />
+          <End Role="ProgramasRecursos" Type="Self.ProgramasRecursos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recursos">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProgramasRecursos">
+              <PropertyRef Name="IdRecurso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proyectos_RolesSupervisores">
+          <End Role="RolesSupervisores" Type="Self.RolesSupervisores" Multiplicity="0..1" />
+          <End Role="Proyectos" Type="Self.Proyectos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RolesSupervisores">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Proyectos">
+              <PropertyRef Name="IdRecidente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Supervisores_RolesSupervisores">
+          <End Role="RolesSupervisores" Type="Self.RolesSupervisores" Multiplicity="1" />
+          <End Role="Supervisores" Type="Self.Supervisores" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RolesSupervisores">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Supervisores">
+              <PropertyRef Name="IdRollSpervisores" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetallePaqueteProyecto_Supervisores">
+          <End Role="Supervisores" Type="Self.Supervisores" Multiplicity="0..1" />
+          <End Role="DetallePaquetesProyecto" Type="Self.DetallePaquetesProyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supervisores">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetallePaquetesProyecto">
+              <PropertyRef Name="IdResidente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaquetesProcedimiento_Supervisores">
+          <End Role="Supervisores" Type="Self.Supervisores" Multiplicity="0..1" />
+          <End Role="PaqProcedimiento" Type="Self.PaqProcedimiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supervisores">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PaqProcedimiento">
+              <PropertyRef Name="IdResidente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proyectos_Supervisores">
+          <End Role="Supervisores" Type="Self.Supervisores" Multiplicity="0..1" />
+          <End Role="Proyectos" Type="Self.Proyectos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supervisores">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Proyectos">
+              <PropertyRef Name="IdSupervisor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inventario_TiposEnagenacion">
+          <End Role="TiposEnagenacion" Type="Self.TiposEnagenacion" Multiplicity="1" />
+          <End Role="Inventario" Type="Self.Inventario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TiposEnagenacion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inventario">
+              <PropertyRef Name="IdTipoEnagenacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Inventario_Ubicaciones">
+          <End Role="Ubicaciones" Type="Self.Ubicaciones" Multiplicity="1" />
+          <End Role="Inventario" Type="Self.Inventario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ubicaciones">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inventario">
+              <PropertyRef Name="IdUbicacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContratistasInvitadosPaquete_PaquetesProcedimiento">
+          <End Role="PaqProcedimiento" Type="Self.PaqProcedimiento" Multiplicity="1" />
+          <End Role="ContratistasInvitadosPaquete" Type="Self.ContratistasInvitadosPaquete" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaqProcedimiento">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ContratistasInvitadosPaquete">
+              <PropertyRef Name="IdPequete" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetallePaqueteProyecto_PaquetesProcedimiento">
+          <End Role="PaqProcedimiento" Type="Self.PaqProcedimiento" Multiplicity="1" />
+          <End Role="DetallePaquetesProyecto" Type="Self.DetallePaquetesProyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaqProcedimiento">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetallePaquetesProyecto">
+              <PropertyRef Name="IdPaquete" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetallePaqueteProyecto_Proyectos">
+          <End Role="Proyectos" Type="Self.Proyectos" Multiplicity="1" />
+          <End Role="DetallePaquetesProyecto" Type="Self.DetallePaquetesProyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proyectos">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetallePaquetesProyecto">
+              <PropertyRef Name="IdProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvitacionCCP_PaquetesProcedimiento">
+          <End Role="PaqProcedimiento" Type="Self.PaqProcedimiento" Multiplicity="1" />
+          <End Role="InvitacionCCP" Type="Self.InvitacionCCP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaqProcedimiento">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvitacionCCP">
+              <PropertyRef Name="IdPaquete" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OficiosRecursos_ProgramasRecursos">
+          <End Role="ProgramasRecursos" Type="Self.ProgramasRecursos" Multiplicity="0..1" />
+          <End Role="OficiosRecursos" Type="Self.OficiosRecursos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProgramasRecursos">
+              <PropertyRef Name="IdProgramasRecursos" />
+            </Principal>
+            <Dependent Role="OficiosRecursos">
+              <PropertyRef Name="IdRecurso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaquetesProcedimiento_Proyectos">
+          <End Role="Proyectos" Type="Self.Proyectos" Multiplicity="0..1" />
+          <End Role="PaqProcedimiento" Type="Self.PaqProcedimiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proyectos">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PaqProcedimiento">
+              <PropertyRef Name="IdProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProgramasContratacion_PaquetesProcedimiento">
+          <End Role="PaqProcedimiento" Type="Self.PaqProcedimiento" Multiplicity="0..1" />
+          <End Role="ProgramasContratacion" Type="Self.ProgramasContratacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaqProcedimiento">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProgramasContratacion">
+              <PropertyRef Name="IdPaquete" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Entidad_Pais">
+          <End Role="Entidades" Type="Self.Entidades" Multiplicity="1" />
+          <End Role="Municipios" Type="Self.Municipios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entidades">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Municipios">
+              <PropertyRef Name="idEntidad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Entidades_Paises">
+          <End Role="Paises" Type="Self.Paises" Multiplicity="1" />
+          <End Role="Entidades" Type="Self.Entidades" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paises">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Entidades">
+              <PropertyRef Name="idPais" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Localidades_Municipios">
+          <End Role="Municipios" Type="Self.Municipios" Multiplicity="0..1" />
+          <End Role="Localidades" Type="Self.Localidades" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Municipios">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Localidades">
+              <PropertyRef Name="IdMunicipio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ContratosSevrEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Contratistas" EntityType="Self.Contratistas" />
+          <EntitySet Name="Departamentos" EntityType="Self.Departamentos" />
+          <EntitySet Name="DescSostEsc" EntityType="Self.DescSostEsc" />
+          <EntitySet Name="Direcciones" EntityType="Self.Direcciones" />
+          <EntitySet Name="Ejercicios" EntityType="Self.Ejercicios" />
+          <EntitySet Name="Escuelas" EntityType="Self.Escuelas" />
+          <EntitySet Name="EstadoBien" EntityType="Self.EstadoBien" />
+          <EntitySet Name="ExperienciaAcreditada" EntityType="Self.ExperienciaAcreditada" />
+          <EntitySet Name="Fundamentos" EntityType="Self.Fundamentos" />
+          <EntitySet Name="LeyendaAnual" EntityType="Self.LeyendaAnual" />
+          <EntitySet Name="Modalidades" EntityType="Self.Modalidades" />
+          <EntitySet Name="ModalidadEsc" EntityType="Self.ModalidadEsc" />
+          <EntitySet Name="Nivel" EntityType="Self.Nivel" />
+          <EntitySet Name="NivelEsc" EntityType="Self.NivelEsc" />
+          <EntitySet Name="Personal" EntityType="Self.Personal" />
+          <EntitySet Name="Recursos" EntityType="Self.Recursos" />
+          <EntitySet Name="RepresentanteLegal" EntityType="Self.RepresentanteLegal" />
+          <EntitySet Name="RolesSupervisores" EntityType="Self.RolesSupervisores" />
+          <EntitySet Name="Supervisores" EntityType="Self.Supervisores" />
+          <EntitySet Name="Tamanio" EntityType="Self.Tamanio" />
+          <EntitySet Name="TipoInscripcion" EntityType="Self.TipoInscripcion" />
+          <EntitySet Name="TipoPersona" EntityType="Self.TipoPersona" />
+          <EntitySet Name="TiposEnagenacion" EntityType="Self.TiposEnagenacion" />
+          <EntitySet Name="TipoServicio" EntityType="Self.TipoServicio" />
+          <EntitySet Name="Ubicaciones" EntityType="Self.Ubicaciones" />
+          <EntitySet Name="ContratistasInvitadosPaquete" EntityType="Self.ContratistasInvitadosPaquete" />
+          <EntitySet Name="DetallePaquetesProyecto" EntityType="Self.DetallePaquetesProyecto" />
+          <EntitySet Name="Inventario" EntityType="Self.Inventario" />
+          <EntitySet Name="InvitacionCCP" EntityType="Self.InvitacionCCP" />
+          <EntitySet Name="OficiosRecursos" EntityType="Self.OficiosRecursos" />
+          <EntitySet Name="PaqProcedimiento" EntityType="Self.PaqProcedimiento" />
+          <EntitySet Name="ProgramasContratacion" EntityType="Self.ProgramasContratacion" />
+          <EntitySet Name="ProgramasRecursos" EntityType="Self.ProgramasRecursos" />
+          <EntitySet Name="Proyectos" EntityType="Self.Proyectos" />
+          <EntitySet Name="Entidades" EntityType="Self.Entidades" />
+          <EntitySet Name="Localidades" EntityType="Self.Localidades" />
+          <EntitySet Name="Municipios" EntityType="Self.Municipios" />
+          <EntitySet Name="Paises" EntityType="Self.Paises" />
+          <AssociationSet Name="FK_ContratistasInvitadosPaquete_Empresas" Association="Self.FK_ContratistasInvitadosPaquete_Empresas">
+            <End Role="Contratistas" EntitySet="Contratistas" />
+            <End Role="ContratistasInvitadosPaquete" EntitySet="ContratistasInvitadosPaquete" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Empresas_ExperienciaAcreditada" Association="Self.FK_Empresas_ExperienciaAcreditada">
+            <End Role="ExperienciaAcreditada" EntitySet="ExperienciaAcreditada" />
+            <End Role="Contratistas" EntitySet="Contratistas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_estado_1_empresa_1" Association="Self.FK_estado_1_empresa_1">
+            <End Role="Entidades" EntitySet="Entidades" />
+            <End Role="Contratistas" EntitySet="Contratistas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IdEmpresa" Association="Self.FK_IdEmpresa">
+            <End Role="Contratistas" EntitySet="Contratistas" />
+            <End Role="RepresentanteLegal" EntitySet="RepresentanteLegal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_municipio_1_empresa_1" Association="Self.FK_municipio_1_empresa_1">
+            <End Role="Municipios" EntitySet="Municipios" />
+            <End Role="Contratistas" EntitySet="Contratistas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tamaño_1_Empresa_1" Association="Self.FK_tamaño_1_Empresa_1">
+            <End Role="Tamanio" EntitySet="Tamanio" />
+            <End Role="Contratistas" EntitySet="Contratistas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tipoInscripcion_1_Empresa_1" Association="Self.FK_tipoInscripcion_1_Empresa_1">
+            <End Role="TipoInscripcion" EntitySet="TipoInscripcion" />
+            <End Role="Contratistas" EntitySet="Contratistas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tipoPersona_1_TipoPersona_1" Association="Self.FK_tipoPersona_1_TipoPersona_1">
+            <End Role="TipoPersona" EntitySet="TipoPersona" />
+            <End Role="Contratistas" EntitySet="Contratistas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tipoServicio_1_Empresa_1" Association="Self.FK_tipoServicio_1_Empresa_1">
+            <End Role="TipoServicio" EntitySet="TipoServicio" />
+            <End Role="Contratistas" EntitySet="Contratistas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Personal_Departamentos" Association="Self.FK_Personal_Departamentos">
+            <End Role="Departamentos" EntitySet="Departamentos" />
+            <End Role="Personal" EntitySet="Personal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Escuelas_DescSostEsc" Association="Self.FK_Escuelas_DescSostEsc">
+            <End Role="DescSostEsc" EntitySet="DescSostEsc" />
+            <End Role="Escuelas" EntitySet="Escuelas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inventario_Direcciones" Association="Self.FK_Inventario_Direcciones">
+            <End Role="Direcciones" EntitySet="Direcciones" />
+            <End Role="Inventario" EntitySet="Inventario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Personal_Direcciones" Association="Self.FK_Personal_Direcciones">
+            <End Role="Direcciones" EntitySet="Direcciones" />
+            <End Role="Personal" EntitySet="Personal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Leyendas1_Ejercicios" Association="Self.FK_Leyendas1_Ejercicios">
+            <End Role="Ejercicios" EntitySet="Ejercicios" />
+            <End Role="LeyendaAnual" EntitySet="LeyendaAnual" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaquetesProcedimiento_Ejercicios" Association="Self.FK_PaquetesProcedimiento_Ejercicios">
+            <End Role="Ejercicios" EntitySet="Ejercicios" />
+            <End Role="PaqProcedimiento" EntitySet="PaqProcedimiento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProgramasRecursos_Ejercicios" Association="Self.FK_ProgramasRecursos_Ejercicios">
+            <End Role="Ejercicios" EntitySet="Ejercicios" />
+            <End Role="ProgramasRecursos" EntitySet="ProgramasRecursos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Escuelas_Localidades" Association="Self.FK_Escuelas_Localidades">
+            <End Role="Localidades" EntitySet="Localidades" />
+            <End Role="Escuelas" EntitySet="Escuelas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Escuelas_ModalidadEsc" Association="Self.FK_Escuelas_ModalidadEsc">
+            <End Role="ModalidadEsc" EntitySet="ModalidadEsc" />
+            <End Role="Escuelas" EntitySet="Escuelas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Escuelas_NivelEsc" Association="Self.FK_Escuelas_NivelEsc">
+            <End Role="NivelEsc" EntitySet="NivelEsc" />
+            <End Role="Escuelas" EntitySet="Escuelas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proyectos_Escuelas" Association="Self.FK_Proyectos_Escuelas">
+            <End Role="Escuelas" EntitySet="Escuelas" />
+            <End Role="Proyectos" EntitySet="Proyectos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inventario_EstadoBien" Association="Self.FK_Inventario_EstadoBien">
+            <End Role="EstadoBien" EntitySet="EstadoBien" />
+            <End Role="Inventario" EntitySet="Inventario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProgramasContratacion_ExperienciaAcreditada" Association="Self.FK_ProgramasContratacion_ExperienciaAcreditada">
+            <End Role="ExperienciaAcreditada" EntitySet="ExperienciaAcreditada" />
+            <End Role="ProgramasContratacion" EntitySet="ProgramasContratacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProgramasContratacion_Modalidad" Association="Self.FK_ProgramasContratacion_Modalidad">
+            <End Role="Modalidades" EntitySet="Modalidades" />
+            <End Role="ProgramasContratacion" EntitySet="ProgramasContratacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Nivel" Association="Self.FK_Nivel">
+            <End Role="Nivel" EntitySet="Nivel" />
+            <End Role="ProgramasRecursos" EntitySet="ProgramasRecursos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inventario_Personal" Association="Self.FK_Inventario_Personal">
+            <End Role="Personal" EntitySet="Personal" />
+            <End Role="Inventario" EntitySet="Inventario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProgramasContratacion_Personal" Association="Self.FK_ProgramasContratacion_Personal">
+            <End Role="Personal" EntitySet="Personal" />
+            <End Role="ProgramasContratacion" EntitySet="ProgramasContratacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProgramasContratacion_Personal1" Association="Self.FK_ProgramasContratacion_Personal1">
+            <End Role="Personal" EntitySet="Personal" />
+            <End Role="ProgramasContratacion" EntitySet="ProgramasContratacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProgramasContratacion_Personal2" Association="Self.FK_ProgramasContratacion_Personal2">
+            <End Role="Personal" EntitySet="Personal" />
+            <End Role="ProgramasContratacion" EntitySet="ProgramasContratacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProgramasContratacion_Personal3" Association="Self.FK_ProgramasContratacion_Personal3">
+            <End Role="Personal" EntitySet="Personal" />
+            <End Role="ProgramasContratacion" EntitySet="ProgramasContratacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProgramasContratacion_Personal4" Association="Self.FK_ProgramasContratacion_Personal4">
+            <End Role="Personal" EntitySet="Personal" />
+            <End Role="ProgramasContratacion" EntitySet="ProgramasContratacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Prog_Recursos" Association="Self.FK_Prog_Recursos">
+            <End Role="Recursos" EntitySet="Recursos" />
+            <End Role="ProgramasRecursos" EntitySet="ProgramasRecursos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proyectos_RolesSupervisores" Association="Self.FK_Proyectos_RolesSupervisores">
+            <End Role="RolesSupervisores" EntitySet="RolesSupervisores" />
+            <End Role="Proyectos" EntitySet="Proyectos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Supervisores_RolesSupervisores" Association="Self.FK_Supervisores_RolesSupervisores">
+            <End Role="RolesSupervisores" EntitySet="RolesSupervisores" />
+            <End Role="Supervisores" EntitySet="Supervisores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetallePaqueteProyecto_Supervisores" Association="Self.FK_DetallePaqueteProyecto_Supervisores">
+            <End Role="Supervisores" EntitySet="Supervisores" />
+            <End Role="DetallePaquetesProyecto" EntitySet="DetallePaquetesProyecto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaquetesProcedimiento_Supervisores" Association="Self.FK_PaquetesProcedimiento_Supervisores">
+            <End Role="Supervisores" EntitySet="Supervisores" />
+            <End Role="PaqProcedimiento" EntitySet="PaqProcedimiento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proyectos_Supervisores" Association="Self.FK_Proyectos_Supervisores">
+            <End Role="Supervisores" EntitySet="Supervisores" />
+            <End Role="Proyectos" EntitySet="Proyectos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inventario_TiposEnagenacion" Association="Self.FK_Inventario_TiposEnagenacion">
+            <End Role="TiposEnagenacion" EntitySet="TiposEnagenacion" />
+            <End Role="Inventario" EntitySet="Inventario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Inventario_Ubicaciones" Association="Self.FK_Inventario_Ubicaciones">
+            <End Role="Ubicaciones" EntitySet="Ubicaciones" />
+            <End Role="Inventario" EntitySet="Inventario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContratistasInvitadosPaquete_PaquetesProcedimiento" Association="Self.FK_ContratistasInvitadosPaquete_PaquetesProcedimiento">
+            <End Role="PaqProcedimiento" EntitySet="PaqProcedimiento" />
+            <End Role="ContratistasInvitadosPaquete" EntitySet="ContratistasInvitadosPaquete" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetallePaqueteProyecto_PaquetesProcedimiento" Association="Self.FK_DetallePaqueteProyecto_PaquetesProcedimiento">
+            <End Role="PaqProcedimiento" EntitySet="PaqProcedimiento" />
+            <End Role="DetallePaquetesProyecto" EntitySet="DetallePaquetesProyecto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetallePaqueteProyecto_Proyectos" Association="Self.FK_DetallePaqueteProyecto_Proyectos">
+            <End Role="Proyectos" EntitySet="Proyectos" />
+            <End Role="DetallePaquetesProyecto" EntitySet="DetallePaquetesProyecto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvitacionCCP_PaquetesProcedimiento" Association="Self.FK_InvitacionCCP_PaquetesProcedimiento">
+            <End Role="PaqProcedimiento" EntitySet="PaqProcedimiento" />
+            <End Role="InvitacionCCP" EntitySet="InvitacionCCP" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OficiosRecursos_ProgramasRecursos" Association="Self.FK_OficiosRecursos_ProgramasRecursos">
+            <End Role="ProgramasRecursos" EntitySet="ProgramasRecursos" />
+            <End Role="OficiosRecursos" EntitySet="OficiosRecursos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaquetesProcedimiento_Proyectos" Association="Self.FK_PaquetesProcedimiento_Proyectos">
+            <End Role="Proyectos" EntitySet="Proyectos" />
+            <End Role="PaqProcedimiento" EntitySet="PaqProcedimiento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProgramasContratacion_PaquetesProcedimiento" Association="Self.FK_ProgramasContratacion_PaquetesProcedimiento">
+            <End Role="PaqProcedimiento" EntitySet="PaqProcedimiento" />
+            <End Role="ProgramasContratacion" EntitySet="ProgramasContratacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Entidad_Pais" Association="Self.FK_Entidad_Pais">
+            <End Role="Entidades" EntitySet="Entidades" />
+            <End Role="Municipios" EntitySet="Municipios" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Entidades_Paises" Association="Self.FK_Entidades_Paises">
+            <End Role="Paises" EntitySet="Paises" />
+            <End Role="Entidades" EntitySet="Entidades" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Localidades_Municipios" Association="Self.FK_Localidades_Municipios">
+            <End Role="Municipios" EntitySet="Municipios" />
+            <End Role="Localidades" EntitySet="Localidades" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ControlContratosSevrModelStoreContainer" CdmEntityContainer="ContratosSevrEntities">
+          <EntitySetMapping Name="Contratistas">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.Contratistas">
+              <MappingFragment StoreEntitySet="Contratistas">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="RFC" ColumnName="RFC" />
+                <ScalarProperty Name="CURP" ColumnName="CURP" />
+                <ScalarProperty Name="IMSS" ColumnName="IMSS" />
+                <ScalarProperty Name="Infonavit" ColumnName="Infonavit" />
+                <ScalarProperty Name="FolioMercantilElectronico" ColumnName="FolioMercantilElectronico" />
+                <ScalarProperty Name="CMIC" ColumnName="CMIC" />
+                <ScalarProperty Name="SIEM" ColumnName="SIEM" />
+                <ScalarProperty Name="Domicilio" ColumnName="Domicilio" />
+                <ScalarProperty Name="NoExterior" ColumnName="NoExterior" />
+                <ScalarProperty Name="NoInterior" ColumnName="NoInterior" />
+                <ScalarProperty Name="Colonia" ColumnName="Colonia" />
+                <ScalarProperty Name="CodigoPostal" ColumnName="CodigoPostal" />
+                <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
+                <ScalarProperty Name="IdMunicipio" ColumnName="IdMunicipio" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="CapitalContable" ColumnName="CapitalContable" />
+                <ScalarProperty Name="CapitalSocial" ColumnName="CapitalSocial" />
+                <ScalarProperty Name="ActaNumEscritura" ColumnName="ActaNumEscritura" />
+                <ScalarProperty Name="ActaVolumenEscritura" ColumnName="ActaVolumenEscritura" />
+                <ScalarProperty Name="ActaFechaConstancia" ColumnName="ActaFechaConstancia" />
+                <ScalarProperty Name="NumNotaria" ColumnName="NumNotaria" />
+                <ScalarProperty Name="CiudadNotaria" ColumnName="CiudadNotaria" />
+                <ScalarProperty Name="Modalidad" ColumnName="Modalidad" />
+                <ScalarProperty Name="NombreTitularNotaria" ColumnName="NombreTitularNotaria" />
+                <ScalarProperty Name="NombreAdscrito" ColumnName="NombreAdscrito" />
+                <ScalarProperty Name="DireccionNoraria" ColumnName="DireccionNoraria" />
+                <ScalarProperty Name="NumRPPC" ColumnName="NumRPPC" />
+                <ScalarProperty Name="VolRPPC" ColumnName="VolRPPC" />
+                <ScalarProperty Name="FechaRPPC" ColumnName="FechaRPPC" />
+                <ScalarProperty Name="CiudadRppc" ColumnName="CiudadRppc" />
+                <ScalarProperty Name="Folios" ColumnName="Folios" />
+                <ScalarProperty Name="LibroNum" ColumnName="LibroNum" />
+                <ScalarProperty Name="NumActaNacimiento" ColumnName="NumActaNacimiento" />
+                <ScalarProperty Name="FechaActaNacimiento" ColumnName="FechaActaNacimiento" />
+                <ScalarProperty Name="LugarExpedicion" ColumnName="LugarExpedicion" />
+                <ScalarProperty Name="LibroActanacimiento" ColumnName="LibroActanacimiento" />
+                <ScalarProperty Name="IdTamaño" ColumnName="IdTamaño" />
+                <ScalarProperty Name="IdTipoInscripcion" ColumnName="IdTipoInscripcion" />
+                <ScalarProperty Name="IdTipoPersona" ColumnName="IdTipoPersona" />
+                <ScalarProperty Name="IdTipoServicio" ColumnName="IdTipoServicio" />
+                <ScalarProperty Name="ClaveRegistro" ColumnName="ClaveRegistro" />
+                <ScalarProperty Name="FechaInicioVigencia" ColumnName="FechaInicioVigencia" />
+                <ScalarProperty Name="FechaTerminoVigencia" ColumnName="FechaTerminoVigencia" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="Registro" ColumnName="Registro" />
+                <ScalarProperty Name="Reviso" ColumnName="Reviso" />
+                <ScalarProperty Name="VoBo" ColumnName="VoBo" />
+                <ScalarProperty Name="Autorizo" ColumnName="Autorizo" />
+                <ScalarProperty Name="EstatusCaptura" ColumnName="EstatusCaptura" />
+                <ScalarProperty Name="IdExperiencia" ColumnName="IdExperiencia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Departamentos">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.Departamentos">
+              <MappingFragment StoreEntitySet="Departamentos">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="NombreDepto" ColumnName="NombreDepto" />
+                <ScalarProperty Name="Abreviatura" ColumnName="Abreviatura" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DescSostEsc">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.DescSostEsc">
+              <MappingFragment StoreEntitySet="DescSostEsc">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Direcciones">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.Direcciones">
+              <MappingFragment StoreEntitySet="Direcciones">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="NombreDireccion" ColumnName="NombreDireccion" />
+                <ScalarProperty Name="Abreviatura" ColumnName="Abreviatura" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ejercicios">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.Ejercicios">
+              <MappingFragment StoreEntitySet="Ejercicios">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Ejercicio" ColumnName="Ejercicio" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Escuelas">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.Escuelas">
+              <MappingFragment StoreEntitySet="Escuelas">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdNivel" ColumnName="IdNivel" />
+                <ScalarProperty Name="IdModalidad" ColumnName="IdModalidad" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Sector" ColumnName="Sector" />
+                <ScalarProperty Name="Zona" ColumnName="Zona" />
+                <ScalarProperty Name="Domicilio" ColumnName="Domicilio" />
+                <ScalarProperty Name="Localidad" ColumnName="Localidad" />
+                <ScalarProperty Name="DescSost" ColumnName="DescSost" />
+                <ScalarProperty Name="ClaveLocalidad" ColumnName="ClaveLocalidad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EstadoBien">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.EstadoBien">
+              <MappingFragment StoreEntitySet="EstadoBien">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExperienciaAcreditada">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.ExperienciaAcreditada">
+              <MappingFragment StoreEntitySet="ExperienciaAcreditada">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fundamentos">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.Fundamentos">
+              <MappingFragment StoreEntitySet="Fundamentos">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TipoFundamento" ColumnName="TipoFundamento" />
+                <ScalarProperty Name="Fundamento" ColumnName="Fundamento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LeyendaAnual">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.LeyendaAnual">
+              <MappingFragment StoreEntitySet="LeyendaAnual">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Leyenda" ColumnName="Leyenda" />
+                <ScalarProperty Name="IdEjercicio" ColumnName="IdEjercicio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Modalidades">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.Modalidades">
+              <MappingFragment StoreEntitySet="Modalidades">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Modalidad" ColumnName="Modalidad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ModalidadEsc">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.ModalidadEsc">
+              <MappingFragment StoreEntitySet="ModalidadEsc">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Modalidad" ColumnName="Modalidad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Nivel">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.Nivel">
+              <MappingFragment StoreEntitySet="Nivel">
+                <ScalarProperty Name="IdNivel" ColumnName="IdNivel" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NivelEsc">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.NivelEsc">
+              <MappingFragment StoreEntitySet="NivelEsc">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nivel" ColumnName="Nivel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Personal">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.Personal">
+              <MappingFragment StoreEntitySet="Personal">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Trato" ColumnName="Trato" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="IdDireccion" ColumnName="IdDireccion" />
+                <ScalarProperty Name="Cargo" ColumnName="Cargo" />
+                <ScalarProperty Name="Domicilio" ColumnName="Domicilio" />
+                <ScalarProperty Name="RFC" ColumnName="RFC" />
+                <ScalarProperty Name="IdDepartamento" ColumnName="IdDepartamento" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="Estatus" ColumnName="Estatus" />
+                <ScalarProperty Name="IdJefeInmediato" ColumnName="IdJefeInmediato" />
+                <ScalarProperty Name="Foto" ColumnName="Foto" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Recursos">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.Recursos">
+              <MappingFragment StoreEntitySet="Recursos">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Recurso" ColumnName="Recurso" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RepresentanteLegal">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.RepresentanteLegal">
+              <MappingFragment StoreEntitySet="RepresentanteLegal">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Puesto" ColumnName="Puesto" />
+                <ScalarProperty Name="FolioElectoral" ColumnName="FolioElectoral" />
+                <ScalarProperty Name="RFC" ColumnName="RFC" />
+                <ScalarProperty Name="FolioMercantilElectronico" ColumnName="FolioMercantilElectronico" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Colonia" ColumnName="Colonia" />
+                <ScalarProperty Name="CP" ColumnName="CP" />
+                <ScalarProperty Name="Ciudad" ColumnName="Ciudad" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="NumEscritura" ColumnName="NumEscritura" />
+                <ScalarProperty Name="VolEscritura" ColumnName="VolEscritura" />
+                <ScalarProperty Name="FechaEscritura" ColumnName="FechaEscritura" />
+                <ScalarProperty Name="NumNotario" ColumnName="NumNotario" />
+                <ScalarProperty Name="NombreNotario" ColumnName="NombreNotario" />
+                <ScalarProperty Name="LugarNotario" ColumnName="LugarNotario" />
+                <ScalarProperty Name="NumRPPC" ColumnName="NumRPPC" />
+                <ScalarProperty Name="VolRPPC" ColumnName="VolRPPC" />
+                <ScalarProperty Name="FechaRPPC" ColumnName="FechaRPPC" />
+                <ScalarProperty Name="LugarRPPC" ColumnName="LugarRPPC" />
+                <ScalarProperty Name="FechaNac" ColumnName="FechaNac" />
+                <ScalarProperty Name="LugarExpedicionActa" ColumnName="LugarExpedicionActa" />
+                <ScalarProperty Name="NombreAdscrito" ColumnName="NombreAdscrito" />
+                <ScalarProperty Name="NombreSustituto" ColumnName="NombreSustituto" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RolesSupervisores">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.RolesSupervisores">
+              <MappingFragment StoreEntitySet="RolesSupervisores">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="RollSupervis" ColumnName="RollSupervis" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Supervisores">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.Supervisores">
+              <MappingFragment StoreEntitySet="Supervisores">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdRollSpervisores" ColumnName="IdRollSpervisores" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Estatus" ColumnName="Estatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tamanio">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.Tamanio">
+              <MappingFragment StoreEntitySet="Tamanio">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Tamaño" ColumnName="Tamaño" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoInscripcion">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.TipoInscripcion">
+              <MappingFragment StoreEntitySet="TipoInscripcion">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TipoIncripcion" ColumnName="TipoIncripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoPersona">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.TipoPersona">
+              <MappingFragment StoreEntitySet="TipoPersona">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TipoPersona1" ColumnName="TipoPersona" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TiposEnagenacion">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.TiposEnagenacion">
+              <MappingFragment StoreEntitySet="TiposEnagenacion">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TipoEnegenacion" ColumnName="TipoEnegenacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoServicio">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.TipoServicio">
+              <MappingFragment StoreEntitySet="TipoServicio">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TipoServicio1" ColumnName="TipoServicio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ubicaciones">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.Ubicaciones">
+              <MappingFragment StoreEntitySet="Ubicaciones">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Ubicacion" ColumnName="Ubicacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContratistasInvitadosPaquete">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.ContratistasInvitadosPaquete">
+              <MappingFragment StoreEntitySet="ContratistasInvitadosPaquete">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="Oficio" ColumnName="Oficio" />
+                <ScalarProperty Name="FechaOficio" ColumnName="FechaOficio" />
+                <ScalarProperty Name="IdPequete" ColumnName="IdPequete" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DetallePaquetesProyecto">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.DetallePaquetesProyecto">
+              <MappingFragment StoreEntitySet="DetallePaquetesProyecto">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdPaquete" ColumnName="IdPaquete" />
+                <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
+                <ScalarProperty Name="PlazoEjecucion" ColumnName="PlazoEjecucion" />
+                <ScalarProperty Name="Anticipo" ColumnName="Anticipo" />
+                <ScalarProperty Name="ImporteAutoruizado" ColumnName="ImporteAutoruizado" />
+                <ScalarProperty Name="CapitalContable" ColumnName="CapitalContable" />
+                <ScalarProperty Name="IdResidente" ColumnName="IdResidente" />
+                <ScalarProperty Name="ImportePresupuestoBase" ColumnName="ImportePresupuestoBase" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Inventario">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.Inventario">
+              <MappingFragment StoreEntitySet="Inventario">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="NombreBien" ColumnName="NombreBien" />
+                <ScalarProperty Name="Marca" ColumnName="Marca" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="Serie" ColumnName="Serie" />
+                <ScalarProperty Name="Modelo" ColumnName="Modelo" />
+                <ScalarProperty Name="IdEstadoBien" ColumnName="IdEstadoBien" />
+                <ScalarProperty Name="IdUbicacion" ColumnName="IdUbicacion" />
+                <ScalarProperty Name="IdDireccion" ColumnName="IdDireccion" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="FechaFactura" ColumnName="FechaFactura" />
+                <ScalarProperty Name="ValorFacturado" ColumnName="ValorFacturado" />
+                <ScalarProperty Name="ValorActual" ColumnName="ValorActual" />
+                <ScalarProperty Name="IdPersonal" ColumnName="IdPersonal" />
+                <ScalarProperty Name="IdTipoEnagenacion" ColumnName="IdTipoEnagenacion" />
+                <ScalarProperty Name="Caracteristicas" ColumnName="Caracteristicas" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InvitacionCCP">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.InvitacionCCP">
+              <MappingFragment StoreEntitySet="InvitacionCCP">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Puesto" ColumnName="Puesto" />
+                <ScalarProperty Name="IdPaquete" ColumnName="IdPaquete" />
+                <ScalarProperty Name="Orden" ColumnName="Orden" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OficiosRecursos">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.OficiosRecursos">
+              <MappingFragment StoreEntitySet="OficiosRecursos">
+                <ScalarProperty Name="IdOficio" ColumnName="IdOficio" />
+                <ScalarProperty Name="Oficio" ColumnName="Oficio" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IdRecurso" ColumnName="IdRecurso" />
+                <ScalarProperty Name="ImporteAutorizado" ColumnName="ImporteAutorizado" />
+                <ScalarProperty Name="Ubicacion" ColumnName="Ubicacion" />
+                <ScalarProperty Name="Archivo" ColumnName="Archivo" />
+                <ScalarProperty Name="IdUsusario" ColumnName="IdUsusario" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="Emisora" ColumnName="Emisora" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaqProcedimiento">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.PaqProcedimiento">
+              <MappingFragment StoreEntitySet="PaqProcedimiento">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="NoPaquete" ColumnName="NoPaquete" />
+                <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
+                <ScalarProperty Name="NoProcedimiento" ColumnName="NoProcedimiento" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Convocatoria" ColumnName="Convocatoria" />
+                <ScalarProperty Name="LimiteInscripcion" ColumnName="LimiteInscripcion" />
+                <ScalarProperty Name="VisitaSitio" ColumnName="VisitaSitio" />
+                <ScalarProperty Name="JuntaAclaraciones" ColumnName="JuntaAclaraciones" />
+                <ScalarProperty Name="AperturaTecnica" ColumnName="AperturaTecnica" />
+                <ScalarProperty Name="Fallo" ColumnName="Fallo" />
+                <ScalarProperty Name="Contrato" ColumnName="Contrato" />
+                <ScalarProperty Name="InicioEstimada" ColumnName="InicioEstimada" />
+                <ScalarProperty Name="IdResidente" ColumnName="IdResidente" />
+                <ScalarProperty Name="Recuperacion" ColumnName="Recuperacion" />
+                <ScalarProperty Name="ImportePresupuestoBase" ColumnName="ImportePresupuestoBase" />
+                <ScalarProperty Name="IdEjercicio" ColumnName="IdEjercicio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProgramasContratacion">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.ProgramasContratacion">
+              <MappingFragment StoreEntitySet="ProgramasContratacion">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdDirector" ColumnName="IdDirector" />
+                <ScalarProperty Name="ClaveArticulo" ColumnName="ClaveArticulo" />
+                <ScalarProperty Name="Articulo" ColumnName="Articulo" />
+                <ScalarProperty Name="IdDirectorFirma" ColumnName="IdDirectorFirma" />
+                <ScalarProperty Name="TIpoInversion" ColumnName="TIpoInversion" />
+                <ScalarProperty Name="IdModalidad" ColumnName="IdModalidad" />
+                <ScalarProperty Name="IdVoBo" ColumnName="IdVoBo" />
+                <ScalarProperty Name="IdReviso" ColumnName="IdReviso" />
+                <ScalarProperty Name="IdAutorizo" ColumnName="IdAutorizo" />
+                <ScalarProperty Name="FechaOficio" ColumnName="FechaOficio" />
+                <ScalarProperty Name="TxtVoBo" ColumnName="TxtVoBo" />
+                <ScalarProperty Name="IdPaquete" ColumnName="IdPaquete" />
+                <ScalarProperty Name="IdExperienciaAcreditada" ColumnName="IdExperienciaAcreditada" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProgramasRecursos">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.ProgramasRecursos">
+              <MappingFragment StoreEntitySet="ProgramasRecursos">
+                <ScalarProperty Name="IdProgramasRecursos" ColumnName="IdProgramasRecursos" />
+                <ScalarProperty Name="Ejercicio" ColumnName="Ejercicio" />
+                <ScalarProperty Name="Inversion_Est" ColumnName="Inversion_Est" />
+                <ScalarProperty Name="Inversion_Fed" ColumnName="Inversion_Fed" />
+                <ScalarProperty Name="Inversion_Mun" ColumnName="Inversion_Mun" />
+                <ScalarProperty Name="MontoAutorizado" ColumnName="MontoAutorizado" />
+                <ScalarProperty Name="ClaveFuenteFin" ColumnName="ClaveFuenteFin" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Procedencia" ColumnName="Procedencia" />
+                <ScalarProperty Name="Estatus" ColumnName="Estatus" />
+                <ScalarProperty Name="IDUsuario" ColumnName="IDUsuario" />
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
+                <ScalarProperty Name="IdNivel" ColumnName="IdNivel" />
+                <ScalarProperty Name="IdRecurso" ColumnName="IdRecurso" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Proyectos">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.Proyectos">
+              <MappingFragment StoreEntitySet="Proyectos">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ClaveProyecto" ColumnName="ClaveProyecto" />
+                <ScalarProperty Name="ImporteEutorizado" ColumnName="ImporteEutorizado" />
+                <ScalarProperty Name="Anticipo" ColumnName="Anticipo" />
+                <ScalarProperty Name="IdProgramadeRecursos" ColumnName="IdProgramadeRecursos" />
+                <ScalarProperty Name="IdEscuela" ColumnName="IdEscuela" />
+                <ScalarProperty Name="EmpleosGenerador" ColumnName="EmpleosGenerador" />
+                <ScalarProperty Name="AlumnosBeneficiados" ColumnName="AlumnosBeneficiados" />
+                <ScalarProperty Name="FechaAviso" ColumnName="FechaAviso" />
+                <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
+                <ScalarProperty Name="FechaFinal" ColumnName="FechaFinal" />
+                <ScalarProperty Name="IdRecidente" ColumnName="IdRecidente" />
+                <ScalarProperty Name="IdSupervisor" ColumnName="IdSupervisor" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Entidades">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.Entidades">
+              <MappingFragment StoreEntitySet="Entidades">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idPais" ColumnName="idPais" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="x" ColumnName="x" />
+                <ScalarProperty Name="y" ColumnName="y" />
+                <ScalarProperty Name="exacto" ColumnName="exacto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Localidades">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.Localidades">
+              <MappingFragment StoreEntitySet="Localidades">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idEntidad" ColumnName="idEntidad" />
+                <ScalarProperty Name="idPais" ColumnName="idPais" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="x" ColumnName="x" />
+                <ScalarProperty Name="y" ColumnName="y" />
+                <ScalarProperty Name="exacto" ColumnName="exacto" />
+                <ScalarProperty Name="IdMunicipio" ColumnName="IdMunicipio" />
+                <ScalarProperty Name="CP" ColumnName="CP" />
+                <ScalarProperty Name="Clave1Localidad" ColumnName="Clave1Localidad" />
+                <ScalarProperty Name="Clave2Localidad" ColumnName="Clave2Localidad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Municipios">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.Municipios">
+              <MappingFragment StoreEntitySet="Municipios">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idEntidad" ColumnName="idEntidad" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="x" ColumnName="x" />
+                <ScalarProperty Name="y" ColumnName="y" />
+                <ScalarProperty Name="exacto" ColumnName="exacto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Paises">
+            <EntityTypeMapping TypeName="ControlContratosSevrModel.Paises">
+              <MappingFragment StoreEntitySet="Paises">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="x" ColumnName="x" />
+                <ScalarProperty Name="y" ColumnName="y" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

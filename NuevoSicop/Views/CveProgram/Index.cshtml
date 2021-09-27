@@ -1,0 +1,121 @@
+﻿@model NuevoSicop.Models.ClaveProgramaticaModelView
+
+
+@if (@Model.Error.Length > 1)
+{
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="mdi mdi-close" aria-hidden="true"></span></button>
+        <div class="icon"> <span class="mdi mdi-close-circle-o"></span></div>
+        <div class="message"><strong>Problemas!</strong>@Model.Error</div>
+    </div>
+
+}
+@if (@Model.Exito.Length > 1)
+{
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="mdi mdi-close" aria-hidden="true"></span></button>
+        <div class="icon"> <span class="mdi mdi mdi-check"></span></div>
+        <div class="message"><strong>Éxito!</strong>@Model.Exito</div>
+    </div>
+
+}
+<style>
+    .prp { width:180px;
+        
+    }
+
+</style>
+
+<h2>REPORTES</h2>
+
+<div class="row">
+
+    <div class="col-lg-4">
+        @using (Html.BeginForm("Ejercicio", "CveProgram", FormMethod.Post, new {@id = "EjercicioForm"}))
+        {
+            <div class="input-group">
+                <div class="input-group-prepend">@Html.LabelFor(x => Model.IdEjercicio, new {@class = "input-group-text prp"}) </div>
+                @Html.DropDownListFor(x => Model.IdEjercicio, Model.ListaEjercicios, "- Selecciona un ejercicio -", new {@class = "form-control", @onchange = "mostrar_procesar();$('#EjercicioForm').submit()"})
+            </div>
+        }
+    </div>
+    <div class="col-lg-4">
+        @using (Html.BeginForm("Ejercicio2", "CveProgram", FormMethod.Post, new { @id = "Ejercicio2Form" }))
+        {
+           @Html.HiddenFor(x=>Model.IdEjercicio )
+
+            <div class="input-group">
+                <div class="input-group-prepend">@Html.LabelFor(x => Model.IdProyecto, new { @class = "input-group-text prp" }) </div>
+                @Html.DropDownListFor(x => Model.IdProyecto, Model.ListaProyectos, "- Selecciona un ejercicio -", new { @class = "form-control", @onchange = "mostrar_procesar();$('#Ejercicio2Form').submit()" })
+            </div>
+        }
+    </div>
+
+
+</div>
+@if (User.IsInRole("Administrador") || User.IsInRole("P-Programa2"))
+{
+    if (Model.Caratula)
+    {
+        using (Html.BeginForm("Caratula", "CveProgram", FormMethod.Post, new { @id = "CaratulaForm" }))
+        {
+            @Html.HiddenFor(x => Model.IdEjercicio)
+            @Html.HiddenFor(x => Model.IdProyecto)
+
+        }
+
+        <div class="col-lg-1">
+            @if (Model.IdProyecto > 0)
+            {
+                <buton class="btn btn-4t btn-sm " onclick="$('#CaratulaForm').submit()"><span class="fas fa-print"> </span> CARÁTULA </buton>
+            }
+        </div>
+    }
+}
+
+<div class="row">
+    @if (User.IsInRole("Administrador") || User.IsInRole("P-Programa2"))
+    {
+
+       if (Model.IdProyecto > 0)
+        {
+            <div class="col-12">
+                @using (Html.BeginForm("ActualizaClave", "CveProgram", FormMethod.Post, new { @id = "ActualizaClaveProgramaticaForm" }))
+                {
+                    @Html.HiddenFor(x => Model.IdProyecto)
+                    <div class="input-group">
+                        <div class="input-group-prepend">@Html.LabelFor(x => Model.ClaveProgramatica, new { @class = "input-group-text prp" }) </div>
+                        @Html.TextBoxFor(x => Model.ClaveProgramatica, new { @class = "form-control", @style = "max-width:85%" })
+                        <div class="input-group-append">
+                            <buton class="btn btn-4t btn-sm  " data-toggle="popover" data-content="Actualizar" onclick="$('#ActualizaClaveProgramaticaForm').submit()"><span class="fas fa-save"> </span></buton>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    }
+</div>
+
+
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Proyecto </h6>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-3">@Html.LabelFor(x => Model.ClaveProyecto) </div>
+            <div class="col-9"><strong> @Html.DisplayFor(x => Model.ClaveProyecto) </strong> </div>        
+            <div class="col-3">@Html.LabelFor(x => Model.Descripcion)</div>
+            <div class="col-9">@Html.DisplayFor(x => Model.Descripcion)</div>
+            <div class="col-3">@Html.LabelFor(x => Model.Importe)</div>
+            <div class="col-9">@Html.DisplayFor(x => Model.Importe)</div>
+
+
+        </div>
+    </div>
+    <div class="card-footer" align="right">
+    </div>
+
+
+</div>

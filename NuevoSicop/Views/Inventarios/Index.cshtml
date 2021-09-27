@@ -1,0 +1,615 @@
+﻿@model AngularCRUD.Models.InventarioModelView
+
+
+<link href="~/assets/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/assets/datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+<style>
+    .prp2 {
+        width: 160px;
+    }
+
+    .full-width {
+        width: 90%;
+        max-width: none;
+    }
+</style>
+
+
+@if (@Model.Error.Length > 1)
+{
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="mdi mdi-close" aria-hidden="true"></span></button>
+        <div class="icon"> <span class="mdi mdi-close-circle-o"></span></div>
+        <div class="message"><strong>Problemas!&nbsp;</strong>@Model.Error</div>
+    </div>
+
+}
+@if (@Model.Exito.Length > 1)
+{
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="mdi mdi-close" aria-hidden="true"></span></button>
+        <div class="icon"> <span class="mdi mdi mdi-check"></span></div>
+        <div class="message"><strong>Éxito!&nbsp;</strong>@Model.Exito</div>
+    </div>
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        @using (Html.BeginForm("LimpiaForm", "Inventarios", FormMethod.Post, new { @id = "LimpiaForm" }))
+        {
+
+        }
+
+        <h6 class="m-0 font-weight-bold text-primary"> @if (Model.NuevoBien.Id > 0) { Write("EDITAR BIEN"); } else { Write("NUEVO BIEN"); }   <button onclick="$('#NuevoBienB').toggle(); $('#NuevoBienF').toggle() " data-toggle="tooltip" data-content="Muestra/Oculta Formulario"><span class="fa fa-plus"></span></button> <button onclick="mostrar_procesar(); $('#LimpiaForm').submit();" data-toggle="tooltip" data-content="Limpia Formulario"><span class="fa fa-address-card"></span></button></h6>
+    </div>
+    <div class="card-body" id="NuevoBienB" style="display:none">
+
+        @using (Html.BeginForm("GuardarBien", "Inventarios", FormMethod.Post, new { @id = "GuardaBienForm" }))
+        {
+            @Html.HiddenFor(model => model.NuevoBien.Id)
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoBien.Clave, new { @class = "input-group-text prp2 " }) </div>
+                        @Html.TextBoxFor(x => Model.NuevoBien.Clave, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                    </div>
+                    @Html.ValidationMessageFor(model => Model.NuevoBien.Clave, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoBien.Nombre, new { @class = "input-group-text prp2 " }) </div>
+                        @Html.TextBoxFor(x => Model.NuevoBien.Nombre, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                    </div>
+                    @Html.ValidationMessageFor(model => Model.NuevoBien.Nombre, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoBien.Marca, new { @class = "input-group-text prp2 " }) </div>
+                        @Html.TextBoxFor(x => Model.NuevoBien.Marca, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                    </div>
+                    @Html.ValidationMessageFor(model => Model.NuevoBien.Marca, "", new { @class = "text-danger" })
+
+                </div>
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoBien.Tipo, new { @class = "input-group-text prp2 " }) </div>
+                        @Html.TextBoxFor(x => Model.NuevoBien.Tipo, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                    </div>
+                    @Html.ValidationMessageFor(model => Model.NuevoBien.Tipo, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoBien.Serie, new { @class = "input-group-text prp2 " }) </div>
+                        @Html.TextBoxFor(x => Model.NuevoBien.Serie, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                    </div>
+                    @Html.ValidationMessageFor(model => Model.NuevoBien.Serie, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoBien.Modelo, new { @class = "input-group-text prp2 " }) </div>
+                        @Html.TextBoxFor(x => Model.NuevoBien.Modelo, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                    </div>
+                    @Html.ValidationMessageFor(model => Model.NuevoBien.Modelo, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevoBien.IdEstado, new { @class = "input-group-text prp2" }) </div>
+                        @Html.DropDownListFor(x => Model.NuevoBien.IdEstado, Model.ListaEstados, "-ESTADO DEL BIEN -", new { @class = "form-control", @id = "Estado" })
+                    </div>
+                    @Html.ValidationMessageFor(model => Model.NuevoBien.IdEstado, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevoBien.IdDireccion, new { @class = "input-group-text prp2" }) </div>
+                        @Html.DropDownListFor(x => Model.NuevoBien.IdDireccion, Model.ListaDireciones, "-DIRECCIÓN -", new { @class = "form-control", @id = "Direccion" })
+                    </div>
+                    @Html.ValidationMessageFor(model => Model.NuevoBien.IdDireccion, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevoBien.IdUbicacion, new { @class = "input-group-text prp2" }) </div>
+                        @Html.DropDownListFor(x => Model.NuevoBien.IdUbicacion, Model.ListaUbicaciones, "-DIRECCIÓN -", new { @class = "form-control", @id = "Direccion" })
+                    </div>
+                    @Html.ValidationMessageFor(model => Model.NuevoBien.IdUbicacion, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-lg-6">
+
+                </div>
+                <div class="col-lg-6">
+                    <div class="input-group datetimepicker" data-min-view="2" data-date-format="dd/mm/yyyy">
+                        <div class="input-group-prepend">
+                            @Html.LabelFor(model => model.NuevoBien.FechaFactura, new { @class = "input-group-text prp2" })
+                        </div>
+
+                        @Html.EditorFor(model => model.NuevoBien.FechaFactura, new { @class = "form-control ", @type = "date", @id = "Fecha Factura", @value = "", @size = "16", @style = "width:100%" })
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary"><i class="fas fa-calendar"></i></button>
+                        </div>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.NuevoBien.FechaFactura, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevoBien.TipoEnagenacion, new { @class = "input-group-text prp2" }) </div>
+                        @Html.DropDownListFor(x => Model.NuevoBien.IdTipoEnagenacion, Model.ListaEnagenacion, "-TIPO ENAGENACIÓN -", new { @class = "form-control", @id = "Estado" })
+                    </div>
+                    @Html.ValidationMessageFor(model => Model.NuevoBien.IdTipoEnagenacion, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-lg-6">
+
+                    <div class="input-group">
+                        <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoBien.Valorfactura, new { @class = "input-group-text prp2 " }) </div>
+                        @Html.TextBoxFor(x => Model.NuevoBien.Valorfactura, new { @class = "form-control", @onkeypress = "return isNumberKey(event)", @style = "text-align:right;" })
+                    </div>
+                    @Html.ValidationMessageFor(model => Model.NuevoBien.Valorfactura, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoBien.ValorActual, new { @class = "input-group-text prp2 " }) </div>
+                        @Html.TextBoxFor(x => Model.NuevoBien.ValorActual, new { @class = "form-control", @onkeypress = "return isNumberKey(event)", @style = "text-align:right;" })
+                    </div>
+                    @Html.ValidationMessageFor(model => Model.NuevoBien.ValorActual, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevoBien.IdPresonal, new { @class = "input-group-text prp2" }) </div>
+                        @Html.TextBoxFor(x => Model.TraeNombres, new { @class = "form-control", @style = "text-transform:uppercase;Width:6em", @id = "BuscaNombre" })
+                        @Html.DropDownListFor(x => Model.NuevoBien.IdPresonal, Model.ListaPersonal, "-TIPO ENAGENACIÓN -", new { @class = "form-control", @id = "ListaPersonal" })
+                    </div>
+                    @Html.ValidationMessageFor(model => Model.NuevoBien.IdPresonal, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-lg-12">
+                    <div class="">
+                        <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoBien.Caracteristicas, new { @class = "input-group-text  " }) </div>
+                        @Html.TextAreaFor(x => Model.NuevoBien.Caracteristicas, 3, 20, new { @class = "form-control rounded-0 col-lg-12", @style = "text-transform:uppercase; width:100%" })
+                    </div>
+                    @Html.ValidationMessageFor(model => Model.NuevoBien.Caracteristicas, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-lg-12">
+                    <div class="">
+                        <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoBien.Observaciones, new { @class = "input-group-text  " }) </div>
+                        @Html.TextAreaFor(x => Model.NuevoBien.Observaciones, 3, 20, new { @class = "form-control rounded-0 col-lg-12", @style = "text-transform:uppercase; width:100%" })
+                    </div>
+                    @Html.ValidationMessageFor(model => Model.NuevoBien.Observaciones, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        }
+    </div>
+    <div class="card-footer" align="right" id="NuevoBienF" style="display:none">
+        <button class="btn btn-4t" onclick="mostrar_procesar(); $('#GuardaBienForm').submit();"> <span class="icon fa fa-save "></span>  GUARDAR </button>
+    </div>
+
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">FILTROS   <button onclick="$('#FiltrosB').toggle(); $('#FiltrosF').toggle() "><span class="fa fa-plus"></span></button> </h6>
+    </div>
+    <div class="card-body" id="FiltrosB" style="display:none">
+
+        @using (Html.BeginForm("FiltraBienes", "Inventarios", FormMethod.Post, new { @id = "FiltraBienesForm" }))
+        {
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <div class="input-group-prepend">@Html.LabelFor(x => Model.FiltroPeronal, new { @class = "input-group-text prp2" }) </div>
+                        @*@Html.TextBoxFor(x => Model.TraeNombres, new { @class = "form-control", @style = "text-transform:uppercase;Width:6em", @id = "BuscaNombre" })*@
+                        @Html.DropDownListFor(x => Model.FiltroPeronal, Model.ListaPersonal, "-TIPO ENAGENACIÓN -", new { @class = "form-control", @id = "ListaPersonal2" })
+                    </div>
+
+                </div>
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <div class="input-group-prepend">@Html.LabelFor(x => Model.FiltroDireccion, new { @class = "input-group-text prp2" }) </div>
+                        @Html.DropDownListFor(x => Model.FiltroDireccion, Model.ListaDireciones, "-DIRECCIÓN -", new { @class = "form-control", @id = "FiltroDireccion" })
+                    </div>
+
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <div class="input-group-prepend">@Html.LabelFor(x => Model.FiltroEnajenacion, new { @class = "input-group-text prp2" }) </div>
+                        @Html.DropDownListFor(x => Model.FiltroEnajenacion, Model.ListaEnagenacion, "-TIPO ENAGENACIÓN -", new { @class = "form-control", @id = "FiltroEnagenacion" })
+                    </div>
+
+                </div>
+                <div class="col-lg-6">
+
+                </div>
+                <div class="col-lg-6">
+                    <div class="input-group datetimepicker" data-min-view="2" data-date-format="dd/mm/yyyy">
+                        <div class="input-group-prepend">
+                            @Html.LabelFor(model => model.FiltroFInicio, new { @class = "input-group-text prp2" })
+                        </div>
+
+                        @Html.EditorFor(model => model.FiltroFInicio, new { @class = "form-control ", @type = "date", @id = "Fecha Inicial", @value = "", @size = "16", @style = "width:100%" })
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary"><i class="fas fa-calendar"></i></button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-6">
+                    <div class="input-group datetimepicker" data-min-view="2" data-date-format="dd/mm/yyyy">
+                        <div class="input-group-prepend">
+                            @Html.LabelFor(model => model.FiltroFFinal, new { @class = "input-group-text prp2" })
+                        </div>
+
+                        @Html.EditorFor(model => model.FiltroFFinal, new { @class = "form-control ", @type = "date", @id = "Fecha Final", @value = "", @size = "16", @style = "width:100%" })
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary"><i class="fas fa-calendar"></i></button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        }
+    </div>
+    <div class="card-footer" align="right" id="FiltrosF" style="display:none">
+        <button class="btn btn-4t" onclick="mostrar_procesar(); $('#FiltraBienesForm').submit();"> <span class="icon fa fa-filter "></span>  APLICAR </button>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="table-responsive noSwipe " style="padding: 20px">
+    <table id="tablaDatos" class="table table-sm table-striped table-hover no-footer" style="background-color: rgba(200,200, 200, 0.5); color: black; font-size: 12px ">
+        <thead class="text-bold">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.NuevoBien.Clave)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NuevoBien.Nombre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NuevoBien.Marca)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NuevoBien.Tipo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NuevoBien.Direccion)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NuevoBien.Valorfactura)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NuevoBien.ValorActual)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NuevoBien.Caracteristicas)
+                </th>
+                <th>ACCIONES</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model.ListaBienes)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Clave)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Marca)
+                    </td>
+                    <td align="center">
+                        @Html.DisplayFor(modelItem => item.Tipo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Direccion)
+                    </td>
+                    <td align="right">
+                        @Html.DisplayFor(modelItem => item.Valorfactura)
+                    </td>
+                    <td align="right">
+                        @Html.DisplayFor(modelItem => item.ValorActual)
+                    </td>
+                    <td align="left" style="font-size:9px">
+                        @Html.DisplayFor(modelItem => item.Caracteristicas)
+                    </td>
+                    <td>
+
+
+
+                        <div class="row">
+                            <div class="col-6">
+                                <!-- Modal -->
+                                <div class="modal fade" id="AsignarPersonal_@item.Id" tabindex="-1" role="dialog" aria-labelledby="AsignarPersonal_@item.Id" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <div align="center">
+                                                    <h5 class="modal-title" id="exampleModalLabel">ASIGNAR UN BIEN A UNA PERSONA</h5>
+                                                </div>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+
+                                                <div class="row">
+                                                    <div class="col-3">
+                                                        <strong>CLAVE:</strong>
+                                                    </div>
+                                                    <div class="col-9">
+                                                        @Html.DisplayFor(model => item.Clave)
+                                                    </div>
+
+                                                    <div class="col-3">
+                                                        <strong>NOMBRE:</strong>
+                                                    </div>
+                                                    <div class="col-9">
+                                                        @Html.DisplayFor(model => item.Nombre)
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <strong>ASIGNADO A:</strong>
+                                                    </div>
+                                                    <div class="col-9">
+                                                        @Html.DisplayFor(model => item.Asignado)
+                                                    </div>
+                                                </div>
+                                                @using (Html.BeginForm("AsignaPersonal", "Inventarios", FormMethod.Post, new { @id = "AsignaPersonalForm_" + item.Id }))
+                                                {
+                                                    @Html.HiddenFor(model => model.NuevoBien.Id, new { id = "IdBinen", Value = item.Id })
+                                                    @Html.HiddenFor(model => model.FiltroDireccion)
+                                                    @Html.HiddenFor(model => model.FiltroPeronal)
+                                                    @Html.HiddenFor(model => model.FiltroEnajenacion)
+                                                    @Html.HiddenFor(model => model.FiltroFInicio)
+                                                    @Html.HiddenFor(model => model.FiltroFFinal)
+
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevoBien.IdPresonal, new { @class = "input-group-text " }) </div>
+                                                        @*@Html.TextBoxFor(x => Model.TraeNombres, new { @class = "form-control", @style = "text-transform:uppercase; width:6em", @placeholder = "BUSCAR PERSONAL", @id = "BuscaNombre2" })*@
+                                                        @Html.DropDownListFor(x => Model.NuevoBien.IdPresonal, Model.ListaPersonal, "- Personal -", new { @class = "form-control", @id = "ListaPersonal2" })
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => Model.NuevoBien.IdPresonal, "", new { @class = "text-danger" })
+                                                }
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+                                                <button type="button" class="btn btn-primary btn-4t" onclick="mostrar_procesar(); $('#AsignaPersonalForm_@item.Id').submit();">GUARDAR</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button type="button" class="btn btn-primary  btn-sm" data-toggle="modal" data-target="#AsignarPersonal_@item.Id">
+                                    <i class="fa fa-user"></i>
+                                </button>
+                            </div>
+                            <div class="col-6">
+                                @using (Html.BeginForm("EditarBien", "Inventarios", FormMethod.Post, new { @id = "EditarForm_" + item.Id }))
+                {
+                                    @Html.HiddenFor(model => model.EditarBien, new { id = "IdEmpleado", Value = item.Id })
+                                    @Html.HiddenFor(model => model.FiltroDireccion)
+                                    @Html.HiddenFor(model => model.FiltroPeronal)
+                                    @Html.HiddenFor(model => model.FiltroEnajenacion)
+                                    @Html.HiddenFor(model => model.FiltroFInicio)
+                                    @Html.HiddenFor(model => model.FiltroFFinal)
+                                }
+                                <button class="btn btn-primary btn-sm" data-toggle="popover" title="Editar Bien" onclick="$('#EditarForm_@item.Id').submit(); mostrar_procesar();"><i class="fa fa-pen-fancy"></i> </button>
+                            </div>
+
+                        </div>
+
+
+
+
+
+
+
+                        @* <div class="col-6">
+                                @using (Html.BeginForm("Deshabilitar", "Empleados", FormMethod.Post, new { @id = "DeshabilitaForm_" + item.Id }))
+                                {
+                                    @Html.HiddenFor(model => model.NuevoEmpleado.Id, new { id = "IdEmpleado", Value = item.Id })
+                                }
+                                <button class="btn btn-warning btn-sm" data-toggle="tooltip" title="Deshabilitar Empleado" onclick="$('#DeshabilitaForm_@item.Id').submit(); mostrar_procesar();"><i class="fa fa-address-book"></i> </button>
+                            </div>*@
+                        @*<div class="col-4">
+                                @using (Html.BeginForm("RegistroContra", "Empleados", FormMethod.Post, new { @id = "RegistroContratistaForm_" + item.Id }))
+                                {
+                                    @Html.HiddenFor(model => model.NuevoEmpleado.Id, new { id = "IdEmpresa", Value = item.Id })
+                                }
+                                <button class="btn btn-secondary btn-sm" data-toggle="tooltip" title="Imprimir registro" onclick="$('#RegistroContratistaForm_@item.Id').submit(); mostrar_procesar();"><i class="fa fa-file-pdf"></i> </button>
+                            </div>*@
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+
+
+
+
+
+
+
+
+@section Scripts
+{
+    <script src="~/assets/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/assets/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/assets/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="~/assets/datatables/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/assets/datatables/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="~/assets/datatables/pdfmake/pdfmake.min.js"></script>
+    <script src="~/assets/datatables/pdfmake/vfs_fonts.js"></script>
+    <script src="~/assets/datatables/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+    <script src="~/assets/datatables/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="~/assets/datatables/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/assets/datatables/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/assets/jquery.sparkline/jquery.sparkline.min.js"></script>
+    @*<script src="~/assets/js/app-tables-datatables.js"></script>*@
+
+
+
+
+
+
+
+
+
+
+    @*    <script src="~/assets/jquery.sparkline/jquery.sparkline.min.js"></script>*@
+    <script>
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip();
+            })
+            $(".datetimepicker").datetimepicker({
+                autoclose: true,
+                language: 'es',
+                componentIcon: '.fas.fa-calendar',
+                navIcons: {
+                    rightIcon: 'fas fa-chevron-right',
+                    leftIcon: 'fas fa-chevron-left'
+                },
+                format: "dd/mm/yyyy"
+            });
+            $('#tablaDatos').DataTable({
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Ver _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": " |< ",
+                        "sLast": " >| ",
+                        "sNext": " >> ",
+                        "sPrevious": " << "
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    },
+                    "oButtons": {
+                        "sCopy": "Copiar",
+                        "sPrint": "Imprimir"
+                    }
+                },
+                buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+
+                "lengthMenu": [[20, 30, 40, 50, -1], [20, 30, 40, 50, "All"]],
+                dom: "<'row be-datatable-header'<'col-sm-6'l><'col-sm-6 text-right'B>>" +
+                    "<'row be-datatable-body'<'col-sm-12'tr>>" +
+                    "<'row be-datatable-footer'<'col-sm-5'i><'col-sm-7'p>>",
+                extend: 'pdf', className: 'btn green btn-outline', text: 'Export PDF',
+                customize: function (doc) {
+                    doc.defaultStyle =
+                        {
+                            font: 'alef'
+                        }
+                    var docDefinition = {
+                        // a string or { width: number, height: number }
+                        pageSize: 'carta',
+
+                        // by default we use portrait, you can change it to landscape if you wish
+                        pageOrientation: 'landscape',
+
+                        // [left, top, right, bottom] or [horizontal, vertical] or just a number for equal margins
+                        pageMargins: [40, 60, 40, 60],
+                    };
+
+                }
+
+            });
+            function isNumber(e) {
+                e = e || window.event;
+                var charCode = e.which ? e.which : e.keyCode;
+                return /\d/.test(String.fromCharCode(charCode));
+            }
+
+            function isNumberKey(evt) {
+                return [46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57].includes(evt.charCode);
+            }
+
+
+
+            $(document).ready(function () {
+                $("#BuscaNombre").keypress(function (e) {
+                    var d = {};
+
+                    var ind = $("#BuscaNombre").val();
+                    d.url = '@Url.Action("BuscaNombre", "Inventarios")';
+                    d.type = "POST";
+                    d.data = JSON.stringify({ ent: ind });
+                    d.dataTipe = "json";
+                    d.contentType = "application/json";
+                    d.success = function (r) {
+                        console.log(r);
+                        $("#ListaPersonal").empty();
+                        $("#ListaPersonal").prepend("<option value='' >-Personal-</option>");
+                        for (var i = 0; i < r.Genericos.length; i++) {
+                            $("#ListaPersonal").append('<option value="' + r.Genericos[i].Value + '">' + r.Genericos[i].Text + '</option>');
+
+                        }
+
+                    };
+                    $.ajax(d);
+                });
+            });
+
+        $(document).ready(function () {
+            $("#BuscaNombre2").keypress(function (e) {
+                var d = {};
+                var ind = $("#BuscaNombre2").val();
+                d.url = '@Url.Action("BuscaNombre", "Inventarios")';
+                d.type = "POST";
+                d.data = JSON.stringify({ ent: ind });
+                d.dataTipe = "json";
+                d.contentType = "application/json";
+                d.success = function (r) {
+                    console.log(r);
+                    $("#ListaPersonal2").empty();
+                    $("#ListaPersonal2").prepend("<option value='' >-Personal-</option>");
+                    for (var i = 0; i < r.Genericos.length; i++) {
+                        $("#ListaPersonal2").append('<option value="' + r.Genericos[i].Value + '">' + r.Genericos[i].Text + '</option>');
+
+                    }
+
+                };
+                $.ajax(d);
+            });
+        });
+
+            $('.sparkpie').sparkline('html', {
+                type: "pie",
+                height: '3em',
+                sliceColors: ['#a3d1a3', '#ffffff'],
+                tooltipFormat: '{{offset:offset}} {{value}}',
+                tooltipValueLookups: {
+                    'offset': {
+                        0: '% Capturado:',
+                        1: '% Pendiente:',
+
+
+                    }
+                },
+            });
+
+    </script>
+
+
+}

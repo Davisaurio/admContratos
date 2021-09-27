@@ -1,0 +1,883 @@
+﻿@model NuevoSicop.Models.FallosModelView
+
+<link href="~/assets/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/assets/datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+@if (@Model.Error.Length > 1)
+{
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="mdi mdi-close" aria-hidden="true"></span></button>
+        <div class="icon"> <span class="mdi mdi-close-circle-o"></span></div>
+        <div class="message"><strong>Problema! </strong>@Model.Error</div>
+    </div>
+
+}
+@if (@Model.Exito.Length > 1)
+{
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="mdi mdi-close" aria-hidden="true"></span></button>
+        <div class="icon"> <span class="mdi mdi mdi-check"></span></div>
+        <div class="message"><strong>Éxito! </strong>@Model.Exito</div>
+    </div>
+
+}
+<h2>FALLOS</h2>
+
+
+<div class="row">
+    <div class="col-lg-4">
+
+        @using (Html.BeginForm("Ejercicio", "Fallos", FormMethod.Post, new { @id = "EjercicioForm" }))
+        {
+            <div class="input-group">
+                <div class="input-group-prepend">@Html.LabelFor(x => Model.IdEjercicio, new { @class = "input-group-text prp" }) </div>
+                @Html.DropDownListFor(x => Model.IdEjercicio, Model.ListaEjercicios, "- Selecciona un ejercicio -", new { @class = "form-control", @onchange = "mostrar_procesar();$('#EjercicioForm').submit()" })
+            </div>
+        }
+    </div>
+    @if (Model.IdEjercicio > 0)
+    {
+        <div class="col-lg-4">
+            @using (Html.BeginForm("Paquetes", "Fallos", FormMethod.Post, new { @id = "PaqueteForm" }))
+            {
+                @Html.HiddenFor(x => Model.IdEjercicio)
+
+                <div class="input-group">
+                    <div class="input-group-prepend">@Html.LabelFor(x => Model.IdPaquete, new { @class = "input-group-text prp" }) </div>
+                    @Html.DropDownListFor(x => Model.IdPaquete, Model.ListaPaquetes, "- Selecciona un Paquete -", new { @class = "form-control", @onchange = "mostrar_procesar();$('#PaqueteForm').submit()" })
+                </div>
+            }
+        </div>
+        <div class="col-lg-4">
+            @*<a type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#ActaPropuestas" ><span  class="fas fa-plus"  datatoggle="tooltip" data-taget="Cambia la fecha de reunión" > </span></a>*@
+        </div>
+    }
+</div>
+<div class="row">
+    @if (Model.IdPaquete > 0)
+    {
+    //Reporte 
+        <div class="col-12">
+            <div class="card">
+                <h5 class="card-header">REPORTE </h5>
+                <div class="card-body">
+                    <div class="row">
+                        @if (Model.VerFallo)
+                        {
+                            foreach (var it in Model.Proyectos)
+                            {
+                                <div class="col-lg-2 col-sm-3">
+                                    @using (Html.BeginForm("Fallos", "Documentos", FormMethod.Post, new { @id = "PaqueteFallobtnForm_" + it }))
+                                    {
+                                        @Html.HiddenFor(x => Model.IdEjercicio)
+                                        @Html.HiddenFor(x => Model.IdPaquete)
+                                        @Html.HiddenFor(x => Model.IdProyecto, new { IdProyecto = "Proyecto", Value = @it })
+
+                                    }
+
+                                    <buton class="btn btn-4t btn-sm " onclick="$('#PaqueteFallobtnForm_@it').submit()"><span class="fas fa-print"> </span> FALLO @it</buton>
+                                </div>
+
+                                <div class="col-lg-2 col-sm-3">
+                                    @using (Html.BeginForm("Fallos2", "Documentos", FormMethod.Post, new { @id = "PaqueteFallo2btnForm_" + it }))
+                                    {
+                                        @Html.HiddenFor(x => Model.IdEjercicio)
+                                        @Html.HiddenFor(x => Model.IdPaquete)
+                                        @Html.HiddenFor(x => Model.IdProyecto, new { IdProyecto = "Proyecto", Value = @it })
+                                    }
+                                    <buton class="btn btn-4t btn-sm " onclick="$('#PaqueteFallo2btnForm_@it').submit()"><span class="fas fa-print"> </span> FALLO REP. @it</buton>
+                                </div>
+
+
+                            }
+
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    //Paquete
+        <div class="col-lg-6 col-sm-12">
+            <div class="card">
+                <h5 class="card-header">PAQUETE </h5>
+                <div class="card-body" style="font-size: 11px">
+                    <div class="row">
+                        <div class="col-4" align="right">
+                            <strong> @Html.LabelFor(x => Model.Anio) </strong>
+                        </div>
+                        <div class="col-8">
+                            @Html.DisplayFor(x => Model.Anio)
+                        </div>
+
+                        <div class="col-4" align="right">
+                            <strong> @Html.LabelFor(x => Model.NumPaquete) </strong>
+                        </div>
+                        <div class="col-8">
+                            @Html.DisplayFor(x => Model.NumPaquete)
+                        </div>
+
+                        <div class="col-4" align="right">
+                            <strong> @Html.LabelFor(x => Model.DescPaquete) </strong>
+                        </div>
+                        <div class="col-8">
+                            @Html.DisplayFor(x => Model.DescPaquete)
+                        </div>
+                        <div class="col-4" align="right">
+                            <strong> @Html.LabelFor(x => Model.Procedimiento) </strong>
+                        </div>
+                        <div class="col-8">
+                            @Html.DisplayFor(x => Model.Procedimiento)
+                        </div>
+                        <div class="col-4" align="right">
+                            <strong> @Html.LabelFor(x => Model.Recuperacion) </strong>
+                        </div>
+                        <div class="col-8">
+                            @Html.DisplayFor(x => Model.Recuperacion)
+                        </div>
+                        <div class="col-4" align="right">
+                            <strong> @Html.LabelFor(x => Model.Modalidad) </strong>
+                        </div>
+                        <div class="col-8">
+                            @Html.DisplayFor(x => Model.Modalidad)
+                        </div>
+                        <div class="col-4" align="right">
+                            <strong> @Html.LabelFor(x => Model.FechaReunion) </strong>
+                        </div>
+                        <div class="col-8">
+                            @Html.DisplayFor(x => Model.FechaReunion)
+                        </div>
+                        <div class="col-4" align="right">
+                            <strong> @Html.LabelFor(x => Model.HoraReunion) </strong>
+                        </div>
+                        <div class="col-8">
+                            @Html.DisplayFor(x => Model.HoraReunion)
+                        </div>
+                        <div class="col-12">
+                            @using (Html.BeginForm("IniciaActa", "Fallos", FormMethod.Post, new { @id = "FormIniciaActa" }))
+                            {
+                                @Html.HiddenFor(x => x.IdPaquete)
+                                @Html.HiddenFor(x => x.IdEjercicio)
+                                <div class="row">
+                                    <div class="col-4" align="right">
+                                        <strong> @Html.LabelFor(x => Model.HoraFinReunion) </strong>
+                                    </div>
+                                    <div class="col-8">
+                                        <div class="input-group datetimepicker" data-min-view="0" data-date-format="HH:ii">
+                                            @Html.EditorFor(model => model.HoraFinReunion, new { @class = "form-control ", @type = "text", @id = "HoraTermino", @value = "", @size = "16" })
+                                            <div class="input-group-append">
+                                                <button class="btn btn-secondary"><i class="fas fa-calendar"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @*<div class="col-4" align="right">
+                                        <strong> @Html.LabelFor(x => Model.LugarDeReunion) </strong>
+                                    </div>
+                                    <div class="col-8">
+                                        @Html.TextBoxFor(x => Model.LugarDeReunion, new { @class = "form-control", @style = "text-transform:uppercase" })
+                                    </div>*@
+                                </div>
+
+                            }
+                        </div>
+                        <div class="col-12" align="right">
+                            <button class="btn btn-4t btn-sm" onclick="mostrar_procesar(); $('#FormIniciaActa').submit();"><span class="fas fa-save"> </span> Guardar </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    //Proyecto 
+        <div class="col-lg-6 col-sm-12">
+            <div class="card">
+                <h5 class="card-header"> PROYECTO(S)</h5>
+                <div class="card-body">
+                    <div class="row">
+                        <table class="table table-sm table-bordered" style="font-size: 11px">
+                            <thead class="thead-dark" style="text-align: center">
+                                <tr>
+                                    <th scope="col">DESCRIPCIÓN</th>
+                                    <th scope="col">PLAZO DE EJECUCIÓN</th>
+                                    <th scope="col">ANTICIPO % </th>
+                                    <th scope="col">IMPORTE AUTORIZADO</th>
+                                    <th scope="col">CAPITAL CONTABLE</th>
+                                    <th scope="col">RESIDENTE</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var proyecto in Model.ListaProyectos)
+                                {
+                                    <tr>
+                                        <th scope="row" style="width: 50%">
+                                            <P CLASS="text-justify"> @Html.DisplayFor(x => proyecto.DescripcionObra)</P>
+                                        </th>
+                                        <td>@Html.DisplayFor(x => proyecto.PlazoEjecucion) DÍAS NATURALES</td>
+                                        <td align="center">@Html.DisplayFor(x => proyecto.Anticipo)</td>
+                                        <td align="right">@Html.DisplayFor(x => proyecto.ImporteAut)</td>
+                                        <td align="right">@Html.DisplayFor(x => proyecto.CapitalContable)</td>
+                                        <td align="right">@Html.DisplayFor(x => proyecto.Residente)</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    // Datos Fallo 
+        <div class="col-lg-6 col-sm-12">
+            <div class="card">
+                <h5 class="card-header"> DATOS FALLO</h5>
+                <div class="card-body">
+                  @using (Html.BeginForm("GuardarFallo", "Fallos", FormMethod.Post, new { @id = "FormGuardarFallo" }))
+                  {     @Html.HiddenFor(x => x.IdPaquete)
+                        @Html.HiddenFor(x => x.IdEjercicio)
+                      <div class="row">
+
+                          <div class="col-12">
+                              <div class="input-group">
+                                  <div class="input-group-prepend">@Html.LabelFor(x => Model.OAS, new {@class = "input-group-text prp"}) </div>
+                                  @Html.DropDownListFor(x => Model.OAS, Model.ListaTipoServicio, new {@class = "form-control"})
+                              </div>
+                          </div>
+
+                          <div class="col-12 row">
+                              <div class="col-8"> @Html.LabelFor(x => Model.CMIC) </div>
+                              <div class="col-4"> @Html.CheckBoxFor(x => Model.CMIC)</div>
+                              <div class="col-8"> @Html.LabelFor(x => Model.Cumplimiento)</div>
+                              <div class="col-4"> @Html.CheckBoxFor(x => Model.Cumplimiento)</div>
+                              <div class="col-8"> @Html.LabelFor(x => Model.ViciosOcultos)</div>
+                              <div class="col-4"> @Html.CheckBoxFor(x => Model.ViciosOcultos)</div>
+                          </div>
+                          <div class="col-12">
+                              <div class="input-group">
+                                  <div class="input-group-prepend">@Html.LabelFor(x => Model.Notas, new {@class = "input-group-text prp"}) </div>
+                                  @Html.TextAreaFor(x => Model.Notas, new {@class = "form-control", @rows = "6", @style = "max-width:100%; width:100%; text-transform:uppercase ", @Id = "Notas"})
+                              </div>
+                          </div>
+                      </div>
+                  }
+                </div>
+                <div class="card-footer ">
+                    <div class="row">
+                        <div class="col-12" align="right">
+                            <button class="btn btn-4t btn-sm" onclick="mostrar_procesar(); $('#FormGuardarFallo').submit();"><span class="fas fa-save"> </span> Guardar </button>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+        </div>
+    //Datos Firmas 
+        <div class="col-lg-6 col-sm-12">
+            <div class="card">
+                <h5 class="card-header"> FIRMAS</h5>
+
+                <div class="card-body">
+                    @using (Html.BeginForm("GuardaFirmas", "Fallos", FormMethod.Post, new {@id = "FormGuardaFirmas"}))
+                    {
+                        @Html.HiddenFor(x => Model.IdEjercicio)
+                        @Html.HiddenFor(x => Model.IdPaquete)
+                        <div class="row  ">
+                            <div class="col-12">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">@Html.LabelFor(x => Model.IdPresidente, new {@class = "input-group-text prp"}) </div>
+                                    @Html.DropDownListFor(x => Model.IdPresidente, Model.ListaPersonal, "- Quien Dirige -", new {@class = "form-control", Id = "Empresas"})
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">@Html.LabelFor(x => Model.IdReviso, new {@class = "input-group-text prp"}) </div>
+                                    @Html.DropDownListFor(x => Model.IdReviso, Model.ListaPersonal, "- Selecciona un Servidor Publico  -", new {@class = "form-control", Id = "Empresas"})
+                                </div>
+                            </div>
+                            @*<div class="col-12">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">@Html.LabelFor(x => Model.IdservidorExterno, new {@class = "input-group-text prp"}) </div>
+                                    @Html.DropDownListFor(x => Model.IdservidorExterno, Model.ListaServExternos, "- Selecciona Sevidor Externo -", new {@class = "form-control", Id = "Empresas"})
+                                </div>
+                            </div>*@
+                        </div>
+                    }
+
+                </div>
+                <div class="card-footer">
+
+                    <div class="row">
+                        <div class="col-12" align="right">
+                            <button class="btn btn-4t btn-sm" onclick="mostrar_procesar(); $('#FormGuardaFirmas').submit();"><span class="fas fa-save"> </span> Guardar </button>
+                            
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            
+            <div class="card">
+                <h5 class="card-header">INVITADOS EXTERNOS</h5>
+                <div class="card-body">
+
+                    @using (Html.BeginForm("AgregarExterno", "Fallos", FormMethod.Post, new { @id = "FormAgregarExterno" }))
+                    {
+                        @Html.HiddenFor(x => Model.IdEjercicio)
+                        @Html.HiddenFor(x => Model.IdPaquete)
+                        <div class="input-group">
+                            <div class="input-group-prepend">@Html.LabelFor(x => Model.IdservidorExterno, new { @class = "input-group-text prp" }) </div>
+                            @Html.DropDownListFor(x => Model.IdservidorExterno, Model.ListaServExternos, "- Selecciona Sevidor Externo -", new { @class = "form-control", Id = "Empresas" })
+                            <div class="input-group-append">
+                                <button class="btn btn-success" data-toggle="tooltip" title="Agregar Servidor externo " type="submit"><span class="fas fa-plus"></span></button>
+                            </div>
+                        </div>
+                    }
+                    <table class="table table-sm table-bordered" style="font-size: 11px">
+                        <thead class="thead-dark" style="text-align: center">
+                            <tr>
+                                <th scope="col" style="width: 10%">@Html.LabelFor(x => Model.NuevoInvitado.Id) </th>
+                                <th scope="col" style="width: 40%">@Html.LabelFor(x => Model.NuevoInvitado.Nombre) </th>
+                                <th scope="col" style="width: 40%">@Html.LabelFor(x => Model.NuevoInvitado.Cargo) </th>
+                                <th scope="col" style="width: 10%">ACCIÓN</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model.ListaInvitadosExternos)
+                            {
+
+                                <tr>
+                                    <td style="width: 10%">
+                                        <div> @Html.DisplayFor(x => item.Id)</div>
+                                    </td>
+                                    <td style="width: 40%">
+                                        <div> @Html.DisplayFor(x => item.Nombre)</div>
+                                    </td>
+                                    <td style="width: 40%">
+                                        <div> @Html.DisplayFor(x => item.Cargo)</div>
+                                    </td>
+                                    <td style="width: 20%">
+
+                                        @using (Html.BeginForm("EliminaExterno", "fallos", FormMethod.Post, new { @id = "FormEliminaExterno_" + @item.Id }))
+                                        {
+                                            @Html.HiddenFor(x => Model.IdEjercicio)
+                                            @Html.HiddenFor(x => Model.IdPaquete)
+                                            @Html.HiddenFor(model => model.IdservidorExterno, new { id = "IdELiminaInvitado", Value = item.Id })
+                                        }
+                                        <button class="btn btn-danger btn-sm " onclick="if (confirm('Está seguro de que quiere eliminar el invitado No: @item.Nombre')) {$('#FormEliminaExterno_@item.Id').submit();}"><span class="fas fa-trash"></span></button>
+
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="card-footer" align="right">
+                    <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#NuevaServidorExterno"><span class="fas fa-plus" datatoggle="tooltip" data-taget=""> </span> EXT </button>
+                </div>
+
+            </div>
+            
+
+
+
+        </div>
+    //datos Contrato 
+        <div class="col-sm-12">
+            <div class="card">
+                <h5 class="card-header"> DATOS CONTRATO</h5>
+                <div class="card-body">
+                    <div class="row  ">
+                        <a type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#NuevoContrato"><span class="fas fa-plus"> </span></a>
+                        <table class="table table-sm table-bordered" style="font-size: 12px">
+                            <thead class="thead-dark" style="text-align: center">
+                                <tr>
+                                    <th scope="col">@Html.LabelFor(x => Model.NuevoContrato.Proyecto)</th>
+                                    <th scope="col" style="width: 150px">
+                                        @Html.LabelFor(x => Model.NuevoContrato.NoContrato)                                        
+                                    </th>
+                                    <th scope="col">@Html.LabelFor(x => Model.NuevoContrato.ImporteConIVA) </th>
+
+                                    <th scope="col">@Html.LabelFor(x => Model.NuevoContrato.IVA)</th>
+                                    <th scope="col">@Html.LabelFor(x => Model.NuevoContrato.Anticipo)</th>
+                                    <th scope="col">@Html.LabelFor(x => Model.NuevoContrato.MontoAnticipo)</th>
+                                    <th scope="col">
+                                        @Html.LabelFor(x => Model.NuevoContrato.FechaInicio)
+                                    </th>
+                                    <th scope="col">
+                                        @Html.LabelFor(x => Model.NuevoContrato.FechaTermino)
+                                    </th>
+                                    <th scope="col">
+                                        @Html.LabelFor(x => Model.NuevoContrato.ListaGanadores)
+                                    </th>
+                                    <th scope="col">
+                                        @Html.LabelFor(x => Model.NuevoContrato.Descripcion)
+                                    </th>
+                                    <th scope="col">ACCIÓN</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.ListaContratos)
+                                {
+                                    <tr>
+                                        <th>
+                                            @Html.DisplayFor(x => item.Proyecto)
+                                        </th>
+                                        <td style="width: 150px">
+                                            @Html.DisplayFor(x => item.NoContrato)
+                                        </td>
+                                        <td align="center">@Html.DisplayFor(x => item.ImporteConIVA)</td>
+                                        <td align="center">@Html.DisplayFor(x => item.IVA)</td>
+                                        <td align="center">@Html.DisplayFor(x => item.Anticipo)</td>
+                                        <td align="center">@Html.DisplayFor(x => item.MontoAnticipo)</td>
+                                        <td>
+                                            <p class="text-justify">@Html.DisplayFor(x => item.FechaInicio)</p>
+                                        </td>
+                                        <td>
+                                            <p class="text-justify">@Html.DisplayFor(x => item.FechaTermino)</p>
+                                        </td>
+                                        <td>
+                                          
+                                            @using (Html.BeginForm("GuardaGanador", "Fallos", FormMethod.Post, new {@id = "FormGanador"}))
+                                            {
+                                                @Html.HiddenFor(x => Model.IdEjercicio)
+                                                @Html.HiddenFor(x => Model.IdPaquete)
+                                                @Html.HiddenFor(model => Model.NoContrato, new {id = "NoContrato", Value = item.NoContrato})
+                                                @Html.HiddenFor(model => Model.IdProyecto, new { id = "IdProyecto", Value = item.Proyecto })
+
+                                                <div class="input-group">
+                                                    @Html.DropDownListFor(x => Model.IdContratista, Model.ListaContratistas, new {@class = "form-control"})
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-sm btn-success" type="submit" data-toggle="tooltip" data-title="Agrega contratista ganador"><span class="fas fa-plus"></span></button>
+                                                    </div>
+                                                </div>
+                                            }
+
+                                            <table class="table table-sm table-bordered" style="font-size: 11px">
+                                                <thead class="thead-dark" style="text-align: center">
+                                                <tr>
+                                                    <th scope="col">@Html.LabelFor(x => Model.NuevoGanador.Numero)</th>
+                                                    <th scope="col">@Html.LabelFor(x => Model.NuevoGanador.Clave)</th>
+                                                    <th scope="col">@Html.LabelFor(x => Model.NuevoGanador.Nombre) </th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                @foreach (var prop in item.ListaGanadores)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            <div align="center"> @Html.DisplayFor(x => prop.Numero) </div>
+                                                        </td>
+                                                        <td>
+                                                            <div align="right">@Html.DisplayFor(x => prop.Clave) </div>
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(x => prop.Nombre)
+                                                        </td>
+
+                                                    </tr>
+                                                }
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td style="width: 30%; font-size:11px" >
+                                            <p class="text-justify">@Html.DisplayFor(x => item.Descripcion)</p> 
+                                        </td>
+                                        <td>
+                                            
+                                        </td>
+                                        <td>
+                                           
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    //solventes 
+        <div class="col-lg-6 col-sm-12">
+            <div class="card">
+                <h5 class="card-header">LICITANTES SOLVENTES(S)</h5>
+                <div class="card-body">
+                    <div class="row">
+                        <table class="table table-sm table-bordered" style="font-size: 11px">
+                            <thead class="thead-dark" style="text-align: center">
+                                <tr>
+                                    <th scope="col">@Html.LabelFor(x=>x.NuevoContratista.Num) </th>
+                                    <th scope="col">@Html.LabelFor(x => x.NuevoContratista.Nombre)</th>
+                                    <th scope="col">@Html.LabelFor(x => x.NuevoContratista.Asistente)</th>
+                                    <th scope="col">@Html.LabelFor(x => x.NuevoContratista.Desechado)</th>
+                                    @*<th scope="col">@Html.LabelFor(x => x.NuevoContratista.Observaciones)</th>*@
+                                    <th scope="col">@Html.LabelFor(x => x.NuevoContratista.Orden)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var contra in Model.ListaSolventes)
+                                {
+                                    <tr>
+                                        <th style="width:5%"> @Html.DisplayFor(x=>contra.Num)</th>
+                                        <td style="width: 30%; font-size: 9px">@Html.DisplayFor(x=>contra.Nombre)</td>
+                                        <td style="width: 40%;font-size: 9px " >
+                                            <div class="row" >
+                                                <div class="col-10" id="AsistenteOrig_@contra.Num"> @Html.DisplayFor(x => contra.Asistente)</div>                                                
+                                                @using (Html.BeginForm("EditarAsistente", "Fallos", FormMethod.Post, new { @id = "FormEditarAsistente_" + @contra.Num , @class="col-10", @style = "display: none;" }))
+                                                {
+                                                    @Html.HiddenFor(x => Model.IdEjercicio)
+                                                    @Html.HiddenFor(x => Model.IdPaquete)
+                                                    @Html.HiddenFor(model => model.IdAsistente, new { id = "IdELiminaNota", Value = contra.Num })
+                                                    <div class="input-group" style="width: 100%">
+                                                        <div class="input-grou-prepend" id="Asistente_@contra.Num">
+                                                            <div class="text-justify">
+                                                                @Html.TextBoxFor(x => Model.NuevoAsistente, new {@class = "form-control", @style = "text-transform:uppercase; font-size: 9px; width:100%  ", @Id = "EditarAsistente_" + @contra.Num})
+                                                            </div>
+                                                        </div>
+                                                        <div class="input-group-append" style="font-size: 10px">
+                                                              <button class="btn btn-4t btn-sm" id="Asistentebtn_@contra.Num" onclick="mostrar_procesar();$('#FormEditarAsistente_@contra.Num').submit()" style="display:none"><span class="fas fa-save"></span></button>    
+                                                        </div>                                                       
+                                                    </div>
+                                                }
+                                                <div class="col-2">
+                                                    <button class="btn btn-basic btn-sm" onclick="$('#FormEditarAsistente_@contra.Num').toggle(); $('#Asistentebtn_@contra.Num').toggle();$('#AsistenteOrig_@contra.Num').toggle(); $('#EditarAsistente_@contra.Num').val('@contra.Asistente');"><span class="fas fa-pen"></span></button>    
+                                                </div>                                                
+                                           </div>
+                                        </td>
+                                        <td class="text-center" style="width: 5%; " >
+                                            <div class="modal fade" id="DesecharContratista_@contra.Id" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="Aclara"><strong>DESECHAR A:</strong> @Html.DisplayFor(x=>contra.Nombre) </h5>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            @using (Html.BeginForm("DesecharContratista", "fallos", FormMethod.Post, new { @id = "FormDesechado_"+ @contra.Id}))
+                                                            {
+                                                                @Html.HiddenFor(x => Model.IdEjercicio)
+                                                                @Html.HiddenFor(x => Model.IdPaquete)
+                                                                @Html.HiddenFor(model => Model.NuevoContratista.Id, new { id = "Contratista", Value = contra.Id })
+
+                                                                <div class="row">
+                                                                    <div class="input-group col-12">
+                                                                        <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevoContratista.Observaciones, new { @class = "input-group-text prp" }) </div>
+                                                                        @Html.TextAreaFor(x => Model.NuevoContratista.Observaciones, new { @class = "form-control", @rows = "15", @style = "max-width:100%; width:100%; text-transform:uppercase ", @Id = "DescripcionDesechamiento" })
+                                                                    </div>   
+                                                                </div>
+                                                            }
+                                                            @*<button class="btn btn-basic btn-sm" onclick="$('#EditarNombre_@contra.Id').toggle(); $('#notabtn_@contra.Id').toggle();$('#NotaOrig_@contra.Id').toggle(); $('#EditarNota_@contra.Id').val('@contra.Asistente');"><span class="fas fa-pen"></span></button>                                                            
+                                                            <button class="btn btn-4t btn-sm" id="Asistentebtn_@contra.Id" onclick="mostrar_procesar();$('#FormEditarAsistente_@contra.Id').submit()" style="display:none"><span class="fas fa-save"></span></button>*@
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+                                                            <button type="button" class="btn btn-primary" onclick="mostrar_procesar(); $('#FormDesechado_@contra.Id').submit();"> GUARDAR</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn btn-4t btn-sm" data-toggle="modal" data-target="#DesecharContratista_@contra.Id"><span class="icon fas fa-arrow-alt-circle-right" data-toggle="tooltip" data-title="Desechar este contratistas">  </span> </button>
+                                        </td>
+                                        @*<td >@Html.DisplayFor(x => contra.Observaciones)</td>*@
+                                        <td class="text-center" style="width:5%">@Html.DisplayFor(x => contra.Orden)</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    //desechados
+        <div class="col-lg-6 col-sm-12">
+            <div class="card">
+                <h5 class="card-header">LICITANTES DESECHADOS(S)</h5>
+                <div class="card-body">
+                    <div class="row">
+                        <table class="table table-sm table-bordered" style="font-size: 11px">
+                            <thead class="thead-dark" style="text-align: center">
+                                <tr>
+                                    <th scope="col">@Html.LabelFor(x => x.NuevoContratista.Num) </th>
+                                    <th scope="col">@Html.LabelFor(x => x.NuevoContratista.Nombre)</th>
+                                    <th scope="col">@Html.LabelFor(x => x.NuevoContratista.Asistente)</th>
+                                    <th scope="col">@Html.LabelFor(x => x.NuevoContratista.Desechado)</th>
+                                    <th scope="col">@Html.LabelFor(x => x.NuevoContratista.Observaciones)</th>
+                                    <th scope="col">@Html.LabelFor(x => x.NuevoContratista.Orden)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var contra in Model.ListaRechazado)
+                                {
+                                    <tr>
+                                        <th> @Html.DisplayFor(x => contra.Num)</th>
+                                        <td>@Html.DisplayFor(x => contra.Nombre)</td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-10" id="AsistenteOrig_@contra.Num"> @Html.DisplayFor(x => contra.Asistente)</div>
+                                                @using (Html.BeginForm("EditarAsistente", "Fallos", FormMethod.Post, new { @id = "FormEditarAsistente_" + @contra.Num, @class = "col-10", @style = "display: none;" }))
+                                                {
+                                                    @Html.HiddenFor(x => Model.IdEjercicio)
+                                                    @Html.HiddenFor(x => Model.IdPaquete)
+                                                    @Html.HiddenFor(model => model.IdAsistente, new { id = "IdELiminaNota", Value = contra.Num })
+                                                    <div class="input-group" style="width: 100%">
+                                                        <div class="input-grou-prepend" id="Asistente_@contra.Num">
+                                                            <div class="text-justify">
+                                                                @Html.TextBoxFor(x => Model.NuevoAsistente, new { @class = "form-control", @style = "text-transform:uppercase; font-size: 9px; width:100%  ", @Id = "EditarAsistente_" + @contra.Num })
+                                                            </div>
+                                                        </div>
+                                                        <div class="input-group-append" style="font-size: 10px">
+                                                            <button class="btn btn-4t btn-sm" id="Asistentebtn_@contra.Num" onclick="mostrar_procesar();$('#FormEditarAsistente_@contra.Num').submit()" style="display:none"><span class="fas fa-save"></span></button>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                <div class="col-2">
+                                                    <button class="btn btn-basic btn-sm" onclick="$('#FormEditarAsistente_@contra.Num').toggle(); $('#Asistentebtn_@contra.Num').toggle();$('#AsistenteOrig_@contra.Num').toggle(); $('#EditarAsistente_@contra.Num').val('@contra.Asistente');"><span class="fas fa-pen"></span></button>
+                                                </div>
+                                            </div>
+                                            
+                                            @*@Html.DisplayFor(x => contra.Asistente)*@
+                                        </td>
+                                        <td class="text-center">
+
+                                        @using (Html.BeginForm("NoDesecharContratista", "fallos", FormMethod.Post, new {@id = "FormNoDesechado_" + @contra.Id}))
+                                        {
+                                            @Html.HiddenFor(x => Model.IdEjercicio)
+                                            @Html.HiddenFor(x => Model.IdPaquete)
+                                            @Html.HiddenFor(model => Model.NuevoContratista.Id, new {id = "Contratista", Value = contra.Id})
+                                        }
+                                            <button type="button" class="btn btn-4t btn-sm" onclick="mostrar_procesar(); $('#FormNoDesechado_@contra.Id').submit();"><span class="icon fas fa-arrow-alt-circle-left" data-toggle="tooltip" data-title="Cancelar Desechamiento"> </span></button>
+                                        </td>
+                                        <td>
+                                            <p class="text-justify"> @Html.DisplayFor(x => contra.Observaciones)</p></td>
+                                        <td class="text-center">@Html.DisplayFor(x => contra.Orden)</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div class="modal fade" id="NuevoContrato" tabindex="-1" role="dialog" aria-labelledby="Contrato" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="Aclara">NUEVO CONTRATO</h5>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("AgregaContrato", "fallos", FormMethod.Post, new { @id = "FormNuevoContrato" }))
+                {
+                    @Html.HiddenFor(x => Model.IdEjercicio)
+                    @Html.HiddenFor(x => Model.IdPaquete)
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevoContrato.Proyecto, new { @class = "input-group-text prp" }) </div>
+                                @Html.DropDownListFor(x=> Model.NuevoContrato.IdProyecto, Model.ListaProyectosSelec,"Seleccione un proyecto", new { @class = "form-control",@Id= "proyectos", @OnChange= "BuscaProyecto()" } )
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevoContrato.NoContrato, new {@class = "input-group-text prp"}) </div>
+                                @Html.TextBoxFor(x => Model.NuevoContrato.NoContrato, new {@class = "form-control"})
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="input-group" >
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevoContrato.ImporteConIVA, new {@class = "input-group-text prp"}) </div>
+                                @Html.TextBoxFor(x => Model.NuevoContrato.ImporteConIVA, new {@class = "form-control text-right", @onkeypress = "return   IsFloatConAnticipo(event)" ,@onkeyup= " CalculaAnti(this.value)", @Id="ImporteIva" })
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevoContrato.IVA, new {@class = "input-group-text prp"}) </div>
+                                @Html.DropDownListFor(x => Model.NuevoContrato.IVA, Model.ListaIVA, new {@class = "form-control text-right", @style = "text-transform:uppercase"})
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevoContrato.MontoAnticipo, new {@class = "input-group-text prp"}) </div>
+                                @Html.TextBoxFor(x => Model.NuevoContrato.MontoAnticipo, new {@class = "form-control text-right", @onkeypress = "return IsFloatOnly4(event)", @Id="MontoAnticipo" })
+                            </div>
+                        </div>
+
+
+                        <div class="col-12">
+                            <div class="input-group datetimepicker1" data-min-view="2" data-date-format="dd/mm/yyyy">
+                                <div class="input-group-prepend">
+                                    @Html.LabelFor(model => model.NuevoContrato.FechaInicio, new { @class = "input-group-text prp" })
+                                </div>
+                                @Html.EditorFor(model => model.NuevoContrato.FechaInicio, new { @class = "form-control ", @type = "text", @id = "FechaInicio", @value = "", @size = "16", @style = "width:100%" })
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary"><i class="fas fa-calendar"></i></button>
+                                </div>
+                            </div>    
+                        </div>
+                        <div class="col-12">
+                            <div class="input-group datetimepicker1" data-min-view="2" data-date-format="dd/mm/yyyy">
+                                <div class="input-group-prepend">
+                                    @Html.LabelFor(model => model.NuevoContrato.FechaTermino, new { @class = "input-group-text prp" })
+                                </div>
+                                @Html.EditorFor(model => model.NuevoContrato.FechaTermino, new { @class = "form-control ", @type = "text", @id = "FechaTermino", @value = "", @size = "16", @style = "width:100%" })
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary"><i class="fas fa-calendar"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevoContrato.Descripcion, new {@class = "input-group-text prp"}) </div>
+                                @Html.TextAreaFor(x => Model.NuevoContrato.Descripcion, new {@class = "form-control", @style = "text-transform:uppercase" , @Id="Descripcion"})
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+                <button type="button" class="btn btn-primary" onclick="mostrar_procesar(); $('#FormNuevoContrato').submit();">AGREGAR</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="NuevaServidorExterno" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="Aclara">AGREGAR SERVIDOR EXTERNO</h5>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("NuevoServExterno", "fallos", FormMethod.Post, new { @id = "FormNuevoExterno" }))
+                {
+                    @Html.HiddenFor(x => Model.IdEjercicio)
+                    @Html.HiddenFor(x => Model.IdPaquete)
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.Label("DEPENDENCIA", new { @class = "input-group-text prp" }) </div>
+                                @Html.TextBoxFor(x => Model.NuevaRubrica.LicDep, new { @class = "form-control", @style = " text-transform:uppercase " })
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.Label("NOMBRE", new { @class = "input-group-text prp" }) </div>
+                                @Html.TextBoxFor(x => Model.NuevaRubrica.Representante, new { @class = "form-control", @style = "text-transform:uppercase " })
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+                <button type="button" class="btn btn-primary" onclick="mostrar_procesar(); $('#FormNuevoExterno').submit();">AGREGAR</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts
+{
+    <script src="~/assets/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="~/assets/datetimepicker/js/locales/bootstrap-datetimepicker.es.js"></script>
+    
+
+    <script>
+
+        $(".datetimepicker1").datetimepicker({
+            autoclose: true,
+            language: 'es',
+            pickatime: true,
+            componentIcon: '.fas.fa-calendar',
+            navIcons: {
+                rightIcon: 'fas fa-chevron-right',
+                leftIcon: 'fas fa-chevron-left'
+            },
+            format: "dd/mm/yyyy"
+        });
+        IsFloatOnly4 = (e) => {
+            var patron = /^[0-9]{1,9}(\.[0-9]{0,2})?$/;
+            var keynum = window.event ? window.event.keyCode : e.which;
+            if ((keynum == 8) || (keynum == 46) || (keynum == 45))
+                return true;
+            var tecla_final = String.fromCharCode(keynum);
+            return patron.test(tecla_final);
+        }
+        $(() => {
+            $('[data-toggle="tooltip"]').Popover();
+        });
+
+        BuscaProyecto = () => {
+            var proy = $('#proyectos option:selected').text();
+
+            var Descripcion = @Html.Raw(Json.Encode(Model.ListaProyectos));
+            //var Desc= Descripcion[0].DescripcionObra;
+            var Desc = "";
+            for (var i = 0; i < Descripcion.length; i++) {
+                if (Descripcion[i].Clave == proy) {
+                    Desc = Descripcion[i].DescripcionObra;
+                }
+            }
+            $('#Descripcion').val(Desc);
+        }
+        IsFloatConAnticipo = (e) => {
+            var patron = /^[0-9]{1,9}(\.[0-9]{0,2})?$/;
+            var keynum = window.event ? window.event.keyCode : e.which;
+            var tecla_final = String.fromCharCode(keynum);
+            if ((keynum == 8) || (keynum == 44) || (keynum == 46) || (keynum == 45) || (keynum == 13) || (keynum == 118) || patron.test(tecla_final)) {
+                monto = $('#ImporteIva').val().replace(",", "") + tecla_final;
+                var proy = $('#proyectos option:selected').text();
+                var proyectos = @Html.Raw(Json.Encode(Model.ListaProyectos));
+                var Anti = 0;
+                for (var i = 0; i < proyectos.length; i++) {
+                    if (proyectos[i].Clave == proy) {
+                        Anti = proyectos[i].Anticipo;
+                    }
+                }
+                var anticipo = parseFloat(monto * Anti / 100).toFixed(2);
+                $('#MontoAnticipo').val(anticipo);
+                return true;
+            }
+            return false;
+        }
+
+        CalculaAnti = (monto) => {
+            var cantidad = monto.replaceAll(',', '').replaceAll(' ', '');
+            console.log(cantidad);
+            var proyectos = @Html.Raw(Json.Encode(Model.ListaProyectos));
+            var proy = $('#proyectos option:selected').text();
+            if (proy == "Seleccione un proyecto") {
+                alert('para calcular el anticipo debe seleccionar un proyecto');
+            } 
+            else {
+
+                console.log(proy);
+                var anticipo = 0;
+                for (var i = 0; i < proyectos.length; i++) {
+                    if (proyectos[i].Clave == proy) {
+                        anticipo = proyectos[i].Anticipo;
+                    }
+                    $('#MontoAnticipo').val(parseFloat(cantidad * anticipo / 100).toFixed(2));
+                }
+            }
+        }
+
+    </script>
+}

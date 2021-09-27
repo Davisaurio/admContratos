@@ -1,0 +1,38 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+    @Html.AntiForgeryToken()
+
+    <ul class="nav navbar-nav navbar-right">
+        <li style ="margin:10px" >
+            @Html.ActionLink( User.Identity.GetUserName() , "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+        </li>
+        <li><button class="btn btn-second" href="javascript:document.getElementById('logoutForm').submit()"><i class ="fa fa-sign-out-alt "></i></button></li>
+     
+           @if (User.IsInRole("Administrador"))
+        {
+            <li>
+                @*@Html.ActionLink("RE", "Register", "Account", routeValues: null, htmlAttributes: new {id = "registerLink"})*@
+
+                <a class="nav-link " href="~/Account/Register"><i class="fa fa-user-edit"></i><span class="user-name"></span></a>
+            </li>
+        }
+
+    </ul>
+    }
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+    
+
+        
+        <li>
+            <a class="nav-link " href="~/Account/Login"><i class="fa fa-user" ></i><span class="user-name"></span></a>
+            @Html.ActionLink("RE", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })
+              @*@Html.ActionLink("Iniciar sesión", "Login", "Account", routeValues: null, htmlAttributes: new {id = "loginLink"})*@
+        </li>
+    </ul>
+}

@@ -1,0 +1,219 @@
+﻿@model NuevoSicop.Models.DictamenModelView
+
+
+<link href="~/assets/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/assets/datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+@if (@Model.Error.Length > 1)
+{
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="mdi mdi-close" aria-hidden="true"></span></button>
+        <div class="icon"> <span class="mdi mdi-close-circle-o"></span></div>
+        <div class="message"><strong>Problema! </strong>@Model.Error</div>
+    </div>
+
+}
+@if (@Model.Exito.Length > 1)
+{
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="mdi mdi-close" aria-hidden="true"></span></button>
+        <div class="icon"> <span class="mdi mdi mdi-check"></span></div>
+        <div class="message"><strong>Éxito! </strong>@Model.Exito</div>
+    </div>
+
+}
+<h2>FALLOS</h2>
+
+
+<div class="row">
+    <div class="col-lg-4">
+
+        @using (Html.BeginForm("Ejercicio", "Fallos", FormMethod.Post, new { @id = "EjercicioForm" }))
+        {
+            <div class="input-group">
+                <div class="input-group-prepend">@Html.LabelFor(x => Model.IdEjercicio, new { @class = "input-group-text prp" }) </div>
+                @Html.DropDownListFor(x => Model.IdEjercicio, Model.ListaEjercicios, "- Selecciona un ejercicio -", new { @class = "form-control", @onchange = "mostrar_procesar();$('#EjercicioForm').submit()" })
+            </div>
+        }
+    </div>
+    @if (Model.IdEjercicio > 0)
+    {
+        <div class="col-lg-4">
+            @using (Html.BeginForm("Paquetes", "Fallos", FormMethod.Post, new { @id = "PaqueteForm" }))
+            {
+                @Html.HiddenFor(x => Model.IdEjercicio)
+
+                <div class="input-group">
+                    <div class="input-group-prepend">@Html.LabelFor(x => Model.IdPaquete, new { @class = "input-group-text prp" }) </div>
+                    @Html.DropDownListFor(x => Model.IdPaquete, Model.ListaPaquetes, "- Selecciona un Paquete -", new { @class = "form-control", @onchange = "mostrar_procesar();$('#PaqueteForm').submit()" })
+                </div>
+            }
+        </div>
+        <div class="col-lg-4">
+            @*<a type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#ActaPropuestas" ><span  class="fas fa-plus"  datatoggle="tooltip" data-taget="Cambia la fecha de reunión" > </span></a>*@
+        </div>
+    }
+</div>
+<div class="row">
+    @if (Model.IdPaquete > 0)
+    {
+        //Reporte
+        <div class="col-12">
+            <div class="card">
+                <h5 class="card-header">REPORTE </h5>
+                <div class="card-body">
+                    <div class="row">
+                        @if (Model.VerDictamen)
+                        {
+                            foreach (var it in Model.Proyectos)
+                            {
+                        <div class="col-lg-2 col-sm-3">
+                            @*@using (Html.BeginForm("Fallos", "Documentos", FormMethod.Post, new { @id = "PaqueteFallobtnForm_" + it }))
+                                {
+                                    @Html.HiddenFor(x => Model.IdEjercicio)
+                                    @Html.HiddenFor(x => Model.IdPaquete)
+                                    @Html.HiddenFor(x => Model.IdProyecto, new { IdProyecto = "Proyecto", Value = @it })
+
+                                }*@
+
+                            <buton class="btn btn-4t btn-sm " onclick="$('#PaqueteFallobtnForm_@it').submit()"><span class="fas fa-print"> </span> FALLO @it</buton>
+                        </div>
+
+                        <div class="col-lg-2 col-sm-3">
+                            @*@using (Html.BeginForm("Fallos2", "Documentos", FormMethod.Post, new { @id = "PaqueteFallo2btnForm_" + it }))
+                                {
+                                    @Html.HiddenFor(x => Model.IdEjercicio)
+                                    @Html.HiddenFor(x => Model.IdPaquete)
+                                    @Html.HiddenFor(x => Model.IdProyecto, new { IdProyecto = "Proyecto", Value = @it })
+                                }*@
+                            <buton class="btn btn-4t btn-sm " onclick="$('#PaqueteFallo2btnForm_@it').submit()"><span class="fas fa-print"> </span> FALLO REP. @it</buton>
+                        </div>
+
+
+                            }
+
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        //Paquete
+        <div class="col-lg-6 col-sm-12">
+            <div class="card">
+                <h5 class="card-header">PAQUETE </h5>
+                <div class="card-body" style="font-size: 11px">
+                    <div class="row">
+                        <div class="col-4" align="right">
+                            <strong> @Html.LabelFor(x => Model.Anio) </strong>
+                        </div>
+                        <div class="col-8">
+                            @Html.DisplayFor(x => Model.Anio)
+                        </div>
+
+                        <div class="col-4" align="right">
+                            <strong> @Html.LabelFor(x => Model.NumPaquete) </strong>
+                        </div>
+                        <div class="col-8">
+                            @Html.DisplayFor(x => Model.NumPaquete)
+                        </div>
+
+                        <div class="col-4" align="right">
+                            <strong> @Html.LabelFor(x => Model.DescPaquete) </strong>
+                        </div>
+                        <div class="col-8">
+                            @Html.DisplayFor(x => Model.DescPaquete)
+                        </div>
+                        <div class="col-4" align="right">
+                            <strong> @Html.LabelFor(x => Model.Procedimiento) </strong>
+                        </div>
+                        <div class="col-8">
+                            @Html.DisplayFor(x => Model.Procedimiento)
+                        </div>
+                        <div class="col-4" align="right">
+                            <strong> @Html.LabelFor(x => Model.Recuperacion) </strong>
+                        </div>
+                        <div class="col-8">
+                            @Html.DisplayFor(x => Model.Recuperacion)
+                        </div>
+                        <div class="col-4" align="right">
+                            <strong> @Html.LabelFor(x => Model.Modalidad) </strong>
+                        </div>
+                        <div class="col-8">
+                            @Html.DisplayFor(x => Model.Modalidad)
+                        </div>
+
+                        <div class="col-12">
+                            @using (Html.BeginForm("IniciaActa", "Dictamen", FormMethod.Post, new {@id = "FormIniciaActa"}))
+                            {
+                            @Html.HiddenFor(x => x.IdPaquete)
+                            @Html.HiddenFor(x => x.IdEjercicio)
+                            <div class="row">
+                                <div class="col-4" align="right">
+                                    <strong> @Html.LabelFor(x => Model.FechaElaboracion) </strong>
+                                </div>
+                                <div class="col-8">
+                                    <div class="input-group datetimepicker" data-min-view="0" data-date-format="HH:ii">
+                                        @Html.EditorFor(model => model.FechaElaboracion, new {@class = "form-control ", @type = "text", @id = "HoraTermino", @value = "", @size = "16"})
+                                        <div class="input-group-append">
+                                            <button class="btn btn-secondary"><i class="fas fa-calendar"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*<div class="col-4" align="right">
+                                        <strong> @Html.LabelFor(x => Model.LugarDeReunion) </strong>
+                                    </div>
+                                    <div class="col-8">
+                                        @Html.TextBoxFor(x => Model.LugarDeReunion, new { @class = "form-control", @style = "text-transform:uppercase" })
+                                    </div>*@
+                            </div>
+
+                            }
+                        </div>
+                        <div class="col-12" align="right">
+                            <button class="btn btn-4t btn-sm" onclick="mostrar_procesar(); $('#FormIniciaActa').submit();"><span class="fas fa-save"> </span> Guardar </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        //Proyecto
+        <div class="col-lg-6 col-sm-12">
+            <div class="card">
+                <h5 class="card-header"> PROYECTO(S)</h5>
+                <div class="card-body">
+                    <div class="row">
+                        <table class="table table-sm table-bordered" style="font-size: 11px">
+                            <thead class="thead-dark" style="text-align: center">
+                                <tr>
+                                    <th scope="col">DESCRIPCIÓN</th>
+                                    <th scope="col">PLAZO DE EJECUCIÓN</th>
+                                    <th scope="col">ANTICIPO % </th>
+                                    <th scope="col">IMPORTE AUTORIZADO</th>
+                                    <th scope="col">CAPITAL CONTABLE</th>
+                                    <th scope="col">RESIDENTE</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var proyecto in Model.ListaProyectos)
+                            {
+                                <tr>
+                                    <th scope="row" style="width: 50%">
+                                        <P CLASS="text-justify"> @Html.DisplayFor(x => proyecto.DescripcionObra)</P>
+                                    </th>
+                                    <td>@Html.DisplayFor(x => proyecto.PlazoEjecucion) DÍAS NATURALES</td>
+                                    <td align="center">@Html.DisplayFor(x => proyecto.Anticipo)</td>
+                                    <td align="right">@Html.DisplayFor(x => proyecto.ImporteAut)</td>
+                                    <td align="right">@Html.DisplayFor(x => proyecto.CapitalContable)</td>
+                                    <td align="right">@Html.DisplayFor(x => proyecto.Residente)</td>
+                                </tr>
+                            }
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

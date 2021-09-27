@@ -1,0 +1,1915 @@
+﻿@model NuevoSicop.Models.EmpresasModelView
+
+<link href="~/assets/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/assets/datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+
+@if (@Model.Error.Length > 1)
+{
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="mdi mdi-close" aria-hidden="true"></span></button>
+        <div class="icon"> <span class="mdi mdi-close-circle-o"></span></div>
+        <div class="message"><strong>Problemas!</strong>@Model.Error</div>
+    </div>
+
+}
+@if (@Model.Exito.Length > 1)
+{
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="mdi mdi-close" aria-hidden="true"></span></button>
+        <div class="icon"> <span class="mdi mdi mdi-check"></span></div>
+        <div class="message"><strong>Éxito!</strong>@Model.Exito</div>
+    </div>
+}
+<style>
+    .header4t {
+        background-color: maroon;
+        color: goldenrod;
+    }
+
+    .prp2 {
+        width: 160px;
+    }
+
+    .full-width {
+        width: 90%;
+        max-width: none;
+    }
+
+    .nav-link {
+        color: black;
+    }
+
+        .nav-link .active {
+            color: white;
+            background-color: black;
+        }
+</style>
+<div>
+    @if (!string.IsNullOrEmpty(Model.NuevaEmpresa.Nombre))
+    {
+        <h4>EDITANDO: @Html.DisplayFor(x => Model.NuevaEmpresa.Nombre) </h4>
+    }
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        @using (Html.BeginForm("Busqueda", "Empresas", FormMethod.Post, new { @id = "FormBusqueda" }))
+        {
+            @Html.HiddenFor(model => Model.IdEditarEmpresa)
+
+            <div class="input-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">@Html.LabelFor(x => Model.FiltroTipoEmpresa, new { @class = "input-group-text prp2" }) </div>
+                    @Html.DropDownListFor(x => Model.FiltroTipoServicio, Model.TipoServicio, "- TIPO SERVICIO -", new { @class = "form-control", @id = "FILTRO_SERV" })
+                    @Html.DropDownListFor(x => Model.FiltroTamanio, Model.TipoEmpresa, "- TAMAÑO -", new { @class = "form-control", @id = "FILTRO_EMP" })
+                    @Html.DropDownListFor(x => Model.FiltroPersona, Model.TipoPersona, "- TIPO PERSONA -", new { @class = "form-control", @id = "FILTRO_PER" })
+                    @Html.TextBoxFor(x => Model.FiltroBuscar, new { @class = "form-control", @id = "FILTRO_NOMBRE" })
+                    <div class="input-group-append">
+                        <button class="btn btn-secondary btn-4t"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+
+            </div>
+
+            @*<div class="input-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">@Html.LabelFor(x => Model.FiltroTipoServicio, new { @class = "input-group-text prp2" }) </div>
+
+
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">@Html.LabelFor(x => Model.FiltroTamanio, new { @class = "input-group-text prp2" }) </div>
+
+
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">@Html.LabelFor(x => Model.FiltroBuscar, new { @class = "input-group-text prp2" }) </div>
+                        @Html.TextBoxFor(x => Model.FiltroBuscar, "- NOMBRE -", new { @class = "form-control", @id = "Filtro" })
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary btn-4t"><i class="fas fa-search"></i></button>
+                        </div>
+                    </div>
+                </div>*@
+
+        }
+    </div>
+    @*<div class="col-lg-4">
+            <a href="#" class="btn btn-4t btn-icon-split" type="button" data-toggle="modal" data-target="#AgregaEmpresa" align="right">
+                <span class="icon text-white-50">
+                    <i class="fas fa-buysellads"></i>
+                </span>
+                <span class="text">Empresa</span>
+            </a>
+
+        </div>*@
+
+</div>
+<div class="tab-container">
+    <ul class="nav nav-tabs" role="tablist">
+        @if (Model.IdEditarEmpresa == 0 || Model.IdEditarEmpresa == 7)
+        {
+            <li class="nav-item active text-center "><a class="nav-link" href="#TabDepend-1" data-toggle="tab" role="tab"><span class="icon mdi mdi-balance"></span> DATOS BASICOS </a></li>
+        }
+        @if (Model.IdEditarEmpresa == 1 || Model.IdEditarEmpresa == 7)
+        {
+            <li class="nav-item disabled text-center"><a class="nav-link" href="#TabDepend-2" data-toggle="tab" role="tab"><span class="icon mdi mdi-balance"></span> GENERALES </a></li>
+        }
+        @if ((Model.IdEditarEmpresa == 2 || Model.IdEditarEmpresa == 7) && Model.NuevaEmpresa.IdTipoPersona == 1)
+        {
+            <li class="nav-item text-center"><a class="nav-link" href="#TabDepend-3" data-toggle="tab" role="tab"><span class="icon mdi mdi-balance"></span> PERSONA FÍSICA </a></li>
+        }
+        @if ((Model.IdEditarEmpresa == 3 || Model.IdEditarEmpresa == 7) && Model.NuevaEmpresa.IdTipoPersona == 2)
+        {
+            <li class="nav-item text-center"><a class="nav-link" href="#TabDepend-4" data-toggle="tab" role="tab"><span class="icon mdi mdi-balance"></span> ESCRITURA CONSTITUTIVA </a></li>
+        }
+        @if ((Model.IdEditarEmpresa == 4 || Model.IdEditarEmpresa == 7) && Model.NuevaEmpresa.IdTipoPersona == 2)
+        {
+            <li class="nav-item text-center"><a class="nav-link" href="#TabDepend-5" data-toggle="tab" role="tab"><span class="icon mdi mdi-balance"></span> NOTARIO PUBLICO  </a></li>
+        }
+        @if (Model.IdEditarEmpresa == 5 || Model.IdEditarEmpresa == 7)
+        {
+            <li class="nav-item text-center"><a class="nav-link" href="#TabDepend-6" data-toggle="tab" role="tab"><span class="icon mdi mdi-balance"></span> FIRMAS  </a></li>
+        }
+        @if (Model.IdEditarEmpresa == 6 || Model.IdEditarEmpresa == 7)
+        {
+            <li class="nav-item text-center"><a class="nav-link" href="#TabDepend-7" data-toggle="tab" role="tab"><span class="icon mdi mdi-balance"></span> REPRESENTANTE LEGAL  </a></li>
+        }
+    </ul>
+
+    <div class="tab-content">
+        @if (Model.IdEditarEmpresa == 0 || Model.IdEditarEmpresa == 7)
+        {
+            <div class="tab-pane row " id="TabDepend-1" role="tabpanel">
+                <div class="card card-border-color card-border-color-dark parrafo ">
+
+
+                    @using (Html.BeginForm("AgregaEmpresa1", "Empresas", FormMethod.Post, new { @id = "AgregaEmpresaForm" }))
+                    {
+
+                        @Html.HiddenFor(model => Model.IdEditarEmpresa)
+
+                        <div class="card-body row">
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.Nombre, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevaEmpresa.Nombre, new { @class = "form-control ", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.Nombre, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.Rfc, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevaEmpresa.Rfc, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.Rfc, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.ClaveRegistro, new { @class = "input-group-text prp2 ", @style = "text-transform:uppercase;" }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevaEmpresa.ClaveRegistro, new { @class = "form-control" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.ClaveRegistro, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group datetimepicker" data-min-view="2" data-date-format="dd/mm/yyyy">
+                                    <div class="input-group-prepend">
+                                        @Html.LabelFor(model => model.NuevaEmpresa.IniciaVigencia, new { @class = "input-group-text prp2" })
+                                    </div>
+
+                                    @Html.EditorFor(model => model.NuevaEmpresa.IniciaVigencia, new { @class = "form-control ", @type = "text", @id = "Inicia Vigencia", @value = "", @size = "16", @style = "width:100%" })
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary"><i class="fas fa-calendar"></i></button>
+                                    </div>
+                                </div>
+                                @Html.ValidationMessageFor(model => model.NuevaEmpresa.IniciaVigencia, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group datetimepicker" data-min-view="2" data-date-format="dd/mm/yyyy">
+                                    <div class="input-group-prepend">
+                                        @Html.LabelFor(model => model.NuevaEmpresa.TerminaVigencia, new { @class = "input-group-text prp2" })
+                                    </div>
+
+                                    @Html.EditorFor(model => model.NuevaEmpresa.TerminaVigencia, new { @class = "form-control ", @type = "text", @id = "Termina Vigencia", @value = "", @size = "16", @style = "width:100%" })
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary"><i class="fas fa-calendar"></i></button>
+                                    </div>
+                                </div>
+                                @Html.ValidationMessageFor(model => model.NuevaEmpresa.TerminaVigencia, "", new { @class = "text-danger" })
+
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.IdTipoServicio, new { @class = "input-group-text prp2" }) </div>
+                                    @Html.DropDownListFor(x => Model.NuevaEmpresa.IdTipoServicio, Model.TipoServicio, "- TIPO DE SERVICIO -", new { @class = "form-control", @id = "servicio" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.IdTipoServicio, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.IdTipoInscripcion, new { @class = "input-group-text prp2" }) </div>
+                                    @Html.DropDownListFor(x => Model.NuevaEmpresa.IdTipoInscripcion, Model.TipoInscripcion, "-TIPO INSCRIPCIÓN -", new { @class = "form-control", @id = "inscripcion" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.IdTipoInscripcion, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.IdTipoPersona, new { @class = "input-group-text prp2" }) </div>
+                                    @Html.DropDownListFor(x => Model.NuevaEmpresa.IdTipoPersona, Model.TipoPersona, "- FÍSICA O MORAL -", new { @class = "form-control", @id = "persona" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.IdTipoPersona, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.IdTamañoEmp, new { @class = "input-group-text prp2" }) </div>
+                                    @Html.DropDownListFor(x => Model.NuevaEmpresa.IdTamañoEmp, Model.TipoEmpresa, "- TAMAÑO -", new { @class = "form-control", @id = "tamaño" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.IdTamañoEmp, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    }
+                    <div class="card-footer">
+                        <div align="right">
+                            <div class="btn btn-4t" onclick="mostrar_procesar(); $('#AgregaEmpresaForm').submit();"> <i class="fa fa-save"></i> NUEVA</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (Model.IdEditarEmpresa == 1 || Model.IdEditarEmpresa == 7)
+        {
+            <div class="tab-pane row " id="TabDepend-2" role="tabpanel">
+                <div class="card card-border-color card-border-color-dark parrafo">
+                    @using (Html.BeginForm("AgregaGenerales", "Empresas", FormMethod.Post, new { @id = "AgregaGeneralesForm" }))
+                {   @Html.HiddenFor(model => Model.NuevaEmpresa.Id)
+                        @Html.HiddenFor(model => Model.IdEditarEmpresa)
+                        <div class="card-body row">
+
+                            <div class=" col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.CapitalContable, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevaEmpresa.CapitalContable, new { @class = "form-control", @onkeypress = "return isNumberKey(event)", @style = "text-align:right" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.CapitalContable, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class=" col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.Imss, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevaEmpresa.Imss, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.Imss, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.Infonavit, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevaEmpresa.Infonavit, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.Infonavit, "", new { @class = "text-danger" })
+                            </div>
+                            <div class=" col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.CMIC, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevaEmpresa.CMIC, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.CMIC, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.SIEM, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevaEmpresa.SIEM, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.SIEM, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.FolioMercantilElectronico, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevaEmpresa.FolioMercantilElectronico, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.FolioMercantilElectronico, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.Domicilio, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevaEmpresa.Domicilio, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.Domicilio, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.IdEstado, new { @class = "input-group-text prp2" }) </div>
+                                    @Html.DropDownListFor(x => Model.NuevaEmpresa.IdEstado, Model.ListaEstados, "- ENTIDAD -", new { @class = "form-control", @id = "Entidad" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.IdEstado, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.IdMunicipio, new { @class = "input-group-text prp2" }) </div>
+                                    @Html.DropDownListFor(x => Model.NuevaEmpresa.IdMunicipio, Model.ListaMunicipios, "- MUNICIPIO -", new { @class = "form-control", @id = "Municipio" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.IdMunicipio, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.Colonia, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevaEmpresa.Colonia, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.Colonia, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.Telefono, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevaEmpresa.Telefono, new { @class = "form-control", @onkeypress = "return isNumber(event)" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.Telefono, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.Fax, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevaEmpresa.Fax, new { @class = "form-control", @onkeypress = "return isNumber(event)" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.Fax, "", new { @class = "text-danger" })
+                            </div>
+                            <div class=" col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.Correo, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevaEmpresa.Correo, new { @class = "form-control", @style = "text-transform:lowercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.Correo, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.Curp, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevaEmpresa.Curp, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.Curp, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.IdExperienciaAcreditada, new { @class = "input-group-text prp2" }) </div>
+                                    @Html.DropDownListFor(x => Model.NuevaEmpresa.IdExperienciaAcreditada, Model.TipoExperienciaAcreditada, "-TIPO INSCRIPCIÓN -", new { @class = "form-control", @id = "inscripcion" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.IdExperienciaAcreditada, "", new { @class = "text-danger" })
+                            </div>
+
+
+
+                        </div>
+                    }
+                    <div class="card-footer">
+                        <div align="right">
+                            <div class="btn btn-4t" onclick="mostrar_procesar(); $('#AgregaGeneralesForm').submit();"> <i class="fa fa-save"></i> GUARDAR</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (Model.IdEditarEmpresa == 2 || Model.IdEditarEmpresa == 7)
+        {
+            <div class="tab-pane row " id="TabDepend-3" role="tabpanel">
+                <div class="card card-border-color card-border-color-dark parrafo">
+
+                    @using (Html.BeginForm("AgregaPersonaFisica", "Empresas", FormMethod.Post, new { @id = "AgregaPersonaFisicaForm" }))
+                {   @Html.HiddenFor(model => Model.NuevaEmpresa.Id)
+                        @Html.HiddenFor(model => Model.IdEditarEmpresa)
+                        <div class="card-body row">
+                            <div class=" col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.NumActaNacimiento, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevaEmpresa.NumActaNacimiento, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.NumActaNacimiento, "", new { @class = "text-danger" })
+                            </div>
+
+
+                            <div class="col-lg-6">
+                                <div class="input-group datetimepicker" data-min-view="2" data-date-format="dd/mm/yyyy">
+                                    <div class="input-group-prepend">
+                                        @Html.LabelFor(model => model.NuevaEmpresa.FechaActaNacimiento, new { @class = "input-group-text prp2" })
+                                    </div>
+                                    @Html.EditorFor(model => model.NuevaEmpresa.FechaActaNacimiento, new { @class = "form-control ", @type = "text", @id = "VentaBases", @value = "", @size = "16", @style = "width:100%" })
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary"><i class="fas fa-calendar"></i></button>
+                                    </div>
+                                </div>
+                                @Html.ValidationMessageFor(model => model.NuevaEmpresa.FechaActaNacimiento, "", new { @class = "text-danger" })
+
+                            </div>
+
+
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.LugarExpedicion, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevaEmpresa.LugarExpedicion, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.LugarExpedicion, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.LibroNum, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevaEmpresa.LibroNum, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.LibroNum, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    }
+                    <div class="card-footer">
+                        <div align="right">
+                            <div class="btn btn-4t" onclick="mostrar_procesar(); $('#AgregaPersonaFisicaForm').submit();"> <i class="fa fa-save"></i> GUARDAR</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (Model.IdEditarEmpresa == 3 || Model.IdEditarEmpresa == 7)
+        {
+            <div class="tab-pane row " id="TabDepend-4" role="tabpanel">
+                <div class="card card-border-color card-border-color-dark parrafo">
+                    @using (Html.BeginForm("AgregaEscritura", "Empresas", FormMethod.Post, new { @id = "AgregaEscrituraForm" }))
+                    {   @Html.HiddenFor(model => Model.NuevaEmpresa.Id)
+                        @Html.HiddenFor(model => Model.IdEditarEmpresa)
+                        <div class="card-body row">
+
+                            <div class=" col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.ActaNumEscritura, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevaEmpresa.ActaNumEscritura, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.ActaNumEscritura, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.VolumenEscritura, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevaEmpresa.VolumenEscritura, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.VolumenEscritura, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="input-group datetimepicker" data-min-view="2" data-date-format="dd/mm/yyyy">
+                                    <div class="input-group-prepend">
+                                        @Html.LabelFor(model => Model.NuevaEmpresa.ActaFechaConstancia, new { @class = "input-group-text prp2" })
+                                    </div>
+                                    @Html.EditorFor(model => Model.NuevaEmpresa.ActaFechaConstancia, new { @class = "form-control ", @type = "text", @id = "VentaBases", @value = "", @size = "16", @style = "width:100%" })
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary"><i class="fas fa-calendar"></i></button>
+                                    </div>
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.ActaFechaConstancia, "", new { @class = "text-danger" })
+
+                            </div>
+
+
+
+                            @*<div class="col-lg-6">
+                                    <div class="input-group">
+                                        <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.ActaFechaConstancia, new { @class = "input-group-text prp2 " }) </div>
+                                        @Html.TextBoxFor(x => Model.NuevaEmpresa.ActaFechaConstancia, new { @class = "form-control" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => Model.NuevaEmpresa.ActaFechaConstancia, "", new { @class = "text-danger" })
+                                </div>*@
+
+
+                        </div>
+                    }
+                    <div class="card-footer">
+                        <div align="right">
+                            <div class="btn btn-4t" onclick="mostrar_procesar(); $('#AgregaEscrituraForm').submit();"> <i class="fa fa-save"></i> GUARDAR</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (Model.IdEditarEmpresa == 4 || Model.IdEditarEmpresa == 7)
+        {
+            <div class="tab-pane row " id="TabDepend-5" role="tabpanel">
+                <div class="card card-border-color card-border-color-dark parrafo">
+                    @using (Html.BeginForm("AgregaNotario", "Empresas", FormMethod.Post, new { @id = "AgregaNotarioForm" }))
+                {  @Html.HiddenFor(model => Model.NuevaEmpresa.Id)
+                        @Html.HiddenFor(model => Model.IdEditarEmpresa)
+                        <div class="card-body row">
+
+                            <div class=" col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.NumNotaria, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevaEmpresa.NumNotaria, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.NumNotaria, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.CiudadNotaria, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevaEmpresa.CiudadNotaria, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.CiudadNotaria, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.Modalidad, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevaEmpresa.Modalidad, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.Modalidad, "", new { @class = "text-danger" })
+                            </div>
+                            <div class=" col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.TitularNotaria, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevaEmpresa.TitularNotaria, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.TitularNotaria, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.AdscritoNotaria, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevaEmpresa.AdscritoNotaria, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.AdscritoNotaria, "", new { @class = "text-danger" })
+                            </div>
+                            <div class=" col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.SustitutoNotaria, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevaEmpresa.SustitutoNotaria, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.SustitutoNotaria, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.DireccionNotaria, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevaEmpresa.DireccionNotaria, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.DireccionNotaria, "", new { @class = "text-danger" })
+                            </div>
+                            <div class=" col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.NumRPPC, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevaEmpresa.NumRPPC, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.NumRPPC, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.VolRPPC, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevaEmpresa.VolRPPC, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.VolRPPC, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group datetimepicker" data-min-view="2" data-date-format="dd/mm/yyyy">
+                                    <div class="input-group-prepend">
+                                        @Html.LabelFor(model => model.NuevaEmpresa.FechaRPPC, new { @class = "input-group-text prp2" })
+                                    </div>
+                                    @Html.EditorFor(model => model.NuevaEmpresa.FechaRPPC, new { @class = "form-control ", @type = "text", @id = "VentaBases", @value = "", @size = "16", @style = "width:100%" })
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary"><i class="fas fa-calendar"></i></button>
+                                    </div>
+                                </div>
+                                @Html.ValidationMessageFor(model => model.NuevaEmpresa.FechaRPPC, "", new { @class = "text-danger" })
+
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.CiudadRPPC, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevaEmpresa.CiudadRPPC, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.CiudadRPPC, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.FolioMercantilElectronico, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevaEmpresa.FolioMercantilElectronico, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.FolioMercantilElectronico, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.Folios, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevaEmpresa.Folios, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.Folios, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.LibroNum, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevaEmpresa.LibroNum, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.LibroNum, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+                    }
+                    <div class="card-footer">
+                        <div align="right">
+                            <div class="btn btn-4t" onclick="mostrar_procesar(); $('#AgregaNotarioForm').submit();"> <i class="fa fa-save"></i> GUARDAR</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (Model.IdEditarEmpresa == 5 || Model.IdEditarEmpresa == 7)
+        {
+            <div class="tab-pane row " id="TabDepend-6" role="tabpanel">
+                <div class="card card-border-color card-border-color-dark parrafo">
+                    @using (Html.BeginForm("AgregaFirmas", "Empresas", FormMethod.Post, new { @id = "AgregaFirmasForm" }))
+                    { @Html.HiddenFor(model => Model.NuevaEmpresa.Id)
+                        @Html.HiddenFor(model => Model.IdEditarEmpresa)
+                        <div class="card-body row">
+
+
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.IdRegistro, new { @class = "input-group-text prp2" }) </div>
+                                    @Html.DropDownListFor(x => Model.NuevaEmpresa.IdRegistro, Model.ListaFirmas, "- Seleccione el Roll -", new { @class = "form-control", @id = "proyectos" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.IdRegistro, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.IdReviso, new { @class = "input-group-text prp2" }) </div>
+                                    @Html.DropDownListFor(x => Model.NuevaEmpresa.IdReviso, Model.ListaFirmas, "- Seleccione el Roll -", new { @class = "form-control", @id = "proyectos" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.IdReviso, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.IdVoBo, new { @class = "input-group-text prp2" }) </div>
+                                    @Html.DropDownListFor(x => Model.NuevaEmpresa.IdVoBo, Model.ListaFirmas, "- Seleccione el Roll -", new { @class = "form-control", @id = "proyectos" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.IdVoBo, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.IdAutorizo, new { @class = "input-group-text prp2" }) </div>
+                                    @Html.DropDownListFor(x => Model.NuevaEmpresa.IdAutorizo, Model.ListaFirmas, "- Seleccione el Roll -", new { @class = "form-control", @id = "proyectos" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevaEmpresa.IdAutorizo, "", new { @class = "text-danger" })
+                            </div>
+
+
+                        </div>
+                    }
+                    <div class="card-footer">
+                        <div align="right">
+                            <div class="btn btn-4t" onclick="mostrar_procesar(); $('#AgregaFirmasForm').submit();"> <i class="fa fa-save"></i> GUARDAR</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (Model.IdEditarEmpresa == 6 || Model.IdEditarEmpresa == 7)
+        {
+            <div class="tab-pane row " id="TabDepend-7" role="tabpanel">
+                <div class="card card-border-color card-border-color-dark parrafo">
+                    @using (Html.BeginForm("AgregaRepresentante", "Empresas", FormMethod.Post, new { @id = "AgregaRepresentanteForm" }))
+                    {   @Html.HiddenFor(model => Model.NuevaEmpresa.Id)
+                        @Html.HiddenFor(model => Model.IdEditarEmpresa)
+                        <div class="card-body row">
+
+                            <div class=" col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoRepresentante.Nombre, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevoRepresentante.Nombre, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevoRepresentante.Nombre, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class=" col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoRepresentante.Puesto, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevoRepresentante.Puesto, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevoRepresentante.Puesto, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoRepresentante.FolioElectoral, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevoRepresentante.FolioElectoral, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevoRepresentante.FolioElectoral, "", new { @class = "text-danger" })
+                            </div>
+                            <div class=" col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoRepresentante.RFC, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevoRepresentante.RFC, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevoRepresentante.RFC, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoRepresentante.FolioMercantil, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevoRepresentante.FolioMercantil, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevoRepresentante.FolioMercantil, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoRepresentante.Direccion, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevoRepresentante.Direccion, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevoRepresentante.Direccion, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoRepresentante.Colonia, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevoRepresentante.Colonia, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevoRepresentante.Colonia, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoRepresentante.CP, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevoRepresentante.CP, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevoRepresentante.CP, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoRepresentante.Ciudad, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevoRepresentante.Ciudad, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevoRepresentante.Ciudad, "", new { @class = "text-danger" })
+                            </div>
+
+
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoRepresentante.Telefono, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevoRepresentante.Telefono, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevoRepresentante.Telefono, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoRepresentante.Correo, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevoRepresentante.Correo, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevoRepresentante.Correo, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoRepresentante.NumEscritura, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevoRepresentante.NumEscritura, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevoRepresentante.NumEscritura, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoRepresentante.VolEscritura, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevoRepresentante.VolEscritura, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevoRepresentante.VolEscritura, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group datetimepicker" data-min-view="2" data-date-format="dd/mm/yyyy">
+                                    <div class="input-group-prepend">
+                                        @Html.LabelFor(model => Model.NuevoRepresentante.FechaEscritura, new { @class = "input-group-text prp2" })
+                                    </div>
+                                    @Html.EditorFor(model => Model.NuevoRepresentante.FechaEscritura, new { @class = "form-control ", @type = "text", @id = "VentaBases", @value = "", @size = "16", @style = "width:100%" })
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary"><i class="fas fa-calendar"></i></button>
+                                    </div>
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevoRepresentante.FechaEscritura, "", new { @class = "text-danger" })
+
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoRepresentante.NumNotario, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevoRepresentante.NumNotario, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevoRepresentante.NumNotario, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoRepresentante.NombreAdscrito, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevoRepresentante.NombreNotario, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevoRepresentante.NombreNotario, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoRepresentante.LugarNotario, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevoRepresentante.LugarNotario, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevoRepresentante.LugarNotario, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoRepresentante.NumRPPC, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevoRepresentante.NumRPPC, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevoRepresentante.NumRPPC, "", new { @class = "text-danger" })
+                            </div>
+
+
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoRepresentante.VolRPPC, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevoRepresentante.VolRPPC, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevoRepresentante.VolRPPC, "", new { @class = "text-danger" })
+                            </div>
+
+
+
+                            <div class="col-lg-6">
+                                <div class="input-group datetimepicker" data-min-view="2" data-date-format="dd/mm/yyyy">
+                                    <div class="input-group-prepend">
+                                        @Html.LabelFor(model => Model.NuevoRepresentante.FechaRPPC, new { @class = "input-group-text prp2" })
+                                    </div>
+                                    @Html.EditorFor(model => Model.NuevoRepresentante.FechaRPPC, new { @class = "form-control ", @type = "text", @id = "VentaBases", @value = "", @size = "16", @style = "width:100%" })
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary"><i class="fas fa-calendar"></i></button>
+                                    </div>
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevoRepresentante.FechaRPPC, "", new { @class = "text-danger" })
+
+                            </div>
+
+
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoRepresentante.LugarRPPC, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevoRepresentante.LugarRPPC, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevoRepresentante.LugarRPPC, "", new { @class = "text-danger" })
+                            </div>
+
+
+
+                            <div class="col-lg-6">
+                                <div class="input-group datetimepicker" data-min-view="2" data-date-format="dd/mm/yyyy">
+                                    <div class="input-group-prepend">
+                                        @Html.LabelFor(model => Model.NuevoRepresentante.FechaNacimiento, new { @class = "input-group-text prp2" })
+                                    </div>
+                                    @Html.EditorFor(model => Model.NuevoRepresentante.FechaNacimiento, new { @class = "form-control ", @type = "text", @id = "VentaBases", @value = "", @size = "16", @style = "width:100%" })
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary"><i class="fas fa-calendar"></i></button>
+                                    </div>
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevoRepresentante.FechaNacimiento, "", new { @class = "text-danger" })
+
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoRepresentante.LugarExpedicionActa, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevoRepresentante.LugarExpedicionActa, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevoRepresentante.LugarExpedicionActa, "", new { @class = "text-danger" })
+                            </div>
+
+
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoRepresentante.NombreAdscrito, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevoRepresentante.NombreAdscrito, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevoRepresentante.NombreAdscrito, "", new { @class = "text-danger" })
+                            </div>
+
+
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoRepresentante.NombreSustituto, new { @class = "input-group-text prp2 " }) </div>
+                                    @Html.TextBoxFor(x => Model.NuevoRepresentante.NombreSustituto, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                                </div>
+                                @Html.ValidationMessageFor(model => Model.NuevoRepresentante.NombreSustituto, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    }
+                    <div class="card-footer">
+                        <div align="right">
+                            <div class="btn btn-4t" onclick="mostrar_procesar(); $('#AgregaRepresentanteForm').submit();"> <i class="fa fa-save"></i> GUARDAR</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<div class="table-responsive noSwipe " style="padding: 20px">
+    <table id="tablaDatos" class="table table-sm table-striped table-hover no-footer" style="background-color: rgba(200,200, 200, 0.5); color: black; font-size: 12px ">
+        <thead class="text-bold">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.VerEmpresa.Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.VerEmpresa.ClaveRegistro)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.VerEmpresa.Nombre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.VerEmpresa.RFC)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.VerEmpresa.Tamanio)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.VerEmpresa.Tipo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.VerEmpresa.TipoServicio)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.VerEmpresa.CapitalContable)
+                </th>
+                <th>
+                    <div class="row">
+                        <div class="col-12">
+                            @Html.DisplayNameFor(model => model.VerEmpresa.IniciaVigencia)
+                        </div>
+                        <div class="col-12">
+                            @Html.DisplayNameFor(model => model.VerEmpresa.TerminaVigencia)
+                        </div>
+                    </div>
+                </th>
+                <th>
+                    AVANCE
+                </th>
+                <th>ACCIONES</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model.ListaEmpresas)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ClaveRegistro)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td align="center">
+                        @Html.DisplayFor(modelItem => item.RFC)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Tamanio)
+                    </td>
+                    <td align="center">
+                        @Html.DisplayFor(modelItem => item.Tipo)
+                    </td>
+                    <td align="center">
+                        @Html.DisplayFor(modelItem => item.TipoServicio)
+                    </td>
+                    <td align="center">
+                        @Html.DisplayFor(modelItem => item.CapitalContable)
+                    </td>
+                    <td>
+                        <div class="row">
+                            <div class="col-12">
+                                @Html.DisplayFor(modelItem => item.IniciaVigencia)
+                            </div>
+                            <div class="col-12">
+                                @Html.DisplayFor(modelItem => item.TerminaVigencia)
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+
+                        <span class="sparkpie">@Html.DisplayFor(modelItem => item.AvanceCaptura),@Html.DisplayFor(modelItem => item.Pendiente)</span>
+
+                    </td>
+                    <td>
+                        <div class=" row">
+                            <div class="col-4">
+                                @using (Html.BeginForm("EditarEmpresa", "Empresas", FormMethod.Post, new { @id = "EditarForm_" + item.Id }))
+                                {
+                                    @Html.HiddenFor(model => model.NuevaEmpresa.Id, new { id = "IdEmpresa", Value = item.Id })
+                                }
+                                <button class="btn btn-primary btn-sm" data-toggle="tooltip" title="editar Empresa" onclick="$('#EditarForm_@item.Id').submit(); mostrar_procesar();"><i class="fa fa-pen-alt"></i> </button>
+                            </div>
+                            <div class="col-4">
+                                @using (Html.BeginForm("DesactivarEmpresa", "Empresas", FormMethod.Post, new { @id = "DesactivaForm_" + item.Id }))
+                                {
+                                    @Html.HiddenFor(model => model.NuevaEmpresa.Id, new { id = "IdEmpresa", Value = item.Id })
+                                }
+                                <button class="btn btn-danger btn-sm" data-toggle="tooltip" title="Deshabilitar Empresa" onclick="$('#EditarForm_@item.Id').submit(); mostrar_procesar();"><i class="fa fa-trash"></i> </button>
+                            </div>
+                            <div class="col-4">
+                                @using (Html.BeginForm("RegistroContratista", "Empresas", FormMethod.Post, new { @id = "RegistroContratistaForm_" + item.Id }))
+                                {
+                                    @Html.HiddenFor(model => model.NuevaEmpresa.Id, new { id = "IdEmpresa", Value = item.Id })
+                                }
+                                <button class="btn btn-secondary btn-sm" data-toggle="tooltip" title="Imprimir registro" onclick="$('#RegistroContratistaForm_@item.Id').submit(); mostrar_procesar();"><i class="fa fa-file-pdf"></i> </button>
+
+
+
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+
+
+@section Scripts
+{
+    <script src="~/assets/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/assets/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/assets/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="~/assets/datatables/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/assets/datatables/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="~/assets/datatables/pdfmake/pdfmake.min.js"></script>
+    <script src="~/assets/datatables/pdfmake/vfs_fonts.js"></script>
+    <script src="~/assets/datatables/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+    <script src="~/assets/datatables/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="~/assets/datatables/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/assets/datatables/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/assets/jquery.sparkline/jquery.sparkline.min.js"></script>
+    @*<script src="~/assets/js/app-tables-datatables.js"></script>*@
+
+
+
+
+
+
+    @*    <script src="~/assets/jquery.sparkline/jquery.sparkline.min.js"></script>*@
+    <script>
+                $(function () {
+                    $('[data-toggle="tooltip"]').tooltip();
+                })
+                $(".datetimepicker").datetimepicker({
+                    autoclose: true,
+                    language: 'es',
+                    componentIcon: '.fas.fa-calendar',
+                    navIcons: {
+                        rightIcon: 'fas fa-chevron-right',
+                        leftIcon: 'fas fa-chevron-left'
+                    },
+                    format: "dd/mm/yyyy"
+                });
+                $('#tablaDatos').DataTable({
+                    "language": {
+                        "sProcessing": "Procesando...",
+                        "sLengthMenu": "Ver _MENU_ registros",
+                        "sZeroRecords": "No se encontraron resultados",
+                        "sEmptyTable": "Ningún dato disponible en esta tabla",
+                        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix": "",
+                        "sSearch": "Buscar:",
+                        "sUrl": "",
+                        "sInfoThousands": ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oPaginate": {
+                            "sFirst": " |< ",
+                            "sLast": " >| ",
+                            "sNext": " >> ",
+                            "sPrevious": " << "
+                        },
+                        "oAria": {
+                            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                        },
+                        "oButtons": {
+                            "sCopy": "Copiar",
+                            "sPrint": "Imprimir"
+                        }
+                    },
+                    buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+
+                    "lengthMenu": [[20, 30, 40, 50, -1], [20, 30, 40, 50, "All"]],
+                    dom: "<'row be-datatable-header'<'col-sm-6'l><'col-sm-6 text-right'B>>" +
+                        "<'row be-datatable-body'<'col-sm-12'tr>>" +
+                        "<'row be-datatable-footer'<'col-sm-5'i><'col-sm-7'p>>",
+                    extend: 'pdf', className: 'btn green btn-outline',  text: 'Export PDF',
+                customize: function (doc) {
+                    doc.defaultStyle =
+                        {
+                            font: 'alef'
+                        }
+                    var docDefinition = {
+                        // a string or { width: number, height: number }
+                        pageSize: 'carta',
+
+                        // by default we use portrait, you can change it to landscape if you wish
+                        pageOrientation: 'landscape',
+
+                        // [left, top, right, bottom] or [horizontal, vertical] or just a number for equal margins
+                        pageMargins: [ 40, 60, 40, 60 ],
+                    };
+
+                }
+
+                });
+                function isNumber(e) {
+                    e = e || window.event;
+                    var charCode = e.which ? e.which : e.keyCode;
+                    return /\d/.test(String.fromCharCode(charCode));
+                }
+
+                function isNumberKey(evt) {
+                    return [46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57].includes(evt.charCode);
+                }
+
+              $(document).ready(function () {
+                 $("#Entidad").change(function (e) {
+                    var d = {};
+
+                    var ind = $("#Entidad").children("select option:selected").val();
+                    d.url = '@Url.Action("CargarMunicipios", "CatalogoEscuelas")';
+                    d.type = "POST";
+                    d.data = JSON.stringify({ ent: ind });
+                    d.dataTipe = "json";
+                    d.contentType = "application/json";
+                    d.success = function(r) {
+                        console.log(r);
+                        $("#Municipio").empty();
+                        $("#Municipio").prepend("<option value='' >-MUNICIPIO-</option>");
+                        for (var i = 0; i < r.Municipios.length; i++) {
+                            $("#Municipio").append('<option value="' + r.Municipios[i].Value + '">' + r.Municipios[i].Text + '</option>');
+
+                        }
+
+                    };
+                    $.ajax(d);
+                });
+            });
+        $('.sparkpie').sparkline('html', {
+            type: "pie",
+            height: '3em',
+            sliceColors: ['#a3d1a3', '#ffffff'],
+            tooltipFormat: '{{offset:offset}} {{value}}',
+            tooltipValueLookups: {
+                'offset': {
+                    0: '% Capturado:',
+                    1: '% Pendiente:',
+
+
+                }
+            },
+        });
+
+    </script>
+
+
+}
+
+
+    @*.prp2 {
+        width: 160px;
+    }
+
+
+  .full-width {
+    width: 90%;
+    max-width: none;
+}
+
+<div class="row">
+
+    <div class="col-lg-8">
+
+
+
+        @using (Html.BeginForm("Busqueda", "Empresas", FormMethod.Post, new { @id = "FormBusqueda" }))
+        {
+            @*<div class="input-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevoSupervisor.IdRoll, new { @class = "input-group-text prp2" }) </div>
+                    @Html.DropDownListFor(x => Model.FiltroIdRoll, Model.ListasRoles, "- Seleccione Roll -", new { @class = "form-control", @id = "Filtro" })
+                    <div class="input-group-append">
+                        <button class="btn btn-secondary btn-4t"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+            </div>*@
+
+       
+
+
+
+
+    @*</div>
+    <div class="col-lg-4">
+        <a href="#" class="btn btn-4t btn-icon-split" type="button" data-toggle="modal" data-target="#AgregaEmpresa" align="right">
+            <span class="icon text-white-50">
+                <i class="fas fa-buysellads"></i>
+            </span>
+            <span class="text">Empresa</span>
+        </a>
+
+    </div>
+
+</div>*@
+
+
+
+
+
+<div id="AgregaEmpresa" class="modal fade" role="dialog">
+    <div class="modal-dialog full-width">
+
+        <!-- Modal content-->
+        <div class="modal-content  ">
+            <div class="modal-header header4t"  align="center">
+                <h4 class="modal-title" >Agregar nueva Empresa</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body ">
+
+               
+                    @using (Html.BeginForm("AgregaEmpresa1", "Empresas", FormMethod.Post, new { @id = "agregarSupervisorForm" }))
+                    { <div class="row">
+                    <div class="col-sm-12"> <h3> CATÁLOGO</h3> </div>
+
+                    <div class="col-lg-6">
+                        <div class="input-group">
+                            <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.ClaveRegistro, new { @class = "input-group-text prp2 " }) </div>
+                            @Html.TextBoxFor(x => Model.NuevaEmpresa.ClaveRegistro, new { @class = "form-control" })
+                        </div>
+                        @Html.ValidationMessageFor(model => Model.NuevaEmpresa.ClaveRegistro, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="input-group datetimepicker2" data-min-view="0" data-date-format="dd/mm/yyyy hh:ii">
+                            <div class="input-group-prepend">
+                                @Html.LabelFor(model => model.NuevaEmpresa.IniciaVigencia, new { @class = "input-group-text prp2" })
+                            </div>
+
+                            @Html.EditorFor(model => model.NuevaEmpresa.IniciaVigencia, new { @class = "form-control ", @type = "text", @id = "VentaBases", @value = "", @size = "16", @style = "width:100%" })
+                            <div class="input-group-append">
+                                <button class="btn btn-secondary"><i class="fas fa-calendar"></i></button>
+                            </div>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.NuevaEmpresa.IniciaVigencia, "", new { @class = "text-danger" })
+
+                    </div>
+
+
+
+                    <div class="col-lg-6">
+                        <div class="input-group datetimepicker2" data-min-view="0" data-date-format="dd/mm/yyyy hh:ii">
+                            <div class="input-group-prepend">
+                                @Html.LabelFor(model => model.NuevaEmpresa.TerminaVigencia, new { @class = "input-group-text prp2" })
+                            </div>
+
+                            @Html.EditorFor(model => model.NuevaEmpresa.TerminaVigencia, new { @class = "form-control ", @type = "text", @id = "VentaBases", @value = "", @size = "16", @style = "width:100%" })
+                            <div class="input-group-append">
+                                <button class="btn btn-secondary"><i class="fas fa-calendar"></i></button>
+                            </div>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.NuevaEmpresa.TerminaVigencia, "", new { @class = "text-danger" })
+
+                    </div>
+
+
+
+                      <div class="col-lg-6">
+                          <div class="input-group">
+                              <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.IdTipoServicio, new {@class = "input-group-text prp2"}) </div>
+                              @Html.DropDownListFor(x => Model.NuevaEmpresa.IdTipoServicio, Model.TipoServicio, "- Seleccione el Roll -", new {@class = "form-control", @id = "proyectos"})
+                          </div>
+                          @Html.ValidationMessageFor(model => Model.NuevaEmpresa.IdTipoServicio, "", new {@class = "text-danger"})
+                      </div>
+
+
+                      <div class="col-lg-6">
+                          <div class="input-group">
+                              <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.IdTipoInscripcion, new {@class = "input-group-text prp2"}) </div>
+                              @Html.DropDownListFor(x => Model.NuevaEmpresa.IdTipoInscripcion, Model.TipoEmpresa, "- Seleccione el Roll -", new {@class = "form-control", @id = "proyectos"})
+                          </div>
+                          @Html.ValidationMessageFor(model => Model.NuevaEmpresa.IdTipoInscripcion, "", new {@class = "text-danger"})
+                      </div>
+
+
+                          <div class="col-lg-6">
+                              <div class="input-group">
+                                  <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.IdTipoPersona, new { @class = "input-group-text prp2" }) </div>
+                                  @Html.DropDownListFor(x => Model.NuevaEmpresa.IdTipoPersona, Model.TipoEmpresa, "- Seleccione el Roll -", new { @class = "form-control", @id = "proyectos" })
+                              </div>
+                              @Html.ValidationMessageFor(model => Model.NuevaEmpresa.IdTipoPersona, "", new { @class = "text-danger" })
+                          </div>
+
+                      <div class="col-lg-12"> <h3> DATOS GENERALES</h3> </div>
+                    <div class="col-lg-6">
+                        <div class="input-group">
+                            <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.Nombre, new { @class = "input-group-text prp2 " }) </div>
+                            @Html.TextBoxFor(x => Model.NuevaEmpresa.Nombre, new { @class = "form-control ", @style = "text-transform:uppercase;" })
+                        </div>
+                        @Html.ValidationMessageFor(model => Model.NuevaEmpresa.Nombre, "", new { @class = "text-danger" })
+                    </div>
+
+
+                    <div class=" col-lg-6">
+                        <div class="input-group">
+                            <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.CapitalContable, new { @class = "input-group-text prp2 " }) </div>
+                            @Html.TextBoxFor(x => Model.NuevaEmpresa.CapitalContable, new { @class = "form-control" })
+                        </div>
+                        @Html.ValidationMessageFor(model => Model.NuevaEmpresa.CapitalContable, "", new { @class = "text-danger" })
+                    </div>
+                    <div class=" col-lg-6">
+                        <div class="input-group">
+                            <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.Imss, new { @class = "input-group-text prp2 " }) </div>
+                            @Html.TextBoxFor(x => Model.NuevaEmpresa.Imss, new { @class = "form-control" })
+                        </div>
+                        @Html.ValidationMessageFor(model => Model.NuevaEmpresa.Imss, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class=" col-lg-6">
+                        <div class="input-group">
+                            <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.Infonavit, new { @class = "input-group-text prp2 " }) </div>
+                            @Html.TextBoxFor(x => Model.NuevaEmpresa.Infonavit, new { @class = "form-control" })
+                        </div>
+                        @Html.ValidationMessageFor(model => Model.NuevaEmpresa.Infonavit, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class=" col-lg-6">
+                        <div class="input-group">
+                            <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.CMIC, new { @class = "input-group-text prp2 " }) </div>
+                            @Html.TextBoxFor(x => Model.NuevaEmpresa.CMIC, new { @class = "form-control" })
+                        </div>
+                        @Html.ValidationMessageFor(model => Model.NuevaEmpresa.CMIC, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class=" col-lg-6">
+                        <div class="input-group">
+                            <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.SIEM, new { @class = "input-group-text prp2 " }) </div>
+                            @Html.TextBoxFor(x => Model.NuevaEmpresa.SIEM, new { @class = "form-control" })
+                        </div>
+                        @Html.ValidationMessageFor(model => Model.NuevaEmpresa.SIEM, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class=" col-lg-6">
+                        <div class="input-group">
+                            <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.Rfc, new { @class = "input-group-text prp2 " }) </div>
+                            @Html.TextBoxFor(x => Model.NuevaEmpresa.Rfc, new { @class = "form-control" })
+                        </div>
+                        @Html.ValidationMessageFor(model => Model.NuevaEmpresa.Rfc, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class=" col-lg-6">
+                        <div class="input-group">
+                            <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.Domicilio, new { @class = "input-group-text prp2 " }) </div>
+                            @Html.TextBoxFor(x => Model.NuevaEmpresa.Domicilio, new { @class = "form-control" })
+                        </div>
+                        @Html.ValidationMessageFor(model => Model.NuevaEmpresa.Domicilio, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="input-group">
+                            <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.IdEstado, new { @class = "input-group-text prp2" }) </div>
+                            @Html.DropDownListFor(x => Model.NuevaEmpresa.IdEstado, Model.ListaEstados, "- Seleccione el Roll -", new { @class = "form-control", @id = "proyectos" })
+                        </div>
+                        @Html.ValidationMessageFor(model => Model.NuevaEmpresa.IdEstado, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="input-group">
+                            <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.IdMunicipio, new { @class = "input-group-text prp2" }) </div>
+                            @Html.DropDownListFor(x => Model.NuevaEmpresa.IdMunicipio, Model.ListaMunicipios, "- Seleccione el Roll -", new { @class = "form-control", @id = "proyectos" })
+                        </div>
+                        @Html.ValidationMessageFor(model => Model.NuevaEmpresa.IdMunicipio, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class=" col-lg-6">
+                        <div class="input-group">
+                            <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.Localidad, new { @class = "input-group-text prp2 " }) </div>
+                            @Html.TextBoxFor(x => Model.NuevaEmpresa.Localidad, new { @class = "form-control" })
+                        </div>
+                        @Html.ValidationMessageFor(model => Model.NuevaEmpresa.Localidad, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class=" col-lg-6">
+                        <div class="input-group">
+                            <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.Telefono, new { @class = "input-group-text prp2 " }) </div>
+                            @Html.TextBoxFor(x => Model.NuevaEmpresa.Telefono, new { @class = "form-control" })
+                        </div>
+                        @Html.ValidationMessageFor(model => Model.NuevaEmpresa.Telefono, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class=" col-lg-6">
+                        <div class="input-group">
+                            <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.Fax, new { @class = "input-group-text prp2 " }) </div>
+                            @Html.TextBoxFor(x => Model.NuevaEmpresa.Fax, new { @class = "form-control" })
+                        </div>
+                        @Html.ValidationMessageFor(model => Model.NuevaEmpresa.Fax, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class=" col-lg-6">
+                        <div class="input-group">
+                            <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.Correo, new { @class = "input-group-text prp2 " }) </div>
+                            @Html.TextBoxFor(x => Model.NuevaEmpresa.Correo, new { @class = "form-control" })
+                        </div>
+                        @Html.ValidationMessageFor(model => Model.NuevaEmpresa.Correo, "", new { @class = "text-danger" })
+                    </div>
+
+
+                    <div class=" col-lg-6">
+                        <div class="input-group">
+                            <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.Curp, new { @class = "input-group-text prp2 " }) </div>
+                            @Html.TextBoxFor(x => Model.NuevaEmpresa.Curp, new { @class = "form-control" })
+                        </div>
+                        @Html.ValidationMessageFor(model => Model.NuevaEmpresa.Curp, "", new { @class = "text-danger" })
+                    </div>
+
+                          <div class="col-lg-12"> <h3> DATOS PERSONA FÍSICA</h3> </div>
+
+                          <div class=" col-lg-6">
+                              <div class="input-group">
+                                  <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.NumActaNacimiento, new { @class = "input-group-text prp2 " }) </div>
+                                  @Html.TextBoxFor(x => Model.NuevaEmpresa.NumActaNacimiento, new { @class = "form-control" })
+                              </div>
+                              @Html.ValidationMessageFor(model => Model.NuevaEmpresa.NumActaNacimiento, "", new { @class = "text-danger" })
+                          </div>
+
+
+                          <div class="col-lg-6">
+                              <div class="input-group datetimepicker2" data-min-view="0" data-date-format="dd/mm/yyyy hh:ii">
+                                  <div class="input-group-prepend">
+                                      @Html.LabelFor(model => model.NuevaEmpresa.FechaActaNacimiento , new { @class = "input-group-text prp2" })
+                                  </div>
+                                  @Html.EditorFor(model => model.NuevaEmpresa.FechaActaNacimiento, new { @class = "form-control ", @type = "text", @id = "VentaBases", @value = "", @size = "16", @style = "width:100%" })
+                                  <div class="input-group-append">
+                                      <button class="btn btn-secondary"><i class="fas fa-calendar"></i></button>
+                                  </div>
+                              </div>
+                              @Html.ValidationMessageFor(model => model.NuevaEmpresa.FechaActaNacimiento, "", new { @class = "text-danger" })
+
+                          </div>
+
+
+                      <div class=" col-lg-6">
+                          <div class="input-group">
+                              <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.LugarExpedicion, new {@class = "input-group-text prp2 "}) </div>
+                              @Html.TextBoxFor(x => Model.NuevaEmpresa.LugarExpedicion, new {@class = "form-control"})
+                          </div>
+                          @Html.ValidationMessageFor(model => Model.NuevaEmpresa.LugarExpedicion, "", new {@class = "text-danger"})
+                      </div>
+
+                          <div class=" col-lg-6">
+                              <div class="input-group">
+                                  <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.LibroNum, new { @class = "input-group-text prp2 " }) </div>
+                                  @Html.TextBoxFor(x => Model.NuevaEmpresa.LibroNum, new { @class = "form-control" })
+                              </div>
+                              @Html.ValidationMessageFor(model => Model.NuevaEmpresa.LibroNum, "", new { @class = "text-danger" })
+                          </div>
+
+                      <div class="col-lg-12">
+                          <h3> ESCRITURA CONSTITUTIVA</h3>
+                      </div>
+
+
+                          <div class=" col-lg-6">
+                              <div class="input-group">
+                                  <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.ActaNumEscritura, new { @class = "input-group-text prp2 " }) </div>
+                                  @Html.TextBoxFor(x => Model.NuevaEmpresa.ActaNumEscritura, new { @class = "form-control" })
+                              </div>
+                              @Html.ValidationMessageFor(model => Model.NuevaEmpresa.ActaNumEscritura, "", new { @class = "text-danger" })
+                          </div>
+
+                      <div class=" col-lg-6">
+                          <div class="input-group">
+                              <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.VolumenEscritura, new {@class = "input-group-text prp2 "}) </div>
+                              @Html.TextBoxFor(x => Model.NuevaEmpresa.VolumenEscritura, new {@class = "form-control"})
+                          </div>
+                          @Html.ValidationMessageFor(model => Model.NuevaEmpresa.VolumenEscritura, "", new {@class = "text-danger"})
+                      </div>
+                          <div class=" col-lg-6">
+                              <div class="input-group">
+                                  <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.ActaFechaConstancia, new { @class = "input-group-text prp2 " }) </div>
+                                  @Html.TextBoxFor(x => Model.NuevaEmpresa.ActaFechaConstancia, new { @class = "form-control" })
+                              </div>
+                              @Html.ValidationMessageFor(model => Model.NuevaEmpresa.ActaFechaConstancia, "", new { @class = "text-danger" })
+                          </div>
+
+
+                          <div class="col-lg-12">
+                              <h3> NOTARIO P'BLICO </h3>
+                          </div>
+
+                          <div class=" col-lg-6">
+                              <div class="input-group">
+                                  <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.NumNotaria, new { @class = "input-group-text prp2 " }) </div>
+                                  @Html.TextBoxFor(x => Model.NuevaEmpresa.NumNotaria, new { @class = "form-control" })
+                              </div>
+                              @Html.ValidationMessageFor(model => Model.NuevaEmpresa.NumNotaria, "", new { @class = "text-danger" })
+                          </div>
+                          <div class=" col-lg-6">
+                              <div class="input-group">
+                                  <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.CiudadNotaria, new { @class = "input-group-text prp2 " }) </div>
+                                  @Html.TextBoxFor(x => Model.NuevaEmpresa.CiudadNotaria, new { @class = "form-control" })
+                              </div>
+                              @Html.ValidationMessageFor(model => Model.NuevaEmpresa.CiudadNotaria, "", new { @class = "text-danger" })
+                          </div>
+                          <div class=" col-lg-6">
+                              <div class="input-group">
+                                  <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.Modalidad, new { @class = "input-group-text prp2 " }) </div>
+                                  @Html.TextBoxFor(x => Model.NuevaEmpresa.Modalidad, new { @class = "form-control" })
+                              </div>
+                              @Html.ValidationMessageFor(model => Model.NuevaEmpresa.Modalidad, "", new { @class = "text-danger" })
+                          </div>
+                      <div class=" col-lg-6">
+                          <div class="input-group">
+                              <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.TitularNotaria, new {@class = "input-group-text prp2 "}) </div>
+                              @Html.TextBoxFor(x => Model.NuevaEmpresa.TitularNotaria, new {@class = "form-control"})
+                          </div>
+                          @Html.ValidationMessageFor(model => Model.NuevaEmpresa.TitularNotaria, "", new {@class = "text-danger"})
+                      </div>
+                          <div class=" col-lg-6">
+                              <div class="input-group">
+                                  <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.AdscritoNotaria, new { @class = "input-group-text prp2 " }) </div>
+                                  @Html.TextBoxFor(x => Model.NuevaEmpresa.AdscritoNotaria, new { @class = "form-control" })
+                              </div>
+                              @Html.ValidationMessageFor(model => Model.NuevaEmpresa.AdscritoNotaria, "", new { @class = "text-danger" })
+                          </div>
+
+                          <div class=" col-lg-6">
+                              <div class="input-group">
+                                  <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.SustitutoNotaria, new { @class = "input-group-text prp2 " }) </div>
+                                  @Html.TextBoxFor(x => Model.NuevaEmpresa.SustitutoNotaria, new { @class = "form-control" })
+                              </div>
+                              @Html.ValidationMessageFor(model => Model.NuevaEmpresa.SustitutoNotaria, "", new { @class = "text-danger" })
+                          </div>
+
+                          <div class=" col-lg-6">
+                              <div class="input-group">
+                                  <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.DireccionNotaria, new { @class = "input-group-text prp2 " }) </div>
+                                  @Html.TextBoxFor(x => Model.NuevaEmpresa.DireccionNotaria, new { @class = "form-control" })
+                              </div>
+                              @Html.ValidationMessageFor(model => Model.NuevaEmpresa.DireccionNotaria, "", new { @class = "text-danger" })
+                          </div>
+                          <div class=" col-lg-6">
+                              <div class="input-group">
+                                  <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.NumRPPC, new { @class = "input-group-text prp2 " }) </div>
+                                  @Html.TextBoxFor(x => Model.NuevaEmpresa.NumRPPC, new { @class = "form-control" })
+                              </div>
+                              @Html.ValidationMessageFor(model => Model.NuevaEmpresa.NumRPPC, "", new { @class = "text-danger" })
+                          </div>
+                          <div class=" col-lg-6">
+                              <div class="input-group">
+                                  <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.VolRPPC, new { @class = "input-group-text prp2 " }) </div>
+                                  @Html.TextBoxFor(x => Model.NuevaEmpresa.VolRPPC, new { @class = "form-control" })
+                              </div>
+                              @Html.ValidationMessageFor(model => Model.NuevaEmpresa.VolRPPC, "", new { @class = "text-danger" })
+                          </div>
+
+
+                          <div class="col-lg-6">
+                              <div class="input-group datetimepicker2" data-min-view="0" data-date-format="dd/mm/yyyy hh:ii">
+                                  <div class="input-group-prepend">
+                                      @Html.LabelFor(model => model.NuevaEmpresa.FechaRPPC, new { @class = "input-group-text prp2" })
+                                  </div>
+                                  @Html.EditorFor(model => model.NuevaEmpresa.FechaRPPC, new { @class = "form-control ", @type = "text", @id = "VentaBases", @value = "", @size = "16", @style = "width:100%" })
+                                  <div class="input-group-append">
+                                      <button class="btn btn-secondary"><i class="fas fa-calendar"></i></button>
+                                  </div>
+                              </div>
+                              @Html.ValidationMessageFor(model => model.NuevaEmpresa.FechaRPPC, "", new { @class = "text-danger" })
+
+                          </div>
+
+                          <div class=" col-lg-6">
+                              <div class="input-group">
+                                  <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.CiudadRPPC, new { @class = "input-group-text prp2 " }) </div>
+                                  @Html.TextBoxFor(x => Model.NuevaEmpresa.CiudadRPPC, new { @class = "form-control" })
+                              </div>
+                              @Html.ValidationMessageFor(model => Model.NuevaEmpresa.CiudadRPPC, "", new { @class = "text-danger" })
+                          </div>
+
+                          <div class=" col-lg-6">
+                              <div class="input-group">
+                                  <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.FolioMercantilElectronico, new { @class = "input-group-text prp2 " }) </div>
+                                  @Html.TextBoxFor(x => Model.NuevaEmpresa.FolioMercantilElectronico, new { @class = "form-control" })
+                              </div>
+                              @Html.ValidationMessageFor(model => Model.NuevaEmpresa.FolioMercantilElectronico, "", new { @class = "text-danger" })
+                          </div>
+                      <div class=" col-lg-6">
+                          <div class="input-group">
+                              <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.Folios, new {@class = "input-group-text prp2 "}) </div>
+                              @Html.TextBoxFor(x => Model.NuevaEmpresa.Folios, new {@class = "form-control"})
+                          </div>
+                          @Html.ValidationMessageFor(model => Model.NuevaEmpresa.Folios, "", new {@class = "text-danger"})
+                      </div>
+
+                      <div class=" col-lg-6">
+                          <div class="input-group">
+                              <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.LibroNum, new {@class = "input-group-text prp2 "}) </div>
+                              @Html.TextBoxFor(x => Model.NuevaEmpresa.LibroNum, new {@class = "form-control"})
+                          </div>
+                          @Html.ValidationMessageFor(model => Model.NuevaEmpresa.LibroNum, "", new {@class = "text-danger"})
+                      </div>
+
+                          <div class="col-lg-12">
+                              <h3> FIRMAS </h3>
+                          </div>
+
+                      <div class="col-lg-6">
+                          <div class="input-group">
+                              <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.IdRegistro, new {@class = "input-group-text prp2"}) </div>
+                              @Html.DropDownListFor(x => Model.NuevaEmpresa.IdRegistro, Model.ListaFirmas, "- Seleccione el Roll -", new {@class = "form-control", @id = "proyectos"})
+                          </div>
+                          @Html.ValidationMessageFor(model => Model.NuevaEmpresa.IdRegistro, "", new {@class = "text-danger"})
+                      </div>
+
+                      <div class="col-lg-6">
+                          <div class="input-group">
+                              <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.IdReviso, new {@class = "input-group-text prp2"}) </div>
+                              @Html.DropDownListFor(x => Model.NuevaEmpresa.IdReviso, Model.ListaFirmas, "- Seleccione el Roll -", new {@class = "form-control", @id = "proyectos"})
+                          </div>
+                          @Html.ValidationMessageFor(model => Model.NuevaEmpresa.IdReviso, "", new {@class = "text-danger"})
+                      </div>
+
+                      <div class="col-lg-6">
+                          <div class="input-group">
+                              <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.IdVoBo, new {@class = "input-group-text prp2"}) </div>
+                              @Html.DropDownListFor(x => Model.NuevaEmpresa.IdVoBo, Model.ListaFirmas, "- Seleccione el Roll -", new {@class = "form-control", @id = "proyectos"})
+                          </div>
+                          @Html.ValidationMessageFor(model => Model.NuevaEmpresa.IdVoBo, "", new {@class = "text-danger"})
+                      </div>
+
+                          <div class="col-lg-6">
+                              <div class="input-group">
+                                  <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevaEmpresa.IdAutorizo, new { @class = "input-group-text prp2" }) </div>
+                                  @Html.DropDownListFor(x => Model.NuevaEmpresa.IdAutorizo, Model.ListaFirmas, "- Seleccione el Roll -", new { @class = "form-control", @id = "proyectos" })
+                              </div>
+                              @Html.ValidationMessageFor(model => Model.NuevaEmpresa.IdAutorizo, "", new { @class = "text-danger" })
+                          </div>
+
+
+
+                      @*<div class="col-sm-2"> </div>
+                        <div class=" col-sm-10">
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevoSupervisor.IdRoll, new { @class = "input-group-text prp2" }) </div>
+                                @Html.DropDownListFor(x => Model.NuevoSupervisor.IdRoll, Model.ListasRoles, "- Seleccione el Roll -", new { @class = "form-control", @id = "proyectos" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.NuevoSupervisor.IdRoll, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-2"> </div>
+                        <div class=" col-sm-10">
+                            <div class="input-group">
+                                <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoSupervisor.Direccion, new { @class = "input-group-text prp2 " }) </div>
+                                @Html.TextBoxFor(x => Model.NuevoSupervisor.Direccion, new { @class = "form-control", @style = "text-transform:uppercase;" })
+                            </div>
+                            @Html.ValidationMessageFor(model => Model.NuevoSupervisor.Direccion, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-2"> </div>
+                        <div class=" col-sm-10">
+                            <div class="input-group">
+                                <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoSupervisor.Telefono, new { @class = "input-group-text prp2 " }) </div>
+                                @Html.TextBoxFor(x => Model.NuevoSupervisor.Telefono, new { @class = "form-control " })
+                            </div>
+                            @Html.ValidationMessageFor(model => Model.NuevoSupervisor.Telefono, "", new { @class = "text-danger" })
+                        </div>*@
+
+
+                </div>
+                    }
+
+
+
+               
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-4t" data-dimiss="modal" onclick="mostrar_procesar(); $('#agregarSupervisorForm').submit();">Agregar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+<div class="table-responsive noSwipe " style="padding: 20px">
+    <table id="tablaDatos" class="table table-sm table-striped table-hover no-footer" style="background-color: rgba(200,200, 200, 0.5); color: black; font-size: 12px ">
+        <thead class="text-bold">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.VerEmpresa.Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.VerEmpresa.Nombre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.VerEmpresa.RFC)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.VerEmpresa.Tamanio)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.VerEmpresa.Tipo)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.VerEmpresa.TipoServicio)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.VerEmpresa.CapitalContable)
+                </th>
+
+                <th>
+                    <div class="row">
+                        <div class="col-12">
+                            @Html.DisplayNameFor(model => model.VerEmpresa.IniciaVigencia)
+                        </div>
+                        <div class="col-12">
+                            @Html.DisplayNameFor(model => model.VerEmpresa.TerminaVigencia)
+                        </div>
+                    </div>
+
+                
+                </th>
+
+                <th>ACCIONES</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model.ListaEmpresas)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td align="center">
+                        @Html.DisplayFor(modelItem => item.RFC)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Tamanio)
+                    </td>
+                    <td align="center">
+                        @Html.DisplayFor(modelItem => item.Tipo)
+                    </td>
+                    <td align="center">
+                        @Html.DisplayFor(modelItem => item.TipoServicio)
+                    </td>
+
+                    <td>
+                        <div class="row">
+                            <div class="col-12">
+                               @Html.DisplayFor(modelItem => item.IniciaVigencia)
+                            </div>
+                            <div class="col-12">
+                                @Html.DisplayFor(modelItem => item.TerminaVigencia)
+                            </div>
+                        </div>
+
+                    </td>
+                    <td>
+                        @*@using (Html.BeginForm("EliminaSupervisor", "Empresas", FormMethod.Post, new { @id = "EliminaSupervisForm" + item.Id }))
+                        {
+                            @Html.HiddenFor(model => model.EliminaSup, new { id = "IdProyeto", Value = item.Id })
+                        }
+                        @using (Html.BeginForm("CambiaEstatusSupervisor", "Supervisores", FormMethod.Post, new { @id = "cambiaSupervisForm" + item.Id }))
+                        {
+
+                            @Html.HiddenFor(model => model.EliminaSup, new { id = "IdSupervisor", Value = item.Id })
+                        }*@
+
+
+                        <div class=" row">
+                            <div class=" col-6">
+                                <button class="btn btn-danger btn-sm" data-toggle="tooltip" title="Eliminar Supervisor" onclick="if (confirm('Esta seguro de que quiere eliminar el supervisor')) { $('#EliminaSupervisForm' + @item.Id).submit();mostrar_procesar();}"><i class="fa fa-trash"></i> </button>
+
+                            </div>
+
+                            <div class=" col-6">
+                                <button class="btn btn-default btn-sm" data-toggle="tooltip" title="Camia Estatus Supervisor" onclick="$('#cambiaSupervisForm' + @item.Id).submit();mostrar_procesar();"><i class="fa fa-adjust"></i> </button>
+                            </div>
+
+
+                        </div>
+
+
+                    </td>
+
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+@section Scripts
+{
+    <script src="~/assets/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/assets/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/assets/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+
+    <script src="~/assets/datatables/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/assets/datatables/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="~/assets/datatables/pdfmake/pdfmake.min.js"></script>
+    <script src="~/assets/datatables/pdfmake/vfs_fonts.js"></script>
+    <script src="~/assets/datatables/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+    <script src="~/assets/datatables/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="~/assets/datatables/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/assets/datatables/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+    @*<script src="~/assets/js/app-tables-datatables.js"></script>*@
+
+
+
+
+
+
+    @*    <script src="~/assets/jquery.sparkline/jquery.sparkline.min.js"></script>*@
+    <script>
+                $(function () {
+                    $('[data-toggle="tooltip"]').tooltip();
+                })
+                $(".datetimepicker").datetimepicker({
+                    autoclose: true,
+                    language: 'es',
+                    componentIcon: '.fas.fa-calendar',
+                    navIcons: {
+                        rightIcon: 'fas fa-chevron-right',
+                        leftIcon: 'fas fa-chevron-left'
+                    },
+                    format: "dd/mm/yyyy"
+                });
+                $('#tablaDatos').DataTable({
+                    "language": {
+                        "sProcessing": "Procesando...",
+                        "sLengthMenu": "Ver _MENU_ registros",
+                        "sZeroRecords": "No se encontraron resultados",
+                        "sEmptyTable": "Ningún dato disponible en esta tabla",
+                        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix": "",
+                        "sSearch": "Buscar:",
+                        "sUrl": "",
+                        "sInfoThousands": ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oPaginate": {
+                            "sFirst": " |< ",
+                            "sLast": " >| ",
+                            "sNext": " >> ",
+                            "sPrevious": " << "
+                        },
+                        "oAria": {
+                            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                        },
+                        "oButtons": {
+                            "sCopy": "Copiar",
+                            "sPrint": "Imprimir"
+                        }
+                    },
+                    buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+
+                    "lengthMenu": [[20, 30, 40, 50, -1], [20, 30, 40, 50, "All"]],
+                    dom: "<'row be-datatable-header'<'col-sm-6'l><'col-sm-6 text-right'B>>" +
+                        "<'row be-datatable-body'<'col-sm-12'tr>>" +
+                        "<'row be-datatable-footer'<'col-sm-5'i><'col-sm-7'p>>",
+                    extend: 'pdf', className: 'btn green btn-outline',  text: 'Export PDF',
+                customize: function (doc) {
+                    doc.defaultStyle =
+                        {
+                            font: 'alef'
+                        }
+                    var docDefinition = {
+                        // a string or { width: number, height: number }
+                        pageSize: 'carta',
+
+                        // by default we use portrait, you can change it to landscape if you wish
+                        pageOrientation: 'landscape',
+
+                        // [left, top, right, bottom] or [horizontal, vertical] or just a number for equal margins
+                        pageMargins: [ 40, 60, 40, 60 ],
+                    };
+
+                }
+
+                });
+
+    </script>
+
+
+}

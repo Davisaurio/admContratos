@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e16889bca42640aba43a36eccb6af160" Name="Diagram1">
+        <EntityTypeShape EntityType="ControlContratosSevrModel.Contratistas" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.Departamentos" Width="1.5" PointX="1.5" PointY="55.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.DescSostEsc" Width="1.5" PointX="1.5" PointY="36.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.Direcciones" Width="1.5" PointX="1.5" PointY="57.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.Ejercicios" Width="1.5" PointX="3.75" PointY="29.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.Escuelas" Width="1.5" PointX="1.5" PointY="39.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.EstadoBien" Width="1.5" PointX="3.75" PointY="51.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.ExperienciaAcreditada" Width="1.5" PointX="0.75" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.Fundamentos" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.LeyendaAnual" Width="1.5" PointX="6" PointY="29.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.Modalidades" Width="1.5" PointX="3.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.ModalidadEsc" Width="1.5" PointX="1.5" PointY="44.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.Nivel" Width="1.5" PointX="6.75" PointY="26.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.NivelEsc" Width="1.5" PointX="1.5" PointY="47.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.Personal" Width="1.5" PointX="3.75" PointY="54.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.Recursos" Width="1.5" PointX="6.75" PointY="33.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.RepresentanteLegal" Width="1.5" PointX="5.25" PointY="15.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.RolesSupervisores" Width="1.5" PointX="1.5" PointY="33.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.Supervisores" Width="1.5" PointX="3.75" PointY="32.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.Tamanio" Width="1.5" PointX="0.75" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.TipoInscripcion" Width="1.5" PointX="0.75" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.TipoPersona" Width="1.5" PointX="0.75" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.TiposEnagenacion" Width="1.5" PointX="3.75" PointY="61.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.TipoServicio" Width="1.5" PointX="0.75" PointY="15.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.Ubicaciones" Width="1.5" PointX="3.75" PointY="64.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.ContratistasInvitadosPaquete" Width="1.5" PointX="8.25" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.DetallePaquetesProyecto" Width="1.5" PointX="8.25" PointY="36.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.Inventario" Width="1.5" PointX="6" PointY="54.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.InvitacionCCP" Width="1.5" PointX="8.25" PointY="41.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.OficiosRecursos" Width="1.5" PointX="11.25" PointY="29.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.PaqProcedimiento" Width="1.5" PointX="6" PointY="35.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.ProgramasContratacion" Width="1.5" PointX="6" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.ProgramasRecursos" Width="1.5" PointX="9" PointY="28.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.Proyectos" Width="1.5" PointX="3.75" PointY="39.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.Entidades" Width="1.5" PointX="0.75" PointY="17.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.Localidades" Width="1.5" PointX="1.5" PointY="49.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.Municipios" Width="1.5" PointX="0.75" PointY="25.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlContratosSevrModel.Paises" Width="1.5" PointX="1.5" PointY="22.25" IsExpanded="true" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_ContratistasInvitadosPaquete_Empresas" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_Empresas_ExperienciaAcreditada" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_estado_1_empresa_1" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_IdEmpresa" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_municipio_1_empresa_1" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_tamaño_1_Empresa_1" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_tipoInscripcion_1_Empresa_1" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_tipoPersona_1_TipoPersona_1" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_tipoServicio_1_Empresa_1" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_Personal_Departamentos" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_Escuelas_DescSostEsc" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_Inventario_Direcciones" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_Personal_Direcciones" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_Leyendas1_Ejercicios" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_PaquetesProcedimiento_Ejercicios" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_ProgramasRecursos_Ejercicios" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_Escuelas_Localidades" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_Escuelas_ModalidadEsc" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_Escuelas_NivelEsc" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_Proyectos_Escuelas" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_Inventario_EstadoBien" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_ProgramasContratacion_ExperienciaAcreditada" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_ProgramasContratacion_Modalidad" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_Nivel" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_Inventario_Personal" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_ProgramasContratacion_Personal" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_ProgramasContratacion_Personal1" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_ProgramasContratacion_Personal2" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_ProgramasContratacion_Personal3" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_ProgramasContratacion_Personal4" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_Prog_Recursos" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_Proyectos_RolesSupervisores" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_Supervisores_RolesSupervisores" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_DetallePaqueteProyecto_Supervisores" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_PaquetesProcedimiento_Supervisores" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_Proyectos_Supervisores" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_Inventario_TiposEnagenacion" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_Inventario_Ubicaciones" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_ContratistasInvitadosPaquete_PaquetesProcedimiento" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_DetallePaqueteProyecto_PaquetesProcedimiento" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_DetallePaqueteProyecto_Proyectos" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_InvitacionCCP_PaquetesProcedimiento" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_OficiosRecursos_ProgramasRecursos" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_PaquetesProcedimiento_Proyectos" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_ProgramasContratacion_PaquetesProcedimiento" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_Entidad_Pais" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_Entidades_Paises" ManuallyRouted="false" />
+        <AssociationConnector Association="ControlContratosSevrModel.FK_Localidades_Municipios" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

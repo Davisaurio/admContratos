@@ -1,0 +1,862 @@
+﻿@using NuevoSicop.Models
+@model NuevoSicop.Models.ProgramaContratacionModelView
+
+
+<link href="~/assets/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/assets/datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+@*<link href="~/assets/DropZone/dropzone.min.css" rel="stylesheet" />*@
+
+<style>
+    .prp2 {
+        width: 150px;
+    }
+
+    .prp {
+        width: 250px;
+    }
+    
+</style>
+
+@if (@Model.Error.Length > 1)
+{
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="mdi mdi-close" aria-hidden="true"></span></button>
+        <div class="icon"> <span class="mdi mdi-close-circle-o"></span></div>
+        <div class="message"><strong>Problemas!</strong>@Model.Error</div>
+    </div>
+
+}
+@if (@Model.Exito.Length > 1)
+{
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="mdi mdi-close" aria-hidden="true"></span></button>
+        <div class="icon"> <span class="mdi mdi mdi-check"></span></div>
+        <div class="message"><strong>Éxito!</strong>@Model.Exito</div>
+    </div>
+
+}
+
+
+
+<div class="row">
+
+
+    <div class="col-lg-4">
+        @using (Html.BeginForm("Ejercicio", "ProgramaDeContratacion", FormMethod.Post, new {@id = "Formejercicio"}))
+        {
+            <div class="input-group">
+                <div class="input-group-prepend">@Html.LabelFor(x => Model.IdEjercicio, new {@class = "input-group-text prp2"}) </div>
+                @Html.DropDownListFor(x => Model.IdEjercicio, Model.ListaEjercicios, "- Seleccionar Ejercicio -", new {@class = "form-control"})
+            </div>
+
+        }
+    </div>
+    <div class="col-lg-4">
+        @using (Html.BeginForm("Paquete", "ProgramaDeContratacion", FormMethod.Post, new {@id = "FormPaquete"}))
+        {
+            @Html.HiddenFor(X=>Model.IdEjercicio)
+            <div class="input-group ">
+            <div class="input-group-prepend">
+                    @Html.LabelFor(x => Model.IdPaquete, new {@class = "input-group-text prp2"})
+            </div>
+                @Html.DropDownListFor(x => Model.IdPaquete, Model.Paquetes, "- Seleccione el Paquete -", new {@class = "form-control"})
+            </div>
+        }
+       
+    </div>
+    <div class="col-lg-4">
+      @using (Html.BeginForm("Busqueda", "ProgramaDeContratacion", FormMethod.Post, new {@id = "FormBusqueda"  }))
+      {
+         <div class="input-group">
+             <div class="input-group-prepend">
+                 @Html.LabelFor(x => Model.BuscarProyecto, new {@class = "input-group-text prp2"})
+             </div>
+              @Html.TextBoxFor(x => Model.BuscarProyecto, new {@class = "form-control", @style = "text-transform:uppercase;"})
+            
+             <div class="input-group-append">
+                 <button class="btn btn-secondary btn-4t"><i class="fas fa-search"></i></button>
+             </div> 
+         </div>
+          
+      }
+    </div>
+    
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Datos Generales</h6>
+        <div class="tools" align="right">
+            @*<button class="btn btn-secondary btn-4t" title="Agregar un Paquete " data-togle="tooltip"><i class="fa  fa-plus"></i> </button>*@
+
+            <div class="row">
+                <div class="col-lg-6 col-md-3"></div>
+                <div class="col-lg-2 col-md-3" >
+                    @if (Model.IdEjercicio > 0)
+                    {
+                        <a href="#" class="btn btn-4t btn-icon-split" type="button" data-toggle="modal" data-target="#Agregapaquete" align="right">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-plus-circle"></i>
+                            </span>
+                            <span class="text">Paquete</span>
+                        </a>
+                    }
+                </div>
+                <div class="col-lg-2 col-md-3">
+                    @if (Model.IdPaquete > 0)
+                    {
+                        <a href="#" class="btn btn-4t btn-icon-split" type="button" data-toggle="modal" data-target="#AgregaProyecto" align="right">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-plus-circle"></i>
+                            </span>
+                            <span class="text">Proyecto</span>
+                        </a>
+                    }
+                </div>
+                <div class="col-lg-2 col-md-3">
+
+                    @*@if (Model.IdPaquete > 0)
+                    {
+                        using (Html.BeginForm("ProgramaContratacion", "ProgramaDeContratacion", FormMethod.Post, new { @id = "ProgramaForm" }))
+                        {   
+                            @Html.HiddenFor(X => Model.IdEjercicio)
+                            @Html.HiddenFor(X => Model.IdPaquete)
+
+                            <a class="btn btn-4t btn-icon-split" type="button" align="right" Onclick="$('#ProgramaForm').submit()">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-print"></i>
+                                </span>
+                                <span class="text">Programa</span>
+                            </a>
+                        }
+                    }*@
+                   @if (Model.IdPaquete > 0)
+                                {
+                            using (Html.BeginForm("Programa", "Documentos", FormMethod.Post, new { @id = "RepProgramaForm" }))
+                            {
+                                @Html.HiddenFor(x => Model.IdEjercicio)
+                                @Html.HiddenFor(x => Model.IdPaquete)
+                            }
+
+                    <buton class="btn btn-4t btn-sm" onclick="$('#RepProgramaForm').submit()"><span class="fas fa-print" > </span>PROGRAMA</buton>
+                  }
+
+                </div>
+            </div>
+
+
+
+
+
+
+
+        </div>
+
+    </div>
+    <div class="card-body">
+
+        <div class="row">
+
+
+            <div class="col-sm-6 col-md-6">
+                @using (Html.BeginForm("TipoInvesion", "ProgramaDeContratacion", FormMethod.Post, new {@id = "FormInversion"}))
+                {
+                    @Html.HiddenFor(X => Model.IdEjercicio)
+                    @Html.HiddenFor(X => Model.IdPaquete)
+
+                    <div class="input-group">
+                        <div class="input-group-prepend">@Html.LabelFor(x => Model.IdTipoInversion, new {@class = "input-group-text prp2"}) </div>
+                        @Html.DropDownListFor(x => Model.IdTipoInversion, Model.TipoInversion, "- Seleccione el tipo de inversión -", new {@class = "form-control", @id = "IdTipoInversionSelect"})
+                    </div>
+
+                }
+
+            </div>
+
+            <div class="col-sm-6 col-md-6">
+                @using (Html.BeginForm("Modalidad", "ProgramaDeContratacion", FormMethod.Post, new { @id = "FormModalidadForm" }))
+                {
+
+                    @Html.HiddenFor(X => Model.IdEjercicio)
+                    @Html.HiddenFor(X => Model.IdPaquete)
+                    <div class="input-group">
+                        <div class="input-group-prepend">@Html.LabelFor(x => Model.IdMOdalidad, new {@class = "input-group-text prp2"}) </div>
+                        @Html.DropDownListFor(x => Model.IdMOdalidad, Model.Modalidad, "- Seleccione la modalidad -", new {@class = "form-control", @id = "IdModalidadSelect"})
+                    </div>
+                }
+            </div>
+            <div class="col-12">
+                @using (Html.BeginForm("FundamentoLegal", "ProgramaDeContratacion", FormMethod.Post, new {@id = "FormIdFundamento"}))
+                {
+
+                    @Html.HiddenFor(X => Model.IdEjercicio)
+                    @Html.HiddenFor(X => Model.IdPaquete)
+                    <div class="input-group">
+                        <div class="input-group-prepend">@Html.LabelFor(x => Model.IdFundamento, new {@class = "input-group-text prp2"}) </div>
+                        @Html.DropDownListFor(x => Model.IdFundamento, Model.FundamentoLegal, "- Seleccione el  fundamento legal -", new {@class = "form-control", @id = "IdFundamentoSelect"})
+                    </div>
+                }
+            </div>
+
+
+            <div class="col-12">
+                @if (!String.IsNullOrEmpty(@Model.FundamentoLegalDesc))
+
+                {
+                    <div class="alert alert-basic alert-dismissible" role="alert">
+                        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="mdi mdi-close" aria-hidden="true"></span></button>
+                        <div class="icon"> <span class="mdi mdi mdi-check"></span></div>
+                        <div class="message"><strong>@Html.LabelFor(X=>X.FundamentoLegalDesc): </strong>@Html.DisplayFor(x=>x.FundamentoLegalDesc)</div>
+                    </div>
+
+                }
+
+
+            </div>
+
+
+
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+
+                            <thead>
+                            <tr>
+
+                                <th rowspan="1" colspan="1">@Html.LabelFor(Model => Model.Paq.Anio)</th>
+                                <th rowspan="1" colspan="1">@Html.LabelFor(Model => Model.Paq.NumPaquete)</th>
+                                <th rowspan="1" colspan="1">@Html.LabelFor(Model => Model.Paq.Descripcion)</th>
+                                <th rowspan="1" colspan="1">@Html.LabelFor(Model => Model.Paq.NoProcedimiento)</th>
+                                <th rowspan="1" colspan="1">@Html.LabelFor(Model => Model.Paq.Recuperacion)</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            <tr role="row" class="odd">
+                                <td class="sorting_1">@Html.DisplayFor(x => x.Paq.Anio)</td>
+                                <td align="center"> @Html.DisplayFor(x => x.Paq.NumPaquete)</td>
+                                <td>@Html.DisplayFor(x => x.Paq.Descripcion)</td>
+                                <td align="center">@Html.DisplayFor(x => x.Paq.NoProcedimiento)</td>
+                                <td align="right">@Html.DisplayFor(x => x.Paq.Recuperacion)</td>
+
+
+
+
+                            </tr>
+
+
+                            </tbody>
+                        </table>
+                    </div>
+              </div>
+
+            <div class="col-sm-6">
+            @if (@Model.Paq.Proy.Count >= 1)
+            {
+                <table class="table table-striped" style="font-size: 11px; color: black">
+                    <thead style="background: #000000; color: #FFFFFF">
+                    <tr>
+                        <th>Descripcion de la obra</th>
+                        <th>Plazo de ejecucion</th>
+                        <th>Anticipo</th>
+                        <th>Importe autorizado</th>
+                        <th>Capital Contable</th>
+                        <th>Acción</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in Model.Paq.Proy)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.Descripcion)</td>
+                            <td align="center">@Html.DisplayFor(modelItem => item.PlazoEjecucion)</td>
+                            <td align="right">@Html.DisplayFor(modelItem => item.Anticipo)</td>
+                            <td align="right">@Html.DisplayFor(modelItem => item.ImporteAutorizado)</td>
+                            <td align="right">@Html.DisplayFor(modelItem => item.CapitalContable)</td>
+                            <td>
+                                @using (Html.BeginForm("EliminaProyecto", "ProgramaDeContratacion", FormMethod.Post, new {@id = "FormEliminaProyecto"+item.Id}))
+                                {
+                                   @Html.HiddenFor(x=>x.IdPaquete )
+                                   @Html.HiddenFor(x => x.IdEjercicio)
+                                   @Html.HiddenFor(model => model.IdEliminaProyecto, new { id = "IdProyeto", Value =item.Id })
+                                }
+                                <button calss="btn btn-danger" data-toggle="tooltip" title="Eliminar el Proyecto" onclick="if (confirm('Esta seguro de que quiere eliminar el Proyecto')) { $('#FormEliminaProyecto'+@item.Id).submit();mostrar_procesar();}"><i class="fa fa-trash"></i> </button>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                using (Html.BeginForm("EliminaPaquete", "ProgramaDeContratacion", FormMethod.Post, new {@id = "FormEliminaPaquete"}))
+                 {
+                    @Html.HiddenFor(x=>x.IdPaquete)
+                }
+                <button class="btn btn-danger" data-toggle="tooltip" title="Eliminar el Paquete" onclick="if (confirm('Esta seguro de que quiere eliminar el paquete')) { $('#FormEliminaPaquete').submit();mostrar_procesar();}"><i class="fa fa-trash"></i> </button>
+                @*<button calss="btn btn-secondary" data-toggle="tooltip" title="Editar el Paquete"><i class="fa fa-pen-alt"></i> </button>*@
+            }
+            </div>
+        </div>
+    </div>
+   
+</div>
+
+
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Programacion de Fechas: </h6>
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm("GuardarPrograma", "ProgramaDeContratacion", FormMethod.Post, new {@id = "FormGuardarProgForm"}))
+        {
+            @Html.HiddenFor(model => Model.IdPaquete)
+            @Html.HiddenFor(model => Model.IdEjercicio)
+            @Html.HiddenFor(model => Model.IdTipoInversion, new {id = "IdTipoInversion", Value = @Model.IdTipoInversion})
+            @Html.HiddenFor(model => Model.IdMOdalidad, new {id = "IdMOdalidad", Value = "$('#ProgramaSelect option:selected').val()"})
+            @Html.HiddenFor(model => Model.IdFundamento, new {id = "IdFundamento", Value = "$('#IdFundamentoSelect optio:selected').val()"})
+        
+            <div class="row">
+
+                <div class="col-lg-6">
+                    <div class="input-group  datetimepicker1" data-min-view="2" data-date-format="dd/mm/yyyy">
+                        <div class="input-group-prepend">
+                            @Html.LabelFor(model => model.ProgramaContratacion, new {@class = "input-group-text prp"})
+                        </div>
+                        @Html.EditorFor(model => model.ProgramaContratacion, new {@class = "form-control ", @type = "text", @id = "Programa de contratacción ", @value = "", @size = "16", @style = "width:100%"})
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary"><i class="fas fa-calendar"></i></button>
+                        </div>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.ProgramaContratacion, "", new {@class = "text-danger"})
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="input-group  datetimepicker1" data-min-view="2" data-date-format="dd/mm/yyyy">
+                        <div class="input-group-prepend">
+                            @Html.LabelFor(model => model.ConvocaInvitacion, new {@class = "input-group-text prp"})
+                        </div>
+                        @Html.EditorFor(model => model.ConvocaInvitacion, new {@class = "form-control ", @type = "text", @id = "ConvocatoriaInvitación ", @value = "", @size = "16", @style = "width:100%"})
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary"><i class="fas fa-calendar"></i></button>
+                        </div>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.ConvocaInvitacion, "", new {@class = "text-danger"})
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="input-group datetimepicker2" data-min-view="0" data-date-format="dd/mm/yyyy hh:ii">
+                        <div class="input-group-prepend">
+                            @Html.LabelFor(model => model.VentaBases, new {@class = "input-group-text prp"})
+                        </div>
+
+                        @Html.EditorFor(model => model.VentaBases, new {@class = "form-control ", @type = "text", @id = "VentaBases", @value = "", @size = "16", @style = "width:100%"})
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary"><i class="fas fa-calendar"></i></button>
+                        </div>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.VentaBases, "", new {@class = "text-danger"})
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="input-group  datetimepicker2" data-min-view="0" data-date-format="dd/mm/yyyy hh:ii">
+                        <div class="input-group-prepend">
+                            @Html.LabelFor(model => model.Visita, new {@class = "input-group-text prp"})
+                        </div>
+
+                        @Html.EditorFor(model => model.Visita, new {@class = "form-control ", @type = "text", @id = "Visita", @value = "", @size = "16", @style = "width:100%"})
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary"><i class="fas fa-calendar"></i></button>
+                        </div>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Visita, "", new {@class = "text-danger"})
+
+
+
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="input-group  datetimepicker2" data-min-view="0" data-date-format="dd/mm/yyyy hh:ii">
+                        <div class="input-group-prepend">
+                            @Html.LabelFor(model => model.JuntaAclaraciones, new {@class = "input-group-text prp"})
+                        </div>
+
+                        @Html.EditorFor(model => model.JuntaAclaraciones, new {@class = "form-control ", @type = "text", @id = "JuntaAcraraciones", @value = "", @size = "16", @style = "width:100%"})
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary"><i class="fas fa-calendar"></i></button>
+                        </div>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.JuntaAclaraciones, "", new {@class = "text-danger"})
+
+
+
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="input-group  datetimepicker2" data-min-view="0" data-date-format="dd/mm/yyyy hh:ii">
+                        <div class="input-group-prepend">
+                            @Html.LabelFor(model => model.Apertura, new {@class = "input-group-text prp"})
+                        </div>
+
+                        @Html.EditorFor(model => model.Apertura, new {@class = "form-control ", @type = "text", @id = "Apertura", @value = "", @size = "16", @style = "width:100%"})
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary"><i class="fas fa-calendar"></i></button>
+                        </div>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Apertura, "", new {@class = "text-danger"})
+
+
+
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="input-group datetimepicker2" data-min-view="0" data-date-format="dd/mm/yyyy hh:ii">
+                        <div class="input-group-prepend">
+                            @Html.LabelFor(model => model.Fallo, new {@class = "input-group-text prp"})
+                        </div>
+
+                        @Html.EditorFor(model => model.Fallo, new {@class = "form-control ", @type = "text", @id = "Fallo", @value = "", @size = "16", @style = "width:100%"})
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary"><i class="fas fa-calendar"></i></button>
+                        </div>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Fallo, "", new {@class = "text-danger"})
+
+
+
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="input-group  datetimepicker2" data-min-view="0" data-date-format="dd/mm/yyyy hh:ii">
+                        <div class="input-group-prepend">
+                            @Html.LabelFor(model => model.Firma, new {@class = "input-group-text prp"})
+                        </div>
+
+                        @Html.EditorFor(model => model.Firma, new {@class = "form-control ", @type = "text", @id = "Firma", @value = "", @size = "16", @style = "width:100%"})
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary"><i class="fas fa-calendar"></i></button>
+                        </div>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Firma, "", new {@class = "text-danger"})
+
+
+
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="input-group datetimepicker1" data-min-view="2" data-date-format="dd/mm/yyyy">
+                        <div class="input-group-prepend">
+                            @Html.LabelFor(model => model.FechaInicio, new {@class = "input-group-text prp"})
+                        </div>
+
+                        @Html.EditorFor(model => model.FechaInicio, new {@class = "form-control ", @type = "text", @id = "FechaInicio", @value = "", @size = "16", @style = "width:100%"})
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary"><i class="fas fa-calendar"></i></button>
+                        </div>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.FechaInicio, "", new {@class = "text-danger"})
+
+
+
+                </div>
+
+
+
+            </div>
+        }
+    </div>
+    <div class="card-footer" align="right">
+        @if (Model.IdPaquete > 0)
+        {
+         
+            <a href="#" class="btn btn-4t btn-icon-split" type="button" align="right">
+                <span class="icon text-white-50">
+                </span>
+                <span class="text" onclick="$('#FormGuardarProgForm').submit(); mostrar_procesar();">Guardar</span>
+            </a>
+
+        }
+    </div>
+
+
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Firmas: </h6>
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm("GuardarPrograma2", "ProgramaDeContratacion", FormMethod.Post, new { @id = "FormGuardarProg2Form" }))
+        {   @Html.HiddenFor(model => Model.IdPaquete)
+            @Html.HiddenFor(model => Model.IdEjercicio)
+            <div class="row">
+
+                <div class="col-6">
+                    <div class="input-group">
+                        <div class="input-group-prepend">@Html.LabelFor(x => Model.IdReviso, new {@class = "input-group-text prp2"}) </div>
+                        @Html.DropDownListFor(x => Model.IdReviso, Model.ListaServidores, "- Seleccionar Ejercicio -", new {@class = "form-control"})
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="input-group">
+                        <div class="input-group-prepend">@Html.LabelFor(x => Model.IdVoBo, new {@class = "input-group-text prp2"}) </div>
+                        @Html.DropDownListFor(x => Model.IdVoBo, Model.ListaServidores, "- Seleccionar Ejercicio -", new {@class = "form-control"})
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="input-group">
+                        <div class="input-group-prepend">@Html.LabelFor(x => Model.IdAutorizo, new {@class = "input-group-text prp2"}) </div>
+                        @Html.DropDownListFor(x => Model.IdAutorizo, Model.ListaServidores, "- Seleccionar Ejercicio -", new {@class = "form-control"})
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="input-group">
+                        <div class="input-group-prepend">@Html.LabelFor(x => Model.IdLeyenda, new {@class = "input-group-text prp2"}) </div>
+                        @Html.DropDownListFor(x => Model.IdLeyenda, Model.ListaLeyenda, "- Seleccionar Ejercicio -", new {@class = "form-control"})
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="card-footer" align="right">
+        @if (Model.IdPaquete > 0)
+        {
+            <a href="#" class="btn btn-4t btn-icon-split" type="button" align="right">
+                <span class="icon text-white-50">
+                </span>
+                <span class="text" onclick="$('#FormGuardarProg2Form').submit(); mostrar_procesar();">Guardar</span>
+            </a>
+
+        }
+
+    </div>
+
+  </div>
+<div id="Agregapaquete" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header header4t">
+                <h4 class="modal-title" align="center">CREAR PAQUETE</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body ">
+                @using (Html.BeginForm("AgregaPaquete", "ProgramaDeContratacion", FormMethod.Post, new { @id = "agregarProgramaForm" }))
+                {
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.PaqNuevo.Anio, new { @class = "input-group-text prp2" }) </div>
+                                @Html.DropDownListFor(x => Model.PaqNuevo.Anio, Model.ListaEjercicios, "- Seleccione el ejercicio -", new { @class = "form-control" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.PaqNuevo.Anio, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.Paq.NumPaquete, new { @class = "input-group-text prp2" }) </div>
+                                @Html.TextBoxFor(x => Model.PaqNuevo.NumPaquete, new { @class = "form-control" } )
+                            </div>
+                            @Html.ValidationMessageFor(model => model.PaqNuevo.NumPaquete, "", new { @class = "text-danger" })
+                        </div>
+
+
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.Paq.NoProcedimiento, new { @class = "input-group-text prp2" }) </div>
+                                @Html.TextBoxFor(x => Model.PaqNuevo.NoProcedimiento, new { @class = "form-control"})
+                            </div>
+                            @Html.ValidationMessageFor(model => model.PaqNuevo.NoProcedimiento, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.Paq.Recuperacion, new { @class = "input-group-text prp2" }) </div>
+                                @Html.TextBoxFor(x => Model.PaqNuevo.Recuperacion, new { @class = "form-control" , @style="text-align:right" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.PaqNuevo.Recuperacion, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                }
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-4t" data-dimiss="modal" onclick="mostrar_procesar(); $('#agregarProgramaForm').submit();">Agregar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<div id="AgregaProyecto" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header header4t">
+                <h4 class="modal-title" align="center">ASIGNAR PROYECTO</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body ">
+            
+                    <div class="row">
+                        <div class="col-sm-12">
+
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.PaqNuevo.Anio, new {@class = "input-group-text prp2"}) </div>
+                                @Html.DropDownListFor(x => Model.IdEjercicio, Model.ListaEjercicios, "- Seleccione el ejercicio -", new {@class = "form-control" ,id="anioSelect"})
+                            </div>
+
+                            @Html.ValidationMessageFor(model => model.IdEjercicio, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+              
+           
+                    @Html.HiddenFor(x=>Model.IdEjercicio)
+                    @Html.HiddenFor(x=>x.IdPaquete)
+
+                    <div class="row">
+
+                      <div class="col-sm-12">
+                        <div class="input-group">
+                            <div class="input-group-prepend">@Html.LabelFor(x => Model.Recursos, new {@class = "input-group-text prp2"}) </div>
+                            @Html.DropDownListFor(x => Model.IdRecurso, Model.Recursos, "- Seleccione el Recurso -", new {@class = "form-control", @id= "ProgramaSelect" })
+                        </div>
+                        @Html.ValidationMessageFor(model => model.IdRecurso, "", new {@class = "text-danger"})
+                       </div>
+         
+                @using (Html.BeginForm("AgregaProyecto", "ProgramaDeContratacion", FormMethod.Post, new { @id = "agregarProyctoForm" }))
+                {
+                   @Html.HiddenFor(x => Model.IdEjercicio)
+                   @Html.HiddenFor(x=>x.IdPaquete)
+
+                    <div class=" row">
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.ListaProyectos, new { @class = "input-group-text prp2" }) </div>
+                                @Html.DropDownListFor(x => Model.AsignaProyecto.IdProyecto, Model.ListaProyectos, "- Seleccione el Proyecto -", new { @class = "form-control" ,@id="proyectos" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.AsignaProyecto.IdProyecto, "", new { @class = "text-danger" })
+                        </div>
+
+
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <div class="input-grou-prepend">@Html.LabelFor(x => Model.AsignaProyecto.PlazoEjecucion, new { @class = "input-group-text prp2 " }) </div>
+                                @Html.TextBoxFor(x => Model.AsignaProyecto.PlazoEjecucion, new { @class = "form-control text-right" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.AsignaProyecto.PlazoEjecucion, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.AsignaProyecto.Anticipo, new { @class = "input-group-text prp2" }) </div>
+                                @Html.TextBoxFor(x => Model.AsignaProyecto.Anticipo, new { @class = "form-control" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.AsignaProyecto.Anticipo, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.AsignaProyecto.ImporteAutorizado, new { @class = "input-group-text prp2" }) </div>
+                                @Html.TextBoxFor(x => Model.AsignaProyecto.ImporteAutorizado, new { @class = "form-control text-right", @id="ImporteAut" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.AsignaProyecto.ImporteAutorizado, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.AsignaProyecto.CapitalContable, new { @class = "input-group-text prp2" }) </div>
+                                @Html.TextBoxFor(x => Model.AsignaProyecto.CapitalContable, new { @class = "form-control text-right" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.AsignaProyecto.CapitalContable, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                }       
+                    
+                
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-4t" data-dimiss="modal" onclick="mostrar_procesar(); $('#agregarProyctoForm').submit();">Agregar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>  
+     </div>
+</div>
+
+
+
+@section Scripts
+        {
+            <script src="~/assets/datatables/jquery.dataTables.min.js"></script>
+            <script src="~/assets/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+            <script src="~/assets/datetimepicker/js/locales/bootstrap-datetimepicker.es.js"></script>
+            <script src="~/assets/DropZone/dropzone.min.js"></script>
+            <script>
+                $(".datetimepicker1").datetimepicker({
+                    autoclose: true,
+                    language: 'es',
+                    pickatime: true,
+                    componentIcon: '.fas.fa-calendar',
+                    navIcons: {
+                        rightIcon: 'fas fa-chevron-right',
+                        leftIcon: 'fas fa-chevron-left'
+                    },
+                    format: "dd/mm/yyyy"
+                });
+                $(".datetimepicker2").datetimepicker({
+                    autoclose: true,
+                    language: 'es',
+                    componentIcon: '.fas.fa-calendar',
+                    navIcons: {
+                        rightIcon: 'fas fa-chevron-right',
+                        leftIcon: 'fas fa-chevron-left'
+                    },
+                    format: "dd/mm/yyyy hh:ii"
+                });
+
+                $(function() {
+                    $("#IdEjercicio").change(function() {
+                        $("#Formejercicio").submit();
+                    });
+                });
+
+
+                $(function() {
+                    $("#IdPaquete").change(function() {
+                        $("#FormPaquete").submit();
+                    });
+                });
+
+                $(function() {
+                    $("#IdTipoInversionSelect").change(function() {
+                        $("#FormInversion").submit();
+                    });
+                });
+
+
+                $(function () {
+                    $("#IdModalidadSelect").change(function () {
+                        $("#FormModalidadForm").submit();
+                    });
+                });
+               
+
+                $(function () {
+                    $("#IdFundamentoSelect").change(function () {
+                        $("#FormIdFundamento").submit();
+                    });
+                });
+
+
+                $(document).ready(function() {
+                    $('[data-toggle="tooltip"]').tooltip();
+                });
+
+
+                $(document).ready(function () {
+                    $("#ProgramaSelect").change(function (e) {
+                        var d = {};
+
+                        var ind = $('#ProgramaSelect option:selected').val();
+                        var year =$('#anioSelect option:selected').val();
+                        d.url = '@Url.Action("CargarProyectos", "ProgramaDeContratacion")';
+                        d.type = "POST";
+                        d.data = JSON.stringify({ ent: ind , anio : year});
+                        d.dataTipe = "json";
+                        d.contentType = "application/json";
+                        d.success = function (r) {
+                            $("#proyectos").empty();
+                            $("#proyectos").prepend("<option value=''>-Seleccione el Proyecto-</option>");
+                            for (var i = 0; i < r.Proyectos.length; i++) {
+                                $("#proyectos").append('<option value="' + r.Proyectos[i].Value + '">' + r.Proyectos[i].Text + '</option>');
+                            }                         
+                        };
+                        $.ajax(d);
+                    });
+                });
+
+                $(document).ready(function () {
+                    $("#anioSelect").change(function (e) {
+                        var d = {};
+                        var year = $('#anioSelect option:selected').val();
+                        d.url = '@Url.Action("CargarProgramas", "ProgramaDeContratacion")';
+                        d.type = "POST";
+                        d.data = JSON.stringify({ anio: year });
+                        d.dataTipe = "json";
+                        d.contentType = "application/json";
+                        d.success = function (r) {
+                            $("#ProgramaSelect").empty();
+                            $("#ProgramaSelect").prepend("<option value=''>-Seleccione un Programa-</option>");
+                            for (var i = 0; i < r.Progra.length; i++) {
+                                $("#ProgramaSelect").append('<option value="' + r.Progra[i].Value + '">' + r.Progra[i].Text + '</option>');
+                            }
+                        };
+                        $.ajax(d);
+                    });
+                });
+
+
+
+                $(document).ready(function () {
+                    $("#proyectos").change(function (e) {
+                        var d = {};
+                        var pr = $('#proyectos option:selected').val();
+                        //var ind = $('#ProgramaSelect option:selected').val();
+                        //var year = $('#anioSelect option:selected').val();
+                        d.url = '@Url.Action("CargarimporteAut", "ProgramaDeContratacion")';
+                        d.type = "POST";
+                        d.data = JSON.stringify({proy:pr });
+                        d.dataTipe = "json";
+                        d.contentType = "application/json";
+                        d.success = function (r) {
+                            $("#ImporteAut").empty();
+                            $("#ImporteAut").val(r);
+                            console.log(r);
+
+                        };
+                        $.ajax(d);
+                    });
+                });
+
+
+            </script>
+
+        }
+        @*DropDownlistFor
+            <div class="col-sm-3">
+                <div class="input-group">
+                    <div class="input-group-prepend">@Html.LabelFor(x => Model.FiltroNivel, new { @class = "input-group-text prp2" }) </div>
+                    @Html.DropDownListFor(x => Model.FiltroNivel, Model.ListaNiveles, "- Todos -", new { @class = "form-control" })
+                </div>
+            </div>*@
+        @*button serch
+
+            <div class="col-sm-2">
+                <button class="btn btn-circle btn-4t btn-sm " onclick="this.submit();">
+                    <span class="fa fa-search"></span>
+                </button>
+
+            </div>*@
+
+        @*--text box for
+
+                 <div class="col-sm-12">
+                    <div class="input-group">
+                        <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevOficio.Emisora, new {@class = "input-group-text prp"}) </div>
+                        @Html.TextBoxFor(x => Model.NuevOficio.Emisora, new {@class = "form-control"})
+                    </div>
+                    @Html.ValidationMessageFor(model => model.NuevOficio.Emisora, "", new { @class = "text-danger" })
+                </div>
+            </div>*@

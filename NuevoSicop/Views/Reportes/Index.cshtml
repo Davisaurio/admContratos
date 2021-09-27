@@ -1,0 +1,68 @@
+﻿@model NuevoSicop.Models.ReportesModelView
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<link href="~/assets/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/assets/datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+
+
+@if (@Model.Error.Length > 1)
+{
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="mdi mdi-close" aria-hidden="true"></span></button>
+        <div class="icon"> <span class="mdi mdi-close-circle-o"></span></div>
+        <div class="message"><strong>Problemas!</strong>@Model.Error</div>
+    </div>
+
+}
+@if (@Model.Exito.Length > 1)
+{
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="mdi mdi-close" aria-hidden="true"></span></button>
+        <div class="icon"> <span class="mdi mdi mdi-check"></span></div>
+        <div class="message"><strong>Éxito!</strong>@Model.Exito</div>
+    </div>
+
+}
+
+
+
+<h2>Invitaciones</h2>
+<div class="row">
+
+    <div class="col-lg-4">
+        @using (Html.BeginForm("Ejercicio", "Reportes", FormMethod.Post, new { @id = "EjercicioForm" }))
+            {
+            <div class="input-group">
+                <div class="input-group-prepend">@Html.LabelFor(x => Model.IdEjercicio, new { @class = "input-group-text prp" }) </div>
+                @Html.DropDownListFor(x => Model.IdEjercicio, Model.Ejercicios, "- Selecciona un ejercicio -", new { @class = "form-control", @onchange = "$('#EjercicioForm').submit()" })
+            </div>
+        }
+    </div>
+    <div class="col-lg-4">
+        @using (Html.BeginForm("Paquetes", "Reportes", FormMethod.Post, new { @id = "PaqueteForm" }))
+            {
+                @Html.HiddenFor(x=>Model.IdEjercicio)
+
+            <div class="input-group">
+                <div class="input-group-prepend">@Html.LabelFor(x => Model.IdPaquete, new { @class = "input-group-text prp" }) </div>
+                @Html.DropDownListFor(x => Model.IdPaquete, Model.Paquetes, "- Selecciona un Paquete -", new { @class = "form-control", @onchange = "$('#PaqueteForm').submit()" })
+            </div>
+        }
+    </div>
+    <div class="col-lg-4">
+        <buton class="btn btn-4t btn-sm "><span class="fas fa-file-text-o"> Reporte </span></buton>
+
+    </div>
+</div>
+
+
+<div style="color:gray; padding:5px; margin: 5px; display:block"  >
+    @if ( Model.Htmltext != "")
+    { Write(Model.Htmltext); }
+
+</div>
+     

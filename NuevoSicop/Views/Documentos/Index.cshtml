@@ -1,0 +1,372 @@
+﻿@model NuevoSicop.Models.DocumentosModelView
+
+@if (@Model.Error.Length > 1)
+{
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="mdi mdi-close" aria-hidden="true"></span></button>
+        <div class="icon"> <span class="mdi mdi-close-circle-o"></span></div>
+        <div class="message"><strong>Problemas! </strong>@Model.Error</div>
+    </div>
+
+}
+@if (@Model.Exito.Length > 1)
+{
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="mdi mdi-close" aria-hidden="true"></span></button>
+        <div class="icon"> <span class="mdi mdi mdi-check"></span></div>
+        <div class="message"><strong>Éxito! </strong>@Model.Exito</div>
+    </div>
+
+}
+
+<style>
+    .prp {width:130px;
+
+    }
+
+</style>
+
+
+<h2>REPORTES</h2>
+
+<div class="row">
+
+    <div class="col-lg-4">
+        @using (Html.BeginForm("Ejercicio", "Documentos", FormMethod.Post, new { @id = "EjercicioForm" }))
+        {
+            <div class="input-group">
+                <div class="input-group-prepend">@Html.LabelFor(x => Model.IdEjercicio, new { @class = "input-group-text prp" }) </div>
+                @Html.DropDownListFor(x => Model.IdEjercicio, Model.ListaEjercicio, "- Selecciona un ejercicio -", new { @class = "form-control", @onchange = "mostrar_procesar();$('#EjercicioForm').submit()" })
+            </div>
+        }
+    </div>
+    <div class="col-lg-4">
+        @using (Html.BeginForm("Paquetes", "Documentos", FormMethod.Post, new { @id = "PaqueteForm" }))
+        {
+            @Html.HiddenFor(x => Model.IdEjercicio)
+
+            <div class="input-group">
+                <div class="input-group-prepend">@Html.LabelFor(x => Model.IdPaquete, new { @class = "input-group-text prp" }) </div>
+                @Html.DropDownListFor(x => Model.IdPaquete, Model.ListaPaquetes, "- Selecciona un Paquete -", new { @class = "form-control", @onchange = "mostrar_procesar();$('#PaqueteForm').submit()" })
+            </div>
+        }
+    </div>
+    @if (User.IsInRole("Administrador") || User.IsInRole("P-Programa"))
+    {
+        <div class="col-lg-4">
+            @using (Html.BeginForm("CargaActa", "Documentos", FormMethod.Post, new { @id = "CargaActaForm" }))
+            {
+                @Html.HiddenFor(x => Model.IdEjercicio)
+                @Html.HiddenFor(x => Model.IdPaquete)
+
+                <div class="input-group">
+                    <div class="input-group-prepend">@Html.LabelFor(x => Model.NoActa, new { @class = "input-group-text prp" }) </div>
+                    @Html.DropDownListFor(x => Model.NoActa, Model.ListaActas, "- Selecciona un Paquete -", new { @class = "form-control", @onchange = "mostrar_procesar();$('#CargaActaForm').submit()" })
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<h2>REPORTES DISPONIBLES</h2>
+@if (User.IsInRole("Administrador") || User.IsInRole("P-Programa"))
+{
+    using (Html.BeginForm("Invitacion", "Documentos", FormMethod.Post, new { @id = "RepInvitacionForm" }))
+    {
+        @Html.HiddenFor(x => Model.IdEjercicio)
+        @Html.HiddenFor(x => Model.IdPaquete)
+
+    }
+
+    using (Html.BeginForm("Programa", "Documentos", FormMethod.Post, new { @id = "RepProgramaForm" }))
+    {
+        @Html.HiddenFor(x => Model.IdEjercicio)
+        @Html.HiddenFor(x => Model.IdPaquete)
+
+    }
+
+    using (Html.BeginForm("AperturaTecnica", "Documentos", FormMethod.Post, new { @id = "RepAperturaForm" }))
+    {
+        @Html.HiddenFor(x => Model.IdEjercicio)
+        @Html.HiddenFor(x => Model.IdPaquete)
+
+    }
+
+    using (Html.BeginForm("NoActa", "Documentos", FormMethod.Post, new { @id = "NoActaForm" }))
+    {
+        @Html.HiddenFor(x => Model.IdEjercicio)
+        @Html.HiddenFor(x => Model.IdPaquete)
+        @Html.HiddenFor(x => Model.NoActa)
+
+    }
+
+
+}
+@if (User.IsInRole("Administrador") || User.IsInRole("J-Contratos"))
+{
+    using (Html.BeginForm("Contrato1", "Documentos", FormMethod.Post, new { @id = "ContratoEstatalForm" }))
+    {
+        @Html.HiddenFor(x => Model.IdEjercicio)
+        @Html.HiddenFor(x => Model.IdPaquete)
+
+    }
+}
+
+@*@if (User.IsInRole("Administrador") || User.IsInRole("J-Contratos"))
+{
+    using (Html.BeginForm("Contrato1Word", "Documentos", FormMethod.Post, new { @id = "ContratoEstatalWordForm" }))
+    {
+        @Html.HiddenFor(x => Model.IdEjercicio)
+        @Html.HiddenFor(x => Model.IdPaquete)
+
+    }
+}*@
+
+@if (User.IsInRole("Administrador") || User.IsInRole("J-Contratos") || User.IsInRole("P-Programa2"))
+{
+    using (Html.BeginForm("Caratula", "Documentos", FormMethod.Post, new { @id = "CaratulaForm" }))
+    {
+        @Html.HiddenFor(x => Model.IdEjercicio)
+        @Html.HiddenFor(x => Model.IdPaquete)
+
+    }
+}
+
+@*@if (User.IsInRole("Administrador"))
+{
+    using (Html.BeginForm("CaratulaWord", "Documentos", FormMethod.Post, new { @id = "CaratulaWordForm" }))
+    {
+        @Html.HiddenFor(x => Model.IdEjercicio)
+        @Html.HiddenFor(x => Model.IdPaquete)
+
+    }
+}*@
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="row">
+    @if (User.IsInRole("Administrador") || User.IsInRole("P-Programa"))
+    {
+
+        <div class="col-lg-1">
+            @if (Model.IdPaquete > 0)
+            {
+                <buton class="btn btn-4t btn-sm " onclick="$('#RepProgramaForm').submit()"><span class="fas fa-print"> </span> PROGRAMA</buton>
+            }
+        </div>
+        <div class="col-lg-1">
+            @if (Model.VerInvitacion)
+            {
+                <buton class="btn btn-4t btn-sm " onclick="$('#RepInvitacionForm').submit()"><span class="fas fa-print"> </span> INVITACIÓN</buton>
+            }
+        </div>
+        <div class="col-lg-1">
+            @if (Model.NoActa > 0 && Model.VerJunta)
+            {
+                <buton class="btn btn-4t btn-sm " onclick="$('#NoActaForm').submit()"><span class="fas fa-print"> </span> ACTA JUNTA </buton>
+            }
+        </div>
+        if (Model.VerAperura)
+        {
+
+            <div class="col-lg-1">
+               
+                    <buton class="btn btn-4t btn-sm " onclick="$('#RepAperturaForm').submit()"><span class="fas fa-print"> </span> APERTURA </buton>
+              
+            </div>
+        }
+        
+
+
+
+
+
+        if (Model.VerFallo)
+        {
+            foreach (var it in Model.Proyectos)
+            {
+                    <div class="col-lg-1">
+                        @using (Html.BeginForm("Fallos", "Documentos", FormMethod.Post, new { @id = "PaqueteFallobtnForm_" + it }))
+                        {
+                        @Html.HiddenFor(x => Model.IdEjercicio)
+                        @Html.HiddenFor(x => Model.IdPaquete)
+                        @Html.HiddenFor(x => Model.IdProyecto, new { IdProyecto = "Proyecto", Value = @it })
+
+                        }
+
+                        <buton class="btn btn-4t btn-sm " onclick="$('#PaqueteFallobtnForm_@it').submit()"><span class="fas fa-print"> </span> FALLO @it</buton>
+                    </div>
+
+                    <div class="col-lg-1">
+                        @using (Html.BeginForm("Fallos2", "Documentos", FormMethod.Post, new { @id = "PaqueteFallo2btnForm_" + it }))
+                        {
+                            @Html.HiddenFor(x => Model.IdEjercicio)
+                            @Html.HiddenFor(x => Model.IdPaquete)
+                            @Html.HiddenFor(x => Model.IdProyecto, new { IdProyecto = "Proyecto", Value = @it })
+
+                        }
+
+                        <buton class="btn btn-4t btn-sm " onclick="$('#PaqueteFallo2btnForm_@it').submit()"><span class="fas fa-print"> </span> FALLO REP. @it</buton>
+                    </div>
+
+
+            }
+
+        }
+
+    }
+    @if (User.IsInRole("Administrador") || User.IsInRole("J-Contratos"))
+    {
+        if (Model.VerContrato)
+        {
+        <div class="col-lg-1">
+            @if (Model.IdPaquete > 0)
+            {
+                <buton class="btn btn-4t btn-sm " onclick="$('#ContratoEstatalForm').submit()"><span class="fas fa-print"> </span> CONTRATO </buton>
+            }
+        </div>
+        }
+    }
+
+        @*@if (User.IsInRole("Administrador") || User.IsInRole("J-Contratos"))
+        {
+            if (Model.VerContrato)
+            {
+                <div class="col-lg-1">
+
+               @if (Model.IdPaquete > 0)
+                    {
+                        <buton class="btn btn-primary btn-sm " onclick="$('#ContratoEstatalWordForm').submit()"><span class="fas fa-print"> </span> CONTRATO WORD </buton>
+                    }
+                </div>
+            }
+        }*@
+
+    @if (User.IsInRole("Administrador") || User.IsInRole("J-Contratos") || User.IsInRole("P-Programa2"))
+    {
+        //if (Model.VerContrato)
+        //{
+            <div class="col-lg-1">
+                @if (Model.IdPaquete > 0)
+                {
+                    <buton class="btn btn-4t btn-sm " onclick="$('#CaratulaForm').submit()"><span class="fas fa-print"> </span> CARÁTULA </buton>
+                }
+            </div>
+        //}
+    }
+
+   
+
+
+
+
+</div>
+@if (Model.IdPaquete > 0)
+{
+<table id="tablaDatos" class="table table-sm table-striped table-hover no-footer" style="background-color: rgba(200,200, 200, 0.5); color: black; font-size: 12px ">
+    <thead class="text-bold">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => Model.Contrato)
+            </th>
+            <th  >
+              @Html.DisplayNameFor(model => Model.Descripcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => Model.Contratista)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => Model.Monto)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => Model.modalidad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => Model.TipoInversion)
+            </th>
+       </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => Model.Contrato)
+            </td>
+
+            <td style="font-size:9px; width:30%">
+                @Html.DisplayFor(modelItem => Model.Descripcion)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => Model.Contratista)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.Monto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.modalidad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.TipoInversion)
+            </td>
+        </tr>
+    </tbody>
+</table>
+}
+<div class="row">
+    @if (User.IsInRole("Administrador") || User.IsInRole("P-Programa2"))
+    {
+
+    <div class="col-12 ">
+
+      @if (Model.IdPaquete > 1)
+      {
+          using (Html.BeginForm("SeleccionaProyecto", "Documentos", FormMethod.Post, new { @id = "SeleccionaProyectoForm" }))
+          {
+            @Html.HiddenFor(x => Model.IdEjercicio)
+            @Html.HiddenFor(x => Model.IdPaquete)
+
+
+            <div class="input-group">
+                <div class="input-group-prepend">@Html.LabelFor(x => Model.IdProyectoIndice, new { @class = "input-group-text prp" }) </div>
+                @Html.DropDownListFor(x => Model.IdProyectoIndice, Model.ListaProyectos, "- Seleccione un Proyecto -", new { @class = "form-control", @onchange = "mostrar_procesar();$('#SeleccionaProyectoForm').submit()" })
+            </div>
+          }
+      }
+    </div>   
+
+  
+        if (!string.IsNullOrEmpty(Model.IdProyectoIndice))
+        {
+            <div class="col-12">
+                @using (Html.BeginForm("ActualizaClaveProgramatica", "Documentos", FormMethod.Post, new { @id = "ActualizaClaveProgramaticaForm" }))
+                {
+                    @Html.HiddenFor(x => Model.IdEjercicio)
+                    @Html.HiddenFor(x => Model.IdPaquete)
+                    @Html.HiddenFor(x => Model.IdProyectoIndice)
+                    <div class="input-group" >
+                        <div class="input-group-prepend">@Html.LabelFor(x => Model.ClaveProgramatica, new { @class = "input-group-text prp" }) </div>
+                        @Html.TextBoxFor(x => Model.ClaveProgramatica, new { @class = "form-control" , @style = "max-width:85%"})
+                        <div class="input-group-append">
+                            <buton class="btn btn-4t btn-sm  " data-toggle="popover" data-content="Actualizar" onclick="$('#ActualizaClaveProgramaticaForm').submit()"><span class="fas fa-save"> </span></buton>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+     }
+</div>
+          
+
+
+
+

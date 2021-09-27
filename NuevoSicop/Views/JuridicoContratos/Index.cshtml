@@ -1,0 +1,464 @@
+﻿@model NuevoSicop.Models.ContratosModelView
+
+@if (@Model.Error.Length > 1)
+{
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="mdi mdi-close" aria-hidden="true"></span></button>
+        <div class="icon"> <span class="mdi mdi-close-circle-o"></span></div>
+        <div class="message"><strong>Problemas!</strong>@Model.Error</div>
+    </div>
+
+}
+@if (@Model.Exito.Length > 1)
+{
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="mdi mdi-close" aria-hidden="true"></span></button>
+        <div class="icon"> <span class="mdi mdi mdi-check"></span></div>
+        <div class="message"><strong>Éxito!</strong>@Model.Exito</div>
+    </div>
+
+}
+<style>
+    .Lab { width:250px;  color:blue;  }
+    .h2 { color: darkgray;
+    }
+</style>
+<h2>CONTRATOS</h2>
+
+<div class="row">
+
+    <div class="col-lg-4">
+        @using (Html.BeginForm("Ejercicio", "JuridicoContratos", FormMethod.Post, new { @id = "EjercicioForm" }))
+            {
+            <div class="input-group">
+                <div class="input-group-prepend">@Html.LabelFor(x => Model.IdEjercicio, new { @class = "input-group-text prp" }) </div>
+                @Html.DropDownListFor(x => Model.IdEjercicio, Model.ListaEjercicios, "- Selecciona un ejercicio -", new { @class = "form-control", @onchange = "mostrar_procesar();$('#EjercicioForm').submit()" })
+            </div>
+        }
+    </div>
+    <div class="col-lg-4">
+        @using (Html.BeginForm("Contratos", "JuridicoContratos", FormMethod.Post, new { @id = "PaqueteForm" }))
+            {
+            @Html.HiddenFor(x => Model.IdEjercicio)
+
+            <div class="input-group">
+                <div class="input-group-prepend">@Html.LabelFor(x => Model.IdContrato, new { @class = "input-group-text prp" }) </div>
+                @Html.DropDownListFor(x => Model.IdContrato, Model.ListaContratos, "- Selecciona un Paquete -", new { @class = "form-control", @onchange = "mostrar_procesar();$('#PaqueteForm').submit()" })
+            </div>
+        }
+    </div>
+    
+        <div class="col-lg-4">
+            @using (Html.BeginForm("BuscarContratos", "JuridicoContratos", FormMethod.Post, new { @id = "BuscarForm" }))
+            {
+                @Html.HiddenFor(x => Model.IdEjercicio)
+             
+
+                <div class="input-group">
+                    <div class="input-group-prepend">@Html.LabelFor(x => Model.BuscarContrato, new { @class = "input-group-text prp" }) </div>
+                    @Html.TextBoxFor(x => Model.BuscarContrato, new { @class = "form-control", @onchange = "mostrar_procesar();$('#BuscarForm').submit()" })
+                </div>
+            }
+        </div>
+   
+</div>
+
+@if (!String.IsNullOrEmpty(Model.IdContrato))
+{
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-body">DATOS GENERALES</div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-12 ">
+                       
+                        <div class="row">
+
+                             
+
+                            <div class="col-12 row">
+                                <span class="col-lg-2 col-sm-6" align="right">  <strong>  @Html.LabelFor(x => Model.Procedimiento) </strong></span>
+                                <span class="col-lg-10 col-sm-6"> @Html.DisplayFor(x => Model.Procedimiento) </span>
+                            </div>
+                            <div class="col-12 row">
+                                <span class="col-lg-2 col-sm-6" align="right">  <strong>  @Html.LabelFor(x => Model.Recurso) </strong></span>
+                                <span class="col-lg-10 col-sm-6"> @Html.DisplayFor(x => Model.Recurso) </span>
+                            </div>
+
+                            <div class="col-12 row">
+                                <span class="col-lg-2 col-sm-6" align="right">  <strong>  @Html.LabelFor(x => Model.Descripcion) </strong></span>
+                              
+                               @if (User.IsInRole("Administrador")||User.IsInRole("J-Contratos")) 
+                                {
+
+                                  <span class="col-lg-9 col-sm-5" >
+                                      @using (Html.BeginForm("ActualizaAlcance", "JuridicoContratos", FormMethod.Post, new { @id = "ActualizaDescForm" }))
+                                      {
+                                      @Html.HiddenFor(x => Model.IdEjercicio)
+                                      @Html.HiddenFor(x => Model.Contrato)
+                                      @Html.HiddenFor(x => Model.IdContrato)
+                                      @Html.TextAreaFor(x => Model.Descripcion, new { @style = "width:100%;  max-width: 100%;" }) 
+                                      }
+                                  </span>
+                                  <span class="col-lg-1 col-sm-1">  <buton class="btn btn-4t btn-sm " data-toggle="popover"  data-content="Actualizar" onclick="$('#ActualizaDescForm').submit()"><span class="fas fa-save"> </span></buton>  </span>  
+                                }
+                                else 
+                                {
+                                <span class="col-lg-10 col-sm-6"> @Html.DisplayFor(x => Model.Descripcion) </span>
+
+                                }
+                            </div>
+                            <div class="col-12 row">
+                                <span class="col-lg-2 col-sm-6" align="right">  <strong>  @Html.LabelFor(x => Model.TipoPersona) </strong></span>
+                                <span class="col-lg-10 col-sm-6"> @Html.DisplayFor(x => Model.TipoPersona) </span>
+                            </div>
+                            <div class="col-12 row">
+                                <span class="col-lg-2 col-sm-6" align="right">  <strong>  @Html.LabelFor(x => Model.TipoInversion) </strong></span>
+                                <span class="col-lg-10 col-sm-6"> @Html.DisplayFor(x => Model.TipoInversion) </span>
+                            </div>
+                            <div class="col-12 row">
+                                <span class="col-lg-2 col-sm-6" align="right">  <strong>  @Html.LabelFor(x => Model.modalidad) </strong></span>
+                                <span class="col-lg-10 col-sm-6"> @Html.DisplayFor(x => Model.modalidad) </span>
+                            </div>
+                            <div class="col-12 row">
+                                <span class="col-lg-2 col-sm-6" align="right">  <strong>  @Html.LabelFor(x => Model.Monto) </strong></span>
+                                <span class="col-lg-10 col-sm-6"> @Html.DisplayFor(x => Model.Monto) </span>
+                            </div>
+                            <div class="col-12 row">
+                                <span class="col-lg-2 col-sm-6" align="right">  <strong>  @Html.LabelFor(x => Model.Iva) </strong></span>
+                                <span class="col-lg-10 col-sm-6"> @Html.DisplayFor(x => Model.Iva)% </span>
+                            </div>
+                            <div class="col-12 row">
+                                <span class="col-lg-2 col-sm-6" align="right">  <strong>  @Html.LabelFor(x => Model.Inicia) </strong></span>
+                                <span class="col-lg-10 col-sm-6" style="text-transform:uppercase"> @Html.DisplayFor(x => Model.Inicia) </span>
+                            </div>
+                            <div class="col-12 row">
+                                <span class="col-lg-2 col-sm-6" align="right">  <strong>  @Html.LabelFor(x => Model.Termina) </strong></span>
+                                <span class="col-lg-10 col-sm-6" style="text-transform:uppercase"> @Html.DisplayFor(x => Model.Termina) </span>
+                            </div>
+                            <div class="col-12 row">
+                                <span class="col-lg-2 col-sm-6 " align="right">  <strong>  @Html.LabelFor(x => Model.AnticipoxCien) </strong></span>
+                                <span class="col-lg-10 col-sm-6"> @Html.DisplayFor(x => Model.AnticipoxCien) %</span>
+                            </div>
+                            <div class="col-12 row">
+                                <span class="col-lg-2 col-sm-6" align="right">  <strong>  @Html.LabelFor(x => Model.Anticipo) </strong></span>
+                                <span class="col-lg-10 col-sm-6"> @Html.DisplayFor(x => Model.Anticipo) </span>
+                            </div>
+
+                            <div class="col-12 row">
+                                <span class="col-lg-2 col-sm-6" align="right">  <strong>  @Html.LabelFor(x => Model.Plazo) </strong></span>
+                                <span class="col-lg-10 col-sm-6"> @Html.DisplayFor(x => Model.Plazo) </span>
+                            </div>
+
+                            <div class="col-12 row">
+                                <span class="col-lg-2 col-sm-6" align="right">  <strong>  @Html.LabelFor(x => Model.Contratista) </strong></span>
+                                <span class="col-lg-10 col-sm-6"> @Html.DisplayFor(x => Model.Contratista) </span>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="panel-footer">
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+   
+
+
+    if (User.IsInRole("Administrador") || User.IsInRole("J-Contratos"))
+    {
+        using (Html.BeginForm("Contrato1", "JuridicoContratos", FormMethod.Post, new { @id = "ContratoEstatalForm" }))
+        {
+            @Html.HiddenFor(x => Model.IdEjercicio)
+            @Html.HiddenFor(x => Model.Contrato)
+
+        }
+    }
+
+    if (User.IsInRole("Administrador") || User.IsInRole("J-Contratos"))
+    {
+        using (Html.BeginForm("Caratula", "JuridicoContratos", FormMethod.Post, new { @id = "CaratulaForm" }))
+        {
+            @Html.HiddenFor(x => Model.IdEjercicio)
+            @Html.HiddenFor(x => Model.Contrato)
+
+        }
+    }
+
+
+if (User.IsInRole("Administrador") || User.IsInRole("J-Contratos"))
+{
+
+    <div class="row">
+        <div class="col-8"></div>
+        <div class="col-2">
+            
+                @if (!string.IsNullOrEmpty( Model.Contrato) )
+                {
+                    <buton class="btn btn-4t btn-sm " onclick="$('#ContratoEstatalForm').submit()"><span class="fas fa-print"> </span> CONTRATO </buton>
+                }
+         
+        </div>
+        <div class="col-2">
+            @if (!string.IsNullOrEmpty(Model.Contrato))
+            {
+                <buton class="btn btn-4t btn-sm " onclick="$('#CaratulaForm').submit()"><span class="fas fa-print"> </span> CARÁTULA </buton>
+            }
+        </div>
+
+
+    </div>
+
+}
+
+  @*if (User.IsInRole("Administrador") && false )
+   {
+    <div class="col-12 ">
+        <h2> Contratista </h2>
+        <div class="row">
+            <div class="col-12 row">
+              
+                    <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.Contratista) </strong></span>
+                    <span class="col-8"> @Html.DisplayFor(x => Model.Contratista) </span>
+                
+            </div>
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.RFCContratista) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.RFCContratista) </span>
+            </div>
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.Domicilio) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.Domicilio) </span>
+            </div>
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.CorreoCont) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.CorreoCont) </span>
+            </div>
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.NoEscritura) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.NoEscritura) </span>
+            </div>
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.Volumen) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.Volumen) </span>
+            </div>
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.FechaEscritura) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.FechaEscritura) </span>
+            </div>
+
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.Notario) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.Notario) </span>
+            </div>
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.NoEscritura) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.NoEscritura) </span>
+            </div>
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.CiudadNotaria) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.CiudadNotaria) </span>
+            </div>
+
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.IMSS) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.IMSS)</span>
+            </div>
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.Infonavit) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.Infonavit)</span>
+            </div>
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.Credencial) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.Credencial)</span>
+            </div>
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.NoRPPC) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.NoRPPC)</span>
+            </div>
+
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.VolRPPC) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.VolRPPC)</span>
+            </div>
+
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.FechaRppc) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.FechaRppc)</span>
+            </div>
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.CiudadRPPC) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.CiudadRPPC)</span>
+            </div>
+
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.FolioMercantil) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.FolioMercantil)</span>
+            </div>           
+        </div>
+    </div>
+    <div class="col-12 ">
+        <h2> Representante Legal </h2>
+        <div class="row">
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.Representante) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.Representante)</span>
+            </div>   
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.PuestoRepre) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.PuestoRepre)</span>
+            </div>             
+        </div>
+    </div>
+
+    <div class="col-12">
+        <h2> Lugar y fecha de trabajos </h2>
+        <div class="row">
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.Descripcion) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.Descripcion)</span>
+            </div>   
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.Localidad) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.Localidad)</span>
+            </div>   
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.Municipio) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.Municipio)</span>
+            </div>               
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.Estado) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.Estado)</span>
+            </div>  
+        </div>
+    </div>
+
+    <div class="col-12 ">
+        <h2> Dependencia </h2>
+        <div class="row">
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.Dependencia) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.Dependencia)</span>
+            </div>  
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.DireccionDep) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.DireccionDep)</span>
+            </div>  
+            
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.RFCDep) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.RFCDep)</span>
+            </div>  
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.Director) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.Director)</span>
+            </div>  
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.CargoDir) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.CargoDir)</span>
+            </div>  
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.RFCDirector) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.RFCDirector)</span>
+            </div>  
+          
+        </div>
+    </div>
+
+    <div class="col-12 ">
+        <h2> Contrato con base  </h2>
+        <div class="row">
+           
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.ImporteAut) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.ImporteAut)</span>
+            </div>  
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.Articulo) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.Articulo)</span>
+            </div> 
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.Monto) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.Monto)</span>
+            </div> 
+        </div>
+    </div>
+    <div class="col-12 ">
+        <h2> Anticipo </h2>
+        <div class="row">
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.Exhibicion) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.Exhibicion)</span>
+            </div> 
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.DependenciaAnticipo) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.DependenciaAnticipo)</span>
+            </div> 
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.UbicaionDepAnt) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.UbicaionDepAnt)</span>
+            </div> 
+
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.AnticipoxCien) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.AnticipoxCien)</span>
+            </div> 
+          
+
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.Anticipo) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.Anticipo)</span>
+            </div> 
+        </div>
+    </div>
+    <div class="col-12 ">
+        <h2> Pagos de estimaciones </h2>
+        <div class="row">
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.FacturaDep) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.FacturaDep)</span>
+            </div> 
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.DomicilioFact) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.DomicilioFact)</span>
+            </div> 
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.RFCFactura) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.RFCFactura)</span>
+            </div> 
+            <div class="col-12 row">
+                <span class="col-4 ">  <strong>  @Html.LabelFor(x => Model.CiudadFactura) </strong></span>
+                <span class="col-8"> @Html.DisplayFor(x => Model.CiudadFactura)</span>
+            </div> 
+        </div>
+    </div>
+    <div class="col-12 ">
+        <h2> Firmas </h2>
+        <div class="row">
+            <div class="col-12">
+
+            </div>
+            <div class="col-12">
+
+            </div>
+            <div class="col-12">
+
+            </div>
+            <div class="col-12">
+
+            </div>
+        </div>
+    </div>
+   }*@
+
+}

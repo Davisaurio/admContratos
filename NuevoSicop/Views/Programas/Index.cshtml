@@ -1,0 +1,683 @@
+﻿@model NuevoSicop.Models.RecursosViewModel
+
+<link href="~/assets/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/assets/datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet"/>
+<link href="~/assets/DropZone/dropzone.min.css" rel="stylesheet" />
+
+
+@if (@Model.Error.Length > 1)
+{
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="mdi mdi-close" aria-hidden="true"></span></button>
+        <div class="icon"> <span class="mdi mdi-close-circle-o"></span></div>
+        <div class="message"><strong>Problemas!</strong>@Model.Error</div>
+    </div>
+
+}
+@if (@Model.Exito.Length > 1)
+{
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="mdi mdi-close" aria-hidden="true"></span></button>
+        <div class="icon"> <span class="mdi mdi mdi-check"></span></div>
+        <div class="message"><strong>Éxito!</strong>@Model.Exito</div>
+    </div>
+
+}
+
+<style>
+    .header4t {background-color: maroon;
+      color: goldenrod;
+      
+    }
+    .prp{
+        width: 170px;
+       
+    }
+     .prp2{
+        width: 100px;
+       
+    }
+   #NuevOficio_FechaOficio {
+       width: 235px;
+   }
+
+
+   .dropArea {
+         background: #d3d1d1 !important;        
+         border: gray dashed 1px;
+         max-height: 160px;
+         max-width: 180px;  
+         height: 100%;
+         width: 100%;
+         text-align: center;
+         color: gray;
+         padding: 5px;
+         margin-bottom: 10px;
+         margin-top: 10px;
+         border-radius: 10px;
+     }
+
+   .active-drop {
+        background: #77bafa !important;
+        border: solid 2px silver !important;
+        opacity: .5;
+        color: black !important;
+    }
+</style>
+
+<div align="right">
+    @*<button type="button" class="btn btn-4t " data-toggle="modal" data-target="#myModal">Nuevo Recurso </button>*@
+    <a href="#" class="btn btn-4t btn-icon-split" type="button" data-toggle="modal" data-target="#myModal">
+        <span class="icon text-white-50">
+            <i class="fas fa-plus-circle"></i>
+        </span>
+        <span class="text">Programa</span>
+    </a>
+
+    <a href="#" class="btn btn-4t btn-icon-split" type="button" data-toggle="modal" data-target="#Modal2">
+        <span class="icon text-white-50">
+            <i class="fas fa-plus-circle"></i>
+        </span>
+        <span class="text">Recurso</span>
+    </a>
+
+</div>
+
+<div>
+    @using (Html.BeginForm("Filtros", "Programas", FormMethod.Post, new { @id = "FiltroForm" }))
+    {
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="input-group">
+                    <div class="input-group-prepend">@Html.LabelFor(x => Model.FiltroNivel, new { @class = "input-group-text prp2" }) </div>
+                    @Html.DropDownListFor(x => Model.FiltroNivel, Model.ListaNiveles, "- Todos -", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="input-group">
+                    <div class="input-group-prepend">@Html.LabelFor(x => Model.FiltroRecurso, new { @class = "input-group-text prp2" }) </div>
+                    @Html.DropDownListFor(x => Model.FiltroRecurso, Model.ListaRecursos, "- Todos -", new { @class = "form-control" })
+                </div>
+
+            </div>
+            <div class="col-sm-3">
+                <div class="input-group">
+                    <div class="input-group-prepend">@Html.LabelFor(x => Model.FiltroEjercicio, new { @class = "input-group-text prp2" }) </div>
+                    @Html.DropDownListFor(x => Model.FiltroEjercicio, Model.ListaEjerciciosFiscales, "- Todos -", new { @class = "form-control" })
+                </div>
+
+            </div>
+            <div class="col-sm-2">
+                <button class="btn btn-circle btn-4t btn-sm "  onclick="this.submit();">
+                    <span class="fa fa-search" ></span>
+                </button>
+
+            </div>
+            <div class="col-sm-1">
+            </div>
+        </div>
+    }
+</div>
+<div class="table-responsive noSwipe " style="padding: 20px">
+    <table id="tablaDatos" class="table table-sm table-striped table-hover no-footer" style="background-color: rgba(200,200, 200, 0.5); color: black; font-size: 12px ">
+        <thead class="text-bold">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.NuevoRecurso.Clave)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NuevoRecurso.NombrePrograma)
+                </th>
+                <th>
+                    @Html.DisplayName("INVERSIÓN")
+                </th>
+                <th>
+                    @Html.DisplayName("OFICIO")
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NuevoRecurso.IdEjercicio)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NuevoRecurso.Procedencia)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NuevoRecurso.ClaveFF)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NuevoRecurso.DescRecurso)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NuevoRecurso.IdNivel)
+                </th>
+                <th>ACCIONES</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model.Programas)
+            {
+                <tr>
+                    <td >
+                        @Html.DisplayFor(modelItem => item.Clave)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NombrePrograma)
+                    </td>
+                    <td>
+                        <span class="sparkpie">@Html.DisplayFor(modelItem => item.InversionMunicipal),@Html.DisplayFor(modelItem => item.InversionEstatal),@Html.DisplayFor(modelItem => item.InversionFederal)</span>
+                        @*<div class="row">
+                          
+                            <span class="col-xs-6" align="left">%Mun.</span>
+
+                        </div>
+                        <div class="row">
+                          
+                            <span class="col-xs-6" align="left">%Est.</span>
+
+                        </div>
+                        <div class="row">
+                            
+                            <span class="col-xs-6" align="left">%Fed.</span>
+
+                        </div>*@
+                    </td>
+
+                    <td >
+
+                        <div id="ModalOf_@item.Clave" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+
+                                <div class="modal-content">
+                                    <div class="modal-header header4t">
+                                        <h4 class="modal-title" align="center">Agregar Oficio</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <div class="modal-body ">
+                                        @using (Html.BeginForm("AgregarOficio", "Programas", FormMethod.Post, new { @id = "AgregarOficioform_" + @item.Clave }))
+                                        {   @Html.HiddenFor(Model => Model.FiltroEjercicio)
+                                            @Html.HiddenFor(Model => Model.FiltroNivel)
+                                            @Html.HiddenFor(Model => Model.FiltroRecurso)
+                                             @Html.HiddenFor(Model => Model.NuevOficio.IdPrograma, new { id = "idPrograma", Value = @item.Clave })
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">@Html.LabelFor(x => item.Clave, new {@class = "input-group-text prp"}) </div>
+                                                        @Html.TextBoxFor(x => item.Clave, new {@class = "form-control", @ReadOnly = "true"})
+
+                                                    </div>
+                                                    
+                                                </div>
+
+                                                <div class="col-sm-12">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">@Html.LabelFor(x => item.Ejercicio, new {@class = "input-group-text prp"}) </div>
+                                                        @Html.TextBoxFor(x => item.Ejercicio, new {@class = "form-control", @ReadOnly = "true"})
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">@Html.LabelFor(x => item.DescRecurso, new {@class = "input-group-text prp"}) </div>
+                                                        @Html.TextBoxFor(x => item.DescRecurso, new {@class = "form-control", @ReadOnly = "true"})
+                                                    </div>
+                                                  
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevOficio.Emisora, new {@class = "input-group-text prp"}) </div>
+                                                        @Html.TextBoxFor(x => Model.NuevOficio.Emisora, new {@class = "form-control"})
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.NuevOficio.Emisora, "", new { @class = "text-danger" })
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevOficio.NumeroOficio, new {@class = "input-group-text prp"}) </div>
+                                                        @Html.TextBoxFor(x => Model.NuevOficio.NumeroOficio, new {@class = "form-control"})
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.NuevOficio.NumeroOficio, "", new { @class = "text-danger" })
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <div class="input-group date datetimepicker" data-min-view="2" data-date-format="dd/mm/yyyy">
+                                                        <div class="input-group-prepend">
+                                                            @Html.LabelFor(model => model.NuevOficio.FechaOficio, new { @class = "input-group-text prp" })
+                                                        </div>
+
+                                                        @Html.EditorFor(model => model.NuevOficio.FechaOficio, new { @class = "form-control ", @type = "text", @id = "Fecha_Oficio", @value = "", @size = "16", @style="width:100%" })
+                                                        <div class="input-group-append">
+                                                            <button class="btn btn-secondary"><i class="fas fa-calendar"></i></button>
+                                                        </div>
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.NuevOficio.FechaOficio, "", new { @class = "text-danger" })
+
+
+                                                 
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevOficio.ImporteAutorizado, new {@class = "input-group-text prp"}) </div>
+                                                        @Html.TextBoxFor(x => Model.NuevOficio.ImporteAutorizado, new {@class = "form-control", @style = "text-align: right"})
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.NuevOficio.ImporteAutorizado, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        }
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-4t" data-dimiss="modal" onclick="mostrar_procesar(); $('#AgregarOficioform_@item.Clave').submit();">Agregar</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        @if (item.Oficios.Count >= 1)
+                {
+                    foreach (var ofi in item.Oficios)
+                    {
+
+                            <div class="row">
+                                <span class="col-xs-6" align="right">@Html.DisplayNameFor(modelItem => ofi.NumeroOficio)</span>
+                                <strong>
+                                    <span class="col-xs-6" align="right">@Html.DisplayFor(modelItem => ofi.NumeroOficio)</span>
+                                </strong>
+
+                            </div>
+                            <div class="row">
+                                <span class="col-xs-6" align="right">@Html.DisplayNameFor(modelItem => ofi.FechaOficio)</span>
+                                <span class="col-xs-6" align="right"><strong>@Html.DisplayFor(modelItem => ofi.FechaOficio)</strong></span>
+
+                            </div>
+                            <div class="row">
+                                <span class="col-xs-6" align="right">@Html.DisplayNameFor(modelItem => ofi.ImporteAutorizado)</span>
+                                <strong>
+                                    <span class="col-xs-6" align="right">@Html.DisplayFor(modelItem => ofi.ImporteAutorizado)</span>
+                                </strong>
+
+                            </div>
+                        <div>
+
+                            <div class="row">
+                                <div class="col-6" style="margin: 0; padding: 0;  font-size:10px">
+                                    <div class="dropArea" value=@ofi.IdOficio  ondragover="agregaclase(this)" >PDF AQUÍ </div>
+                                </div>
+                                <div class="col-6"  style="margin: 0; padding: 0">
+
+                                    
+                                    @using (Html.BeginForm("EliminaOficio", "Programas", FormMethod.Post, new { @id = "EliminaOficioform" + ofi.IdOficio }))
+                                    {   @Html.HiddenFor(Model => Model.FiltroEjercicio)
+                                        @Html.HiddenFor(Model => Model.FiltroNivel)
+                                        @Html.HiddenFor(Model => Model.FiltroRecurso)
+                                    @Html.HiddenFor(Model => Model.ElimarOfi, new { id = "idPrograma", Value = ofi.IdOficio })
+                                    }
+                                    <button class="btn btn-danger btn-circle btn-sm " data-toggle="tooltip" title="Eliminar Oficio" onclick="EliminaOficio('@ofi.NumeroOficio',@ofi.IdOficio);"> <span class="fa fa-trash"></span> </button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                <div > SIN OFICIO </div>
+                }
+                        
+                </td>
+
+                    <td align="center">
+                        @Html.DisplayFor(modelItem => item.Ejercicio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Procedencia)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ClaveFF)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DescRecurso)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nivel)
+                    </td>
+                    <td>
+                        <div class="btn-group-sm">
+
+                          
+
+                            @using (Html.BeginForm("EditarPrograma", "Programas", FormMethod.Post, new { @id = "editarProgramaform" + item.Clave }))
+                            {
+                                @Html.HiddenFor(Model=> Model.FiltroEjercicio)
+                                @Html.HiddenFor(Model => Model.FiltroNivel)
+                                @Html.HiddenFor(Model => Model.FiltroRecurso)
+                                @Html.HiddenFor(Model => Model.ProgEditar, new { id = "idPrograma", Value = @item.Clave })
+                            }
+                            <a href="#" class="btn btn-secondary btn-circle btn-sm" data-toggle="tooltip" title="Editar "  onclick="EditarPrograma('@item.NombrePrograma', @item.Clave);">
+                                <i class="fas fa-edit "></i>
+                            </a>
+                            <a href="#" class="btn btn-secondary btn-circle btn-sm">
+                                <i class="fas fa-file-pdf "></i>
+                            </a>
+
+                            <a href="#" class="btn btn-secondary btn-circle btn-sm" data-toggle="modal" data-target="#ModalOf_@item.Clave">
+                                <i class="fas fa-newspaper " data-toggle="tooltip" title="Agregar Oficio "></i>
+
+                            </a>
+                            @if (item.Oficios.Count() == 0)
+                            {
+                                using (Html.BeginForm("EliminaPrograma", "Programas", FormMethod.Post, new { @id = "eliminaProgramaform" + item.Clave }))
+                                {
+                                    @Html.HiddenFor(Model => Model.FiltroEjercicio)
+                                    @Html.HiddenFor(Model => Model.FiltroNivel)
+                                    @Html.HiddenFor(Model => Model.FiltroRecurso)
+                                    @Html.HiddenFor(Model => Model.ProgEliminar, new { id = "idPrograma", Value = @item.Clave })
+                                }
+                                <a href="#" class="btn btn-danger btn-circle btn-sm " data-toggle="tooltip" title="Eliminar Programa" onclick="EliminaPrograma('@item.NombrePrograma', @item.Clave);">
+                                    <i class="fas fa-trash "></i>
+                                </a>
+                            }
+                            
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+   
+
+
+
+
+
+<div id="myModal" class="modal fade @Model.ModalEditar"   role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header header4t">
+                <h4 class="modal-title" align="center">NUEVO PROGRAMA @Html.DisplayFor(x=>Model.NuevoRecurso.Clave)</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body ">
+                @using (Html.BeginForm("AgregaPrograma", "Programas", FormMethod.Post, new { @id = "agregarProgramaForm" }))
+                {   @Html.HiddenFor(Model => Model.FiltroEjercicio)
+                    @Html.HiddenFor(Model => Model.FiltroNivel)
+                    @Html.HiddenFor(Model => Model.FiltroRecurso)
+                    @Html.HiddenFor(x=>Model.NuevoRecurso.Clave)
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevoRecurso.IdEjercicio, new {@class = "input-group-text prp"}) </div>
+                                @Html.DropDownListFor(x => Model.NuevoRecurso.IdEjercicio, Model.ListaEjerciciosFiscales, "- Seleccione el ejercicio -", new {@class = "form-control"})
+                            </div>
+                            @Html.ValidationMessageFor(model => model.NuevoRecurso.IdEjercicio, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevoRecurso.DescRecurso, new {@class = "input-group-text prp"}) </div>
+                                @Html.TextAreaFor(x => Model.NuevoRecurso.DescRecurso, new {@class = "form-control", @type = "Text", @placeholder = "Agregue una descripcion de su programa", rows = "5", cols = "22"})
+                            </div>
+                            @Html.ValidationMessageFor(model => model.NuevoRecurso.DescRecurso, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span>@Html.LabelFor(x => Model.NuevoRecurso.IdRecurso, new {@class = "input-group-text prp"}) </span> </div>
+                                @Html.DropDownListFor(x => Model.NuevoRecurso.IdRecurso, Model.ListaRecursos, "- Seleccione el Recurso -", new {@class = "form-control"})
+                            </div>
+                            @Html.ValidationMessageFor(model => model.NuevoRecurso.IdRecurso, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevoRecurso.ClaveFF, new {@class = "input-group-text prp"}) </div>
+                                @Html.TextBoxFor(x => Model.NuevoRecurso.ClaveFF, new {@class = "form-control"})
+                            </div>
+                            @Html.ValidationMessageFor(model => model.NuevoRecurso.ClaveFF, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevoRecurso.InversionMunicipal, new {@class = "input-group-text prp"}) </div>
+                                @Html.TextBoxFor(x => Model.NuevoRecurso.InversionMunicipal, new {@class = "form-control", @style = "text-align: right"})
+                                <div class="input-group-append"> <span>%</span> </div>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.NuevoRecurso.InversionMunicipal, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend ">@Html.LabelFor(x => Model.NuevoRecurso.InversionEstatal, new {@class = "input-group-text prp"}) </div>
+                                @Html.TextBoxFor(x => Model.NuevoRecurso.InversionEstatal, new {@class = "form-control", @style = "text-align: right"})
+                                <div class="input-group-append"> <span>%</span> </div>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.NuevoRecurso.InversionEstatal, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevoRecurso.InversionFederal, new {@class = "input-group-text prp"}) </div>
+                                @Html.TextBoxFor(x => Model.NuevoRecurso.InversionFederal, new {@class = "form-control", @style = "text-align: right"})
+                                <div class="input-group-append"> <span>%</span> </div>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.NuevoRecurso.InversionFederal, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-12">
+
+                        </div>
+
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevoRecurso.Nivel, new {@class = "input-group-text prp"}) </div>
+                                @Html.DropDownListFor(x => Model.NuevoRecurso.IdNivel, Model.ListaNiveles, "- Seleccione el Nivel -", new {@class = "form-control"})
+                            </div>
+                            @Html.ValidationMessageFor(model => model.NuevoRecurso.IdNivel, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevoRecurso.Procedencia, new {@class = "input-group-text prp"}) </div>
+                                @Html.TextBoxFor(x => Model.NuevoRecurso.Procedencia, new {@class = "form-control"})
+                            </div>
+                            @Html.ValidationMessageFor(model => model.NuevoRecurso.Procedencia, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                }
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-4t" data-dimiss="modal" onclick="mostrar_procesar(); $('#agregarProgramaForm').submit();">Agregar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+<div id="Modal2" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header header4t">
+                <h4 class="modal-title" align="center">Agregar Nuevo Recurso</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body ">
+                @using (Html.BeginForm("AgregarRecurso", "Programas", FormMethod.Post, new { @id = "AgregaRecursoForm" }))
+                { @Html.HiddenFor(Model => Model.FiltroEjercicio)
+                    @Html.HiddenFor(Model => Model.FiltroNivel)
+                    @Html.HiddenFor(Model => Model.FiltroRecurso)
+                    <div class="row">
+                    <div class="col-sm-12">
+                        <div class="input-group">
+                            <div class="input-group-prepend">@Html.LabelFor(x => Model.AgregaRecurso, new { @class = "input-group-text prp"  , @placeholder = "DESCRIPCION DE RECURSO"}) </div>
+                            @Html.TextBoxFor(x => Model.AgregaRecurso, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                }
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-4t" data-dimiss="modal" onclick="mostrar_procesar(); $('#AgregaRecursoForm').submit();">Agregar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+@section Scripts
+{
+    <script src="~/assets/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/assets/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/assets/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="~/assets/jquery.sparkline/jquery.sparkline.min.js"></script>
+    <script src="~/assets/DropZone/dropzone.min.js"></script>
+    <script>
+        $('#tablaDatos').DataTable({
+            "language": {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Ver _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "|<",
+                    "sLast": ">|",
+                    "sNext": ">>",
+                    "sPrevious": "<<"
+                },
+                "oAria": {
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                },
+                "oButtons": {
+                    "sCopy": "Copiar",
+                    "sPrint": "Imprimir"
+                }
+            },
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
+            "lengthMenu": [[6, 10, 25, 50, -1], [6, 10, 25, 50, "All"]],
+            dom: "<'row be-datatable-header'<'col-sm-6'l><'col-sm-6 text-right'B>>" +
+                "<'row be-datatable-body'<'col-sm-12'tr>>" +
+                "<'row be-datatable-footer'<'col-sm-5'i><'col-sm-7'p>>"
+
+        });
+
+        function EliminaPrograma(nombre, clave) {
+            if (confirm("Está seguro que quiere eliminar programa: " + nombre + "")) {
+                var depElim = "#eliminaProgramaform" + clave;
+                mostrar_procesar();
+                $(depElim).submit();
+            }
+        }
+
+        function EliminaOficio(nombre, clave) {
+            if (confirm("Está seguro que quiere eliminar Oficio: " + nombre + "")) {
+                var depElim = "#EliminaOficioform" + clave;
+                mostrar_procesar();
+                $(depElim).submit();
+            }
+        }
+
+        function EditarPrograma(nombre, clave) {
+            if (confirm("Está seguro que quiere Editar programa: " + nombre + "")) {
+                var depEdit = "#editarProgramaform" + clave;
+                mostrar_procesar();
+                $(depEdit).submit();
+            }
+        }
+
+
+        $(".datetimepicker").datetimepicker({
+            autoclose: true,
+            language: 'es',
+            componentIcon: '.fas.fa-calendar',
+            navIcons: {
+                rightIcon: 'fas fa-chevron-right',
+                leftIcon: 'fas fa-chevron-left'
+            },
+            format: "dd/mm/yyyy"
+        });
+        $(document).ready(function() {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+        $('.sparkpie').sparkline('html', {
+            type: "pie",
+            height: '3em',
+            tooltipFormat: '{{offset:offset}} {{value}}',
+            tooltipValueLookups: {
+                'offset': {
+                    0: '% Municipal:',
+                    1: '% Estatal:',
+                    2: '% Federal:'
+
+                }
+            },
+        });
+
+
+        $(function () {
+            $('.dropArea').dropzone({
+                url: '@Url.Action("SubirOficio")',
+
+                allowedfiletypes: ['image/jpeg', 'image/png'],
+                acceptedFiles: ".jpg,.jpeg,.png",
+                //allowedfileextensions: ['.jpg', '.jpeg', '.png'],
+
+                //allowedfiletypes: ['image/*,.pdf'],
+                acceptedFiles: '.pdf',
+                //allowedfileextensions: ['.pdf', '.PDF', '.Pdf'],
+                paramName: 'archivos',
+                //createImageThumbnails:false,
+                sending: function (file, xhr, formData) {
+                    var ident = $('.active-drop').attr('value');
+                    formData.append("caract",ident );
+                },
+                maxfiles: 1,
+                filesizeBase: 1024, // en MB
+                capture: true,
+                dragOver: function () {
+                },
+                dragleave: function () {
+                    $('.dropArea').removeClass('active-drop');
+                },
+                afterAll: function (e, response) {
+                    $('.dropArea').removeClass('active-drop');
+                },
+                success: function (file, r) {
+                    if (r.length = 1) {
+                        var fo = r[0].split(",");
+                        $('.active-drop').html(' <img class="img-rounded" src="' + fo[0] + '"> <button class="btn-sm btn-danger btn-rounded" data-toggle="popover" onclick="botonElimina(this.id, ' + fo[1] + ')" value="' + fo[1] + '" data-content="Elimina esta Oficio" id="be_' + fo[1] + '"> <span class="icon mdi mdi-delete"></span></button>');
+                        $('.active-drop').attr("id", "da_" + fo[1]);
+                    }
+                    $('.dropArea').removeClass('active-drop');
+                }
+            });
+        });
+
+        function agregaclase(clase) {
+            event.preventDefault();
+            clase.className = "dropArea active-drop";
+            console.log("arrastrando archivo");
+
+        }
+    </script>
+
+}

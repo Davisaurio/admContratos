@@ -1,0 +1,214 @@
+﻿@model NuevoSicop.Models.AdquisicionesModelView
+
+
+@if (@Model.Error.Length > 1)
+{
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="mdi mdi-close" aria-hidden="true"></span></button>
+        <div class="icon"> <span class="mdi mdi-close-circle-o"></span></div>
+        <div class="message"><strong>Problemas!</strong>@Model.Error</div>
+    </div>
+
+}
+@if (@Model.Exito.Length > 1)
+{
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="mdi mdi-close" aria-hidden="true"></span></button>
+        <div class="icon"> <span class="mdi mdi mdi-check"></span></div>
+        <div class="message"><strong>Éxito!</strong>@Model.Exito</div>
+    </div>
+
+}
+<style>
+    .Lab {
+        width: 250px;
+        color: blue;
+    }
+
+    .h2 {
+        color: darkgray;
+    }
+</style>
+<h2>CONTRATOS</h2>
+
+<div class="row">
+
+    <div class="col-lg-4">
+        @using (Html.BeginForm("Ejercicio", "Adquisiciones", FormMethod.Post, new { @id = "EjercicioForm" }))
+            {
+            <div class="input-group">
+                <div class="input-group-prepend">@Html.LabelFor(x => Model.IdEjercicio, new { @class = "input-group-text prp" }) </div>
+                @Html.DropDownListFor(x => Model.IdEjercicio, Model.ListaEjercicios, "- Selecciona un ejercicio -", new { @class = "form-control", @onchange = "mostrar_procesar();$('#EjercicioForm').submit()" })
+            </div>
+        }
+    </div>
+    <div class="col-lg-4">
+        @using (Html.BeginForm("Contratos", "Adquisiciones", FormMethod.Post, new { @id = "PaqueteForm" }))
+            {
+            @Html.HiddenFor(x => Model.IdEjercicio)
+
+            <div class="input-group">
+                <div class="input-group-prepend">@Html.LabelFor(x => Model.IdContrato, new { @class = "input-group-text prp" }) </div>
+                @Html.DropDownListFor(x => Model.IdContrato, Model.ListaContratos, "- Selecciona un Paquete -", new { @class = "form-control", @onchange = "mostrar_procesar();$('#PaqueteForm').submit()" })
+            </div>
+        }
+    </div>
+
+    <div class="col-lg-4">
+        @using (Html.BeginForm("BuscarContratos", "Adquisiciones", FormMethod.Post, new { @id = "BuscarForm" }))
+            {
+            @Html.HiddenFor(x => Model.IdEjercicio)
+
+
+            <div class="input-group">
+                <div class="input-group-prepend">@Html.LabelFor(x => Model.BuscarContrato, new { @class = "input-group-text prp" }) </div>
+                @Html.TextBoxFor(x => Model.BuscarContrato, new { @class = "form-control", @onchange = "mostrar_procesar();$('#BuscarForm').submit()" })
+            </div>
+        }
+    </div>
+
+</div>
+
+@if (!String.IsNullOrEmpty(Model.IdContrato))
+{
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-body">DATOS GENERALES</div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12 row">
+                                <span class="col-lg-2 col-sm-6" align="right">  <strong>  @Html.LabelFor(x => Model.Procedimiento) </strong></span>
+                                <span class="col-lg-10 col-sm-6"> @Html.DisplayFor(x => Model.Procedimiento) </span>
+                            </div>
+                            <div class="col-12 row">
+                                <span class="col-lg-2 col-sm-6" align="right">  <strong>  @Html.LabelFor(x => Model.Recurso) </strong></span>
+                                <span class="col-lg-10 col-sm-6"> @Html.DisplayFor(x => Model.Recurso) </span>
+                            </div>
+                            <div class="col-12 row">
+                                <span class="col-lg-2 col-sm-6" align="right">  <strong>  @Html.LabelFor(x => Model.Descripcion) </strong></span>
+                                @if (User.IsInRole("Administrador") || User.IsInRole("A-Adquisiciones"))
+                            {
+                                    <span class="col-lg-9 col-sm-5">
+                                        @using (Html.BeginForm("ActualizaAlcance", "Adquisiciones", FormMethod.Post, new {@id = "ActualizaDescForm"}))
+                                    {
+                                            @Html.HiddenFor(x => Model.IdEjercicio)
+                                            @Html.HiddenFor(x => Model.Contrato)
+                                            @Html.HiddenFor(x => Model.IdContrato)
+                                            @Html.TextAreaFor(x => Model.Descripcion, new {@style = "width:100%;  max-width: 100%;"})
+                                    }
+                                    </span>
+                                    @*<span class="col-lg-1 col-sm-1">  <buton class="btn btn-4t btn-sm " data-toggle="popover" data-content="Actualizar" onclick="$('#ActualizaDescForm').submit()"><span class="fas fa-save"> </span></buton>  </span>*@
+                            }
+                            else
+                            {
+                                    <span class="col-lg-10 col-sm-6"> @Html.DisplayFor(x => Model.Descripcion) </span>
+                            }
+                            </div>
+                            <div class="col-12 row">
+                                <span class="col-lg-2 col-sm-6" align="right">  <strong>  @Html.LabelFor(x => Model.TipoPersona) </strong></span>
+                                <span class="col-lg-10 col-sm-6"> @Html.DisplayFor(x => Model.TipoPersona) </span>
+                            </div>
+                            <div class="col-12 row">
+                                <span class="col-lg-2 col-sm-6" align="right">  <strong>  @Html.LabelFor(x => Model.TipoInversion) </strong></span>
+                                <span class="col-lg-10 col-sm-6"> @Html.DisplayFor(x => Model.TipoInversion) </span>
+                            </div>
+                            <div class="col-12 row">
+                                <span class="col-lg-2 col-sm-6" align="right">  <strong>  @Html.LabelFor(x => Model.modalidad) </strong></span>
+                                <span class="col-lg-10 col-sm-6"> @Html.DisplayFor(x => Model.modalidad) </span>
+                            </div>
+                            <div class="col-12 row">
+                                <span class="col-lg-2 col-sm-6" align="right">  <strong>  @Html.LabelFor(x => Model.Monto) </strong></span>
+                                <span class="col-lg-10 col-sm-6"> @Html.DisplayFor(x => Model.Monto) </span>
+                            </div>
+                            <div class="col-12 row">
+                                <span class="col-lg-2 col-sm-6" align="right">  <strong>  @Html.LabelFor(x => Model.Iva) </strong></span>
+                                <span class="col-lg-10 col-sm-6"> @Html.DisplayFor(x => Model.Iva)% </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12 row">
+                                <span class="col-lg-2 col-sm-6" align="right">  <strong>  @Html.LabelFor(x => Model.Inicia) </strong></span>
+                                <span class="col-lg-10 col-sm-6" style="text-transform: uppercase"> @Html.DisplayFor(x => Model.Inicia) </span>
+                            </div>
+                            <div class="col-12 row">
+                                <span class="col-lg-2 col-sm-6" align="right">  <strong>  @Html.LabelFor(x => Model.Termina) </strong></span>
+                                <span class="col-lg-10 col-sm-6" style="text-transform: uppercase"> @Html.DisplayFor(x => Model.Termina) </span>
+                            </div>
+                            <div class="col-12 row">
+                                <span class="col-lg-2 col-sm-6 " align="right">  <strong>  @Html.LabelFor(x => Model.AnticipoxCien) </strong></span>
+                                <span class="col-lg-10 col-sm-6"> @Html.DisplayFor(x => Model.AnticipoxCien) %</span>
+                            </div>
+                            <div class="col-12 row">
+                                <span class="col-lg-2 col-sm-6" align="right">  <strong>  @Html.LabelFor(x => Model.Anticipo) </strong></span>
+                                <span class="col-lg-10 col-sm-6"> @Html.DisplayFor(x => Model.Anticipo) </span>
+                            </div>
+                            <div class="col-12 row">
+                                <span class="col-lg-2 col-sm-6" align="right">  <strong>  @Html.LabelFor(x => Model.Plazo) </strong></span>
+                                <span class="col-lg-10 col-sm-6"> @Html.DisplayFor(x => Model.Plazo) </span>
+                            </div>
+                            <div class="col-12 row">
+                                <span class="col-lg-2 col-sm-6" align="right">  <strong>  @Html.LabelFor(x => Model.Contratista) </strong></span>
+                                <span class="col-lg-10 col-sm-6"> @Html.DisplayFor(x => Model.Contratista) </span>
+                            </div>
+                            <div class="col-12 ">
+
+                                @if (User.IsInRole("Administrador") || User.IsInRole("A-Adquisiciones"))
+                                {
+                                    using (Html.BeginForm("Contrato1", "Adquisiciones", FormMethod.Post, new { @id = "ContratoEstatalForm" }))
+                                    {
+                                        @Html.HiddenFor(x => Model.IdEjercicio)
+                                        @Html.HiddenFor(x => Model.Contrato)
+                                        <span class="col-lg-4 col-sm-6" align="right">
+                                            <strong>  @Html.LabelFor(c => Model.FianzaCumplimineto)</strong>
+                                        </span>
+                                        @Html.CheckBoxFor(model => model.FianzaCumplimineto, new { @class = "col-lg-2 col-sm-6" })
+                                        <div class="col-lg-6"></div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-footer">
+
+            </div>
+        </div>
+
+    </div>
+
+    if (User.IsInRole("Administrador") || User.IsInRole("A-Adquisiciones"))
+    {
+        using (Html.BeginForm("Caratula", "Adquisiciones", FormMethod.Post, new { @id = "CaratulaForm" }))
+        {
+            @Html.HiddenFor(x => Model.IdEjercicio)
+            @Html.HiddenFor(x => Model.Contrato)
+        }
+    }
+    if (User.IsInRole("Administrador") || User.IsInRole("A-Adquisiciones"))
+    {
+        <div class="row">
+            <div class="col-8"></div>
+            <div class="col-2">
+                @if (!string.IsNullOrEmpty(Model.Contrato))
+                {
+                    <button class="btn btn-4t btn-sm " onclick="$('#ContratoEstatalForm').submit()"><span class="fas fa-print"> </span> CONTRATO </button>
+                }
+            </div>
+
+            <div class="col-2">
+                @if (!string.IsNullOrEmpty(Model.Contrato))
+                {
+                    <button class="btn btn-4t btn-sm " onclick="$('#CaratulaForm').submit()"><span class="fas fa-print"> </span> CARÁTULA </button>
+                }
+            </div>
+        </div>
+    }
+}

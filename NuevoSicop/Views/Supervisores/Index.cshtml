@@ -1,0 +1,347 @@
+﻿@model NuevoSicop.Models.SupervisoresViewModel
+
+<link href="~/assets/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/assets/datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+
+@if (@Model.Error.Length > 1)
+{
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="mdi mdi-close" aria-hidden="true"></span></button>
+        <div class="icon"> <span class="mdi mdi-close-circle-o"></span></div>
+        <div class="message"><strong>Problemas!</strong>@Model.Error</div>
+    </div>
+
+}
+@if (@Model.Exito.Length > 1)
+{
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="mdi mdi-close" aria-hidden="true"></span></button>
+        <div class="icon"> <span class="mdi mdi mdi-check"></span></div>
+        <div class="message"><strong>Éxito!</strong>@Model.Exito</div>
+    </div>
+
+}
+
+<style>
+    .header4t {
+        background-color: maroon;
+        color: goldenrod;
+    }
+
+    .prp2 {
+        width: 120px;
+    }
+</style>
+<div class="row">
+
+    <div class="col-lg-8">
+       
+
+
+        @using (Html.BeginForm("Busqueda", "Supervisores", FormMethod.Post, new { @id = "FormBusqueda" }))
+        {
+            <div class="input-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevoSupervisor.IdRoll, new { @class = "input-group-text prp2" }) </div>
+                    @Html.DropDownListFor(x => Model.FiltroIdRoll, Model.ListasRoles, "- Seleccione Roll -", new { @class = "form-control", @id = "Filtro" })
+                    <div class="input-group-append">
+                        <button class="btn btn-secondary btn-4t"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+            </div>
+
+        }
+
+
+
+
+    </div>
+    <div class ="col-lg-4">  
+        <a href="#" class="btn btn-4t btn-icon-split" type="button" data-toggle="modal" data-target="#AgregaSupervisor" align="right">
+            <span class="icon text-white-50">
+                <i class="fas fa-user-alt"></i>
+            </span>
+            <span class="text">Supervisor</span>
+        </a>
+
+</div>
+
+</div> 
+
+
+
+
+
+<div id="AgregaSupervisor" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header header4t">
+                <h4 class="modal-title" align="center">Nuevo Supervisor</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body ">
+
+                <div class="row">
+                    @using (Html.BeginForm("AgregaSupervisor", "Supervisores", FormMethod.Post, new {@id = "agregarSupervisorForm"}))
+                    {
+                        <div class="col-sm-2"> </div>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoSupervisor.Nombre, new {@class = "input-group-text prp2 "}) </div>
+                                @Html.TextBoxFor(x => Model.NuevoSupervisor.Nombre, new {@class = "form-control ", @style = "text-transform:uppercase;" })
+                            </div>
+                            @Html.ValidationMessageFor(model => Model.NuevoSupervisor.Nombre, "", new {@class = "text-danger"})
+                        </div>
+                        <div class="col-sm-2"> </div>
+                        <div class=" col-sm-10">
+                            <div class="input-group">
+                                <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoSupervisor.Cedula, new {@class = "input-group-text prp2 "}) </div>
+                                @Html.TextBoxFor(x => Model.NuevoSupervisor.Cedula, new {@class = "form-control"})
+                            </div>
+                            @Html.ValidationMessageFor(model => Model.NuevoSupervisor.Cedula, "", new {@class = "text-danger"})
+                        </div>
+                        <div class="col-sm-2"> </div>
+                        <div class=" col-sm-10">
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevoSupervisor.IdRoll, new {@class = "input-group-text prp2"}) </div>
+                                @Html.DropDownListFor(x => Model.NuevoSupervisor.IdRoll, Model.ListasRoles, "- Seleccione el Roll -", new {@class = "form-control", @id = "proyectos"})
+                            </div>
+                            @Html.ValidationMessageFor(model => model.NuevoSupervisor.IdRoll, "", new {@class = "text-danger"})
+                        </div>
+                        <div class="col-sm-2"> </div>
+                        <div class=" col-sm-10">
+                            <div class="input-group">
+                                <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoSupervisor.Direccion, new {@class = "input-group-text prp2 "}) </div>
+                                @Html.TextBoxFor(x => Model.NuevoSupervisor.Direccion, new {@class = "form-control", @style = "text-transform:uppercase;"})
+                            </div>
+                            @Html.ValidationMessageFor(model => Model.NuevoSupervisor.Direccion, "", new {@class = "text-danger"})
+                        </div>
+                        <div class="col-sm-2"> </div>
+                        <div class=" col-sm-10">
+                            <div class="input-group">
+                                <div class="input-grou-prepend">@Html.LabelFor(x => Model.NuevoSupervisor.Telefono, new {@class = "input-group-text prp2 "}) </div>
+                                @Html.TextBoxFor(x => Model.NuevoSupervisor.Telefono, new {@class = "form-control "})
+                            </div>
+                            @Html.ValidationMessageFor(model => Model.NuevoSupervisor.Telefono, "", new {@class = "text-danger"})
+                        </div>
+                    }
+
+
+
+                </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-4t" data-dimiss="modal" onclick="mostrar_procesar(); $('#agregarSupervisorForm').submit();">Agregar</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+<div class="table-responsive noSwipe " style="padding: 20px">
+    <table id="tablaDatos" class="table table-sm table-striped table-hover no-footer" style="background-color: rgba(200,200, 200, 0.5); color: black; font-size: 12px ">
+        <thead class="text-bold">
+            <tr>
+                <th >
+                    @Html.DisplayNameFor(model => model.NuevoSupervisor.Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NuevoSupervisor.Nombre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NuevoSupervisor.Cedula)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NuevoSupervisor.Roll)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NuevoSupervisor.Direccion)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.NuevoSupervisor.Telefono)
+                </th>
+              
+                <th>
+                    @Html.DisplayNameFor(model => model.NuevoSupervisor.Estado)
+                </th>
+
+            
+                <th>ACCIONES</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model.ListaSupervisores)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td align="center">
+                        @Html.DisplayFor(modelItem => item.Cedula)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Roll)
+                    </td>
+                    <td align="center">
+                        @Html.DisplayFor(modelItem => item.Direccion)
+                    </td>
+                    <td align="center">
+                        @Html.DisplayFor(modelItem => item.Telefono)
+                    </td>
+                        
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Estado)
+                    </td>
+                    <td>
+                        @using (Html.BeginForm("EliminaSupervisor", "Supervisores", FormMethod.Post, new { @id = "EliminaSupervisForm" + item.Id }))
+                        {
+                           @Html.HiddenFor(model => model.EliminaSup, new { id = "IdProyeto", Value = item.Id })
+                        }
+                        @using (Html.BeginForm("CambiaEstatusSupervisor", "Supervisores", FormMethod.Post, new { @id = "cambiaSupervisForm" + item.Id }))
+                        {
+
+                            @Html.HiddenFor(model => model.EliminaSup, new { id = "IdSupervisor", Value = item.Id })
+                        }
+
+
+                        <div class=" row">
+                            <div class=" col-6">
+                                <button class="btn btn-danger btn-sm" data-toggle="tooltip" title="Eliminar Supervisor" onclick="if (confirm('Esta seguro de que quiere eliminar el supervisor')) { $('#EliminaSupervisForm' + @item.Id).submit();mostrar_procesar();}"><i class="fa fa-trash"></i> </button>
+
+                            </div>
+
+                            <div class=" col-6">
+                                <button class="btn btn-default btn-sm" data-toggle="tooltip" title="Camia Estatus Supervisor" onclick="$('#cambiaSupervisForm' + @item.Id).submit();mostrar_procesar();"><i class="fa fa-adjust"></i> </button>
+                            </div>
+
+
+                        </div>
+
+
+                    </td>
+                  
+                   
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+@section Scripts
+{
+    <script src="~/assets/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/assets/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/assets/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+
+    <script src="~/assets/datatables/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/assets/datatables/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="~/assets/datatables/pdfmake/pdfmake.min.js"></script>
+    <script src="~/assets/datatables/pdfmake/vfs_fonts.js"></script>
+    <script src="~/assets/datatables/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+    <script src="~/assets/datatables/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="~/assets/datatables/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/assets/datatables/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+    @*<script src="~/assets/js/app-tables-datatables.js"></script>*@
+
+
+
+
+
+
+    @*    <script src="~/assets/jquery.sparkline/jquery.sparkline.min.js"></script>*@
+    <script>
+                $(function () {
+                    $('[data-toggle="tooltip"]').tooltip();
+                })
+                $(".datetimepicker").datetimepicker({
+                    autoclose: true,
+                    language: 'es',
+                    componentIcon: '.fas.fa-calendar',
+                    navIcons: {
+                        rightIcon: 'fas fa-chevron-right',
+                        leftIcon: 'fas fa-chevron-left'
+                    },
+                    format: "dd/mm/yyyy"
+                });
+                $('#tablaDatos').DataTable({
+                    "language": {
+                        "sProcessing": "Procesando...",
+                        "sLengthMenu": "Ver _MENU_ registros",
+                        "sZeroRecords": "No se encontraron resultados",
+                        "sEmptyTable": "Ningún dato disponible en esta tabla",
+                        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix": "",
+                        "sSearch": "Buscar:",
+                        "sUrl": "",
+                        "sInfoThousands": ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oPaginate": {
+                            "sFirst": " |< ",
+                            "sLast": " >| ",
+                            "sNext": " >> ",
+                            "sPrevious": " << "
+                        },
+                        "oAria": {
+                            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                        },
+                        "oButtons": {
+                            "sCopy": "Copiar",
+                            "sPrint": "Imprimir"
+                        }
+                    },
+                    buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+
+                    "lengthMenu": [[20, 30, 40, 50, -1], [20, 30, 40, 50, "All"]],
+                    dom: "<'row be-datatable-header'<'col-sm-6'l><'col-sm-6 text-right'B>>" +
+                        "<'row be-datatable-body'<'col-sm-12'tr>>" +
+                        "<'row be-datatable-footer'<'col-sm-5'i><'col-sm-7'p>>",
+                    extend: 'pdf', className: 'btn green btn-outline',  text: 'Export PDF',
+                customize: function (doc) {
+                    doc.defaultStyle =
+                        {
+                            font: 'alef'
+                        }
+                    var docDefinition = {
+                        // a string or { width: number, height: number }
+                        pageSize: 'carta',
+
+                        // by default we use portrait, you can change it to landscape if you wish
+                        pageOrientation: 'landscape',
+
+                        // [left, top, right, bottom] or [horizontal, vertical] or just a number for equal margins
+                        pageMargins: [ 40, 60, 40, 60 ],
+                    };
+
+                }
+
+                });
+
+    </script>
+
+
+}

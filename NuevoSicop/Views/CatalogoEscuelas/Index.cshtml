@@ -1,0 +1,672 @@
+﻿@model NuevoSicop.Models.CatalogoEscuelasViewModels
+
+<link href="~/assets/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/assets/datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet"/>
+<link href="~/assets/DropZone/dropzone.min.css" rel="stylesheet" />
+
+
+@if (@Model.Error.Length > 1)
+{
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="mdi mdi-close" aria-hidden="true"></span></button>
+        <div class="icon"> <span class="mdi mdi-close-circle-o"></span></div>
+        <div class="message"><strong>Problemas!</strong>@Model.Error</div>
+    </div>
+
+}
+@if (@Model.Exito.Length > 1)
+{
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span class="mdi mdi-close" aria-hidden="true"></span></button>
+        <div class="icon"> <span class="mdi mdi mdi-check"></span></div>
+        <div class="message"><strong>Éxito!</strong>@Model.Exito</div>
+    </div>
+
+}
+
+<style>
+    .header4t {background-color: maroon;
+      color: goldenrod;
+      
+    }
+    .prp{
+        width: 170px;
+       
+    }
+     .prp2{
+        width: 115px;
+       
+    }
+   #NuevOficio_FechaOficio {
+       width: 235px;
+   }
+
+
+   .dropArea {
+         background: #d3d1d1 !important;        
+         border: gray dashed 1px;
+         max-height: 160px;
+         max-width: 180px;  
+         height: 100%;
+         width: 100%;
+         text-align: center;
+         color: gray;
+         padding: 5px;
+         margin-bottom: 10px;
+         margin-top: 10px;
+         border-radius: 10px;
+     }
+
+   .active-drop {
+        background: #77bafa !important;
+        border: solid 2px silver !important;
+        opacity: .5;
+        color: black !important;
+    }
+</style>
+
+<div align="right">
+    @*<button type="button" class="btn btn-4t " data-toggle="modal" data-target="#myModal">Nuevo Recurso </button>*@
+    <a href="#" class="btn btn-4t btn-icon-split" type="button" data-toggle="modal" data-target="#myModal">
+        <span class="icon text-white-50">
+            <i class="fas fa-plus-circle"></i>
+        </span>
+        <span class="text">Escuela</span>
+    </a>
+
+    <a href="#" class="btn btn-4t btn-icon-split" type="button" data-toggle="modal" data-target="#Modal2">
+        <span class="icon text-white-50">
+            <i class="fas fa-plus-circle"></i>
+        </span>
+        <span class="text">Modalidad</span>
+    </a>
+    <a href="#" class="btn btn-4t btn-icon-split" type="button" data-toggle="modal" data-target="#Modal3">
+        <span class="icon text-white-50">
+            <i class="fas fa-plus-circle"></i>
+        </span>
+        <span class="text">Nivel</span>
+    </a>
+    <a href="#" class="btn btn-4t btn-icon-split" type="button" data-toggle="modal" data-target="#Modal4">
+        <span class="icon text-white-50">
+            <i class="fas fa-plus-circle"></i>
+        </span>
+        <span class="text">DescSost</span>
+    </a>
+</div>
+
+<div>
+    @using (Html.BeginForm("Filtros", "CatalogoEscuelas", FormMethod.Post, new { @id = "FiltroForm" }))
+    {
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="input-group">
+                    <div class="input-group-prepend">@Html.LabelFor(x => Model.FiltroNivel, new {@class = "input-group-text prp2"}) </div>
+                    @Html.DropDownListFor(x => Model.FiltroNivel, Model.ListaNivelesEsc, "- Todos -", new {@class = "form-control"})
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="input-group">
+                    <div class="input-group-prepend">@Html.LabelFor(x => Model.FiltroModalidad, new { @class = "input-group-text prp2" }) </div>
+                    @Html.DropDownListFor(x => Model.FiltroModalidad, Model.ListaModalidad, "- Todos -", new { @class = "form-control" })
+                </div>
+
+            </div>
+            <div class="col-sm-3">
+                <div class="input-group">
+                    <div class="input-group-prepend">@Html.LabelFor(x => Model.FiltroMunicipio, new { @class = "input-group-text prp2" }) </div>
+                    @Html.DropDownListFor(x => Model.FiltroMunicipio, Model.ListaMunicipios, "- Todos -", new { @class = "form-control" })
+                </div>
+
+            </div>
+         
+            <div class="col-sm-2">
+                <div class="input-group">
+                    <div class="input-group-prepend">@Html.LabelFor(x => Model.FiltroNombre, new { @class = "input-group-text prp2" }) </div>
+                    @Html.TextBoxFor(x => Model.FiltroNombre,  new { @class = "form-control" })
+                </div>
+
+            </div>
+            <div class="col-sm-1">
+                <button class="btn btn-circle btn-4t btn-sm "  onclick="this.submit();">
+                    <span class="fa fa-search" ></span>
+                </button>
+
+            </div>
+
+
+        </div>
+    }
+</div>
+<div class="table-responsive noSwipe " style="padding: 20px">
+    <table id="tablaDatos" class="table table-sm table-striped table-hover no-footer" style="background-color: rgba(200,200, 200, 0.5); color: black; font-size: 10px ">
+        <thead class="text-bold">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.NuevaEscuela.Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NuevaEscuela.Nivel)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NuevaEscuela.Modalidad)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NuevaEscuela.Clave)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NuevaEscuela.Nombre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NuevaEscuela.Sector)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NuevaEscuela.ZonaEscolar)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NuevaEscuela.Direccion)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NuevaEscuela.Municipio)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NuevaEscuela.Localidad)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NuevaEscuela.Descrsost)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NuevaEscuela.ClaveLocalidad)
+                </th>
+                <th>ACCIONES</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model.ListaEscuelas)
+            {
+                <tr>
+                    <td >
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nivel)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Modalidad)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Clave)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sector)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ZonaEscolar)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Direccion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Municipio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Localidad)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descrsost)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ClaveLocalidad)
+                    </td>
+                    <td>
+                        <div class="btn-group-sm">
+
+                          
+
+                            @using (Html.BeginForm("EditarEscuela", "CatalogoEscuelas", FormMethod.Post, new { @id = "editarEscuelaform" + item.Id }))
+                            {
+                                @Html.HiddenFor(model=> Model.FiltroModalidad)
+                                @Html.HiddenFor(model => Model.FiltroNivel)
+                                @Html.HiddenFor(model => Model.FiltroMunicipio)
+                                @Html.HiddenFor(model => Model.FiltroNombre)
+                                @Html.HiddenFor(model => Model.EditarEscuela, new { id = "idEscuela ", Value = @item.Id })
+                            }
+                            <a href="#" class="btn btn-secondary btn-circle btn-sm" data-toggle="tooltip" title="Editar "  onclick="EditarEscuela('@item.Nombre', @item.Id);">
+                                <i class="fas fa-edit "></i>
+                            </a>
+                            <a href="#" class="btn btn-secondary btn-circle btn-sm">
+                                <i class="fas fa-file-pdf "></i>
+                            </a>
+
+                          
+                                @using (Html.BeginForm("EliminaEscuela", "CatalogoEscuelas", FormMethod.Post, new { @id = "eliminaEscuelaform" + item.Id }))
+                                {
+                                    @Html.HiddenFor(model => Model.FiltroModalidad)
+                                    @Html.HiddenFor(model => Model.FiltroNivel)
+                                    @Html.HiddenFor(model => Model.FiltroMunicipio)
+                                    @Html.HiddenFor(model => Model.FiltroNombre)
+                                    @Html.HiddenFor(model => Model.EliminaEscuela, new { id = "idEscuela", Value = @item.Id })
+                                }
+                                <a href="#" class="btn btn-danger btn-circle btn-sm " data-toggle="tooltip" title="Eliminar Escuela" onclick="EliminaEscuela('@item.Nombre', @item.Id);">
+                                    <i class="fas fa-trash "></i>
+                                </a>
+                          
+                            
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+   
+
+
+
+
+
+<div id="myModal" class="modal fade @Model.EditarEscuela"   role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header header4t">
+                <h4 class="modal-title" align="center">NUEVA ESCUELA @Html.DisplayFor(x=>Model.NuevaEscuela.Clave)</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body ">
+                @using (Html.BeginForm("AgregaEscuela", "CatalogoEscuelas", FormMethod.Post, new { @id = "agregarEscuelaForm" }))
+                {    @Html.HiddenFor(model => Model.FiltroModalidad)
+                     @Html.HiddenFor(model => Model.FiltroNivel)
+                     @Html.HiddenFor(model => Model.FiltroMunicipio)
+                     @Html.HiddenFor(model => Model.FiltroNombre)
+                     @Html.HiddenFor(model=>Model.NuevaEscuela.Id)
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevaEscuela.IdNivel, new {@class = "input-group-text prp"}) </div>
+                                @Html.DropDownListFor(model => Model.NuevaEscuela.IdNivel, Model.ListaNivelesEsc, "- NIVEL  -", new {@class = "form-control"})
+                            </div>
+                            @Html.ValidationMessageFor(model => model.NuevaEscuela.IdNivel, "", new { @class = "text-danger" })
+                        </div>
+
+
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevaEscuela.IdModalidad, new {@class = "input-group-text prp"}) </div>
+                                @Html.DropDownListFor(model => Model.NuevaEscuela.IdModalidad, Model.ListaModalidad, "- MODALIDAD -", new {@class = "form-control"})
+                            </div>
+                            @Html.ValidationMessageFor(model => model.NuevaEscuela.IdModalidad, "", new {@class = "text-danger"})
+                        </div>
+
+
+
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevaEscuela.Nombre, new {@class = "input-group-text prp"}) </div>
+                                @Html.TextBoxFor(model => Model.NuevaEscuela.Nombre, new {@class = "form-control", @placeholder = "NOMBRE ESCUELA"})
+                            </div>
+                            @Html.ValidationMessageFor(model => model.NuevaEscuela.Nombre, "", new {@class = "text-danger"})
+                        </div>
+
+
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevaEscuela.Clave, new { @class = "input-group-text prp" }) </div>
+                                @Html.TextBoxFor(model => Model.NuevaEscuela.Clave, new { @class = "form-control", @placeholder = "CLAVE CCT" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.NuevaEscuela.Clave, "", new { @class = "text-danger" })
+                        </div>
+
+
+
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span>@Html.LabelFor(x => Model.NuevaEscuela.Sector, new {@class = "input-group-text prp"}) </span> </div>
+                                @Html.DropDownListFor(model => Model.NuevaEscuela.Sector, Model.ListaSectores, "- SECTOR  -", new {@class = "form-control"})
+                            </div>
+                            @Html.ValidationMessageFor(model => model.NuevaEscuela.Sector, "", new {@class = "text-danger"})
+                        </div>
+
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span>@Html.LabelFor(x => Model.NuevaEscuela.ZonaEscolar, new {@class = "input-group-text prp"}) </span> </div>
+                                @Html.DropDownListFor(model => Model.NuevaEscuela.ZonaEscolar, Model.ListaZonas, "- ZONA -", new {@class = "form-control"})
+                            </div>
+                            @Html.ValidationMessageFor(model => model.NuevaEscuela.ZonaEscolar, "", new {@class = "text-danger"})
+                        </div>
+
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevaEscuela.Direccion, new {@class = "input-group-text prp"}) </div>
+                                @Html.TextBoxFor(model => Model.NuevaEscuela.Direccion, new {@class = "form-control"})
+                            </div>
+                            @Html.ValidationMessageFor(model => model.NuevaEscuela.Direccion, "", new {@class = "text-danger", @placeholder = "DIRECCIÓN"})
+                        </div>
+
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevaEscuela.IdEntidad, new { @class = "input-group-text prp" }) </div>
+                                @Html.DropDownListFor(model => Model.NuevaEscuela.IdEntidad, Model.ListaEntidades , "-  ENTIDAD -", new { @class = "form-control", @id="Entidad" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.NuevaEscuela.IdEntidad, "", new { @class = "text-danger" })
+                        </div>
+
+
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevaEscuela.IdMunicipio, new { @class = "input-group-text prp" }) </div>
+                                @Html.DropDownListFor(model => Model.NuevaEscuela.IdMunicipio, Model.ListaMunicipios, "- MUNICIPIO -", new { @class = "form-control" , @id="Municipio" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.NuevaEscuela.IdEntidad, "", new { @class = "text-danger" })
+                        </div>
+
+
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevaEscuela.IdLocalidad, new { @class = "input-group-text prp" }) </div>
+                                @Html.DropDownListFor(model => Model.NuevaEscuela.IdLocalidad, Model.ListaLocalidades, "- LOCALIDAD -", new { @class = "form-control" ,@id="Localidad" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.NuevaEscuela.IdLocalidad, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevaEscuela.Descrsost, new {@class = "input-group-text prp"}) </div>
+                                @Html.DropDownListFor(model => Model.NuevaEscuela.IdDescrsost, Model.ListaDescrsost, "- SOSTENIMIENTO -", new {@class = "form-control"})
+                                @*@Html.TextBoxFor(x => Model.NuevaEscuela.Descrsost, new {@class = "form-control"})*@
+                                <div class="input-group-append"> </div>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.NuevaEscuela.Descrsost, "", new {@class = "text-danger"})
+                        </div>
+
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevaEscuela.ClaveLocalidad, new { @class = "input-group-text prp" }) </div>
+                                @Html.TextBoxFor(model => Model.NuevaEscuela.ClaveLocalidad, new { @class = "form-control" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.NuevaEscuela.ClaveLocalidad, "", new { @class = "text-danger", @placeholder = "CLAVE LOCALIDAD" })
+                        </div>
+
+
+                    </div>
+                }
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-4t" data-dimiss="modal" onclick="mostrar_procesar(); $('#agregarEscuelaForm').submit();">Agregar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+<div id="Modal2" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header header4t">
+                <h4 class="modal-title" align="center">Agregar Nuevo Modalidad</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body ">
+                @using (Html.BeginForm("AgregarModalidad", "CatalogoEscuelas", FormMethod.Post, new { @id = "AgregaModalidadForm" }))
+                { @*@Html.HiddenFor(Model => Model.FiltroEjercicio)
+                    @Html.HiddenFor(Model => Model.FiltroNivel)
+                    @Html.HiddenFor(Model => Model.FiltroRecurso)*@
+                    <div class="row">
+                    <div class="col-sm-12">
+                        <div class="input-group">
+                            <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevaModalidad, new { @class = "input-group-text prp"  , @placeholder = "MODALIDAD"}) </div>
+                            @Html.TextBoxFor(x => Model.NuevaModalidad, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                }
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-4t" data-dimiss="modal" onclick="mostrar_procesar(); $('#AgregaModalidadForm').submit();">Agregar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<div id="Modal3" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header header4t">
+                <h4 class="modal-title" align="center">AGREGAR NUEVO NIVEL</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body ">
+                @using (Html.BeginForm("AgregarNivel", "CatalogoEscuelas", FormMethod.Post, new { @id = "AgregaNivelForm" }))
+                { 
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevoNivel, new { @class = "input-group-text prp", @placeholder = "Nivel" }) </div>
+                                @Html.TextBoxFor(x => Model.NuevoNivel, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-4t" data-dimiss="modal" onclick="mostrar_procesar(); $('#AgregaNivelForm').submit();">Agregar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<div id="Modal4" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header header4t">
+                <h4 class="modal-title" align="center">AGREGAR NUEVO DESCSOST</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body ">
+                @using (Html.BeginForm("AgregarDescSost", "CatalogoEscuelas", FormMethod.Post, new { @id = "AgregaDescSostForm" }))
+                {
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="input-group">
+                                <div class="input-group-prepend">@Html.LabelFor(x => Model.NuevoDescSost, new { @class = "input-group-text prp", @placeholder = "DESCSOST" }) </div>
+                                @Html.TextBoxFor(x => Model.NuevoDescSost, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-4t" data-dimiss="modal" onclick="mostrar_procesar(); $('#AgregaDescSostForm').submit();">Agregar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+@section Scripts
+{
+    <script src="~/assets/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/assets/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/assets/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="~/assets/jquery.sparkline/jquery.sparkline.min.js"></script>
+    <script src="~/assets/DropZone/dropzone.min.js"></script>
+    <script>
+        $('#tablaDatos').DataTable({
+            "language": {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Ver _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "|<",
+                    "sLast": ">|",
+                    "sNext": ">>",
+                    "sPrevious": "<<"
+                },
+                "oAria": {
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                },
+                "oButtons": {
+                    "sCopy": "Copiar",
+                    "sPrint": "Imprimir"
+                }
+            },
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
+            "lengthMenu": [[10, 20, 30, 50, -1], [10, 20, 30, 50, "All"]],
+            dom: "<'row be-datatable-header'<'col-sm-6'l><'col-sm-6 text-right'B>>" +
+                "<'row be-datatable-body'<'col-sm-12'tr>>" +
+                "<'row be-datatable-footer'<'col-sm-5'i><'col-sm-7'p>>"
+
+        });
+
+        function EliminaEscuela(nombre, clave) {
+            if (confirm("Está seguro que quiere eliminar la Escuela: " + nombre + "")) {
+                var depElim = "#eliminaEscuelaform" + clave;
+                mostrar_procesar();
+                $(depElim).submit();
+            }
+        }
+
+
+
+        function EditarEscuela(nombre, clave) {
+            if (confirm("Está seguro que quiere Editar programa: " + nombre + "")) {
+                var depEdit = "#editarEscuelaform" + clave;
+                mostrar_procesar();
+                $(depEdit).submit();
+            }
+        }
+
+
+        $(".datetimepicker").datetimepicker({
+            autoclose: true,
+            language: 'es',
+            componentIcon: '.fas.fa-calendar',
+            navIcons: {
+                rightIcon: 'fas fa-chevron-right',
+                leftIcon: 'fas fa-chevron-left'
+            },
+            format: "dd/mm/yyyy"
+        });
+        $(document).ready(function() {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+        $('.sparkpie').sparkline('html', {
+            type: "pie",
+            height: '3em',
+            tooltipFormat: '{{offset:offset}} {{value}}',
+            tooltipValueLookups: {
+                'offset': {
+                    0: '% Municipal:',
+                    1: '% Estatal:',
+                    2: '% Federal:'
+
+                }
+            },
+        });
+
+
+
+
+        function agregaclase(clase) {
+            event.preventDefault();
+            clase.className = "dropArea active-drop";
+            console.log("arrastrando archivo");
+
+        }
+
+         $(document).ready(function() {
+             $("#Entidad").change(function (e) {
+                    var d = {};
+
+                    var ind = $("#Entidad").children("select option:selected").val();
+                    d.url = '@Url.Action("CargarMunicipios", "CatalogoEscuelas")';
+                    d.type = "POST";
+                    d.data = JSON.stringify({ ent: ind });
+                    d.dataTipe = "json";
+                    d.contentType = "application/json";
+                    d.success = function(r) {
+                        console.log(r);
+                        $("#Municipio").empty();
+                        $("#Municipio").prepend("<option value='' >-SELECCIONE LA MUNICIPIO-</option>");
+                        for (var i = 0; i < r.Municipios.length; i++) {
+                            $("#Municipio").append('<option value="' + r.Municipios[i].Value + '">' + r.Municipios[i].Text + '</option>');
+
+                        }
+
+                    };
+                    $.ajax(d);
+                });
+            });
+        $(document).ready(function () {
+            $("#Municipio").change(function (e) {
+                var d = {};
+
+                var ind = $("#Municipio").children("select option:selected").val();
+                d.url = '@Url.Action("CargarLocalidades", "CatalogoEscuelas")';
+                d.type = "POST";
+                d.data = JSON.stringify({ ent: ind });
+                d.dataTipe = "json";
+                d.contentType = "application/json";
+                d.success = function (r) {
+                    console.log(r);
+                    $("#Localidad").empty();
+                    $("#Localidad").prepend("<option value=''>-SELECCIONE EL LOCALIDAD-</option>");
+                    for (var i = 0; i < r.Localidades.length; i++) {
+                        $("#Localidad").append('<option value="' + r.Localidades[i].Value + '">' + r.Localidades[i].Text + '</option>');
+                    }
+                    
+
+                };
+                $.ajax(d);
+            });
+        });
+    </script>
+
+}
