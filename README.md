@@ -28,7 +28,7 @@ Programación:
      Fallos- en este modulo se justifican los motivos por los cuales un participante puede ser rechazado, a quein se le da el fallo del concurso y los motivos por los cuales se falla a favor 
         de algun participanrte.
 
-     Dictamen.- Es el acta por que se genera para justificar el fallo, doncde se dan las razonnes de fallo.
+     Dictamen.- Es el acta por que se genera para justificar el fallo, doncde se dan las razonnes de fallo este modulo sigue en proceso de desarrollo.
 
 Administracion:
  
